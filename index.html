@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Custom Chat Interface</title>
+    <!-- Include fonts -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto|Open+Sans|Lato|Ubuntu&display=swap" rel="stylesheet">
-    <!-- Link to external CSS file -->
+    <!-- Include CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -17,7 +18,6 @@
                 Header Settings
             </div>
             <div class="section-content">
-                <!-- All control groups for Header Settings -->
                 <!-- Control Group: Header Text Size -->
                 <div class="control-group">
                     <label for="headerTextSize">Header Text Size (px)</label>
@@ -57,7 +57,6 @@
                         <option value="135deg">135deg</option>
                     </select>
                 </div>
-                <!-- Continue including all control groups without skipping anything -->
                 <!-- Control Group: Header Height -->
                 <div class="control-group">
                     <label for="headerHeight">Header Height (px)</label>
@@ -113,7 +112,7 @@
                 Chat Area Settings
             </div>
             <div class="section-content">
-                <!-- All control groups for Chat Area Settings -->
+                <!-- Control Group: Chat Area Background Type -->
                 <div class="control-group">
                     <label for="chatAreaBackgroundType">Chat Area Background Type</label>
                     <select id="chatAreaBackgroundType">
@@ -328,6 +327,58 @@
             </div>
         </div>
 
+        <!-- Footer Settings -->
+        <div class="section">
+            <div class="section-title">
+                <span class="toggle-icon">+</span>
+                Footer Settings
+            </div>
+            <div class="section-content">
+                <div class="control-group">
+                    <label>
+                        <input type="checkbox" id="showFooter" checked>
+                        Show Footer
+                    </label>
+                </div>
+                <div class="control-group">
+                    <label for="footerText">Footer Text</label>
+                    <input type="text" id="footerText" value="Powered by Chatbot Builder AI">
+                </div>
+                <div class="control-group">
+                    <label for="footerTextColor">Footer Text Color</label>
+                    <input type="color" id="footerTextColor" value="#531ccf">
+                </div>
+                <div class="control-group">
+                    <label for="footerBackgroundType">Footer Background Type</label>
+                    <select id="footerBackgroundType">
+                        <option value="solid" selected>Solid</option>
+                        <option value="gradient">Gradient</option>
+                    </select>
+                </div>
+                <!-- Control Group: Footer Solid Color -->
+                <div class="control-group" id="footerSolidColorGroup">
+                    <label for="footerBgSolid">Footer Background Color</label>
+                    <input type="color" id="footerBgSolid" value="#ffffff">
+                </div>
+                <!-- Control Group: Footer Gradient -->
+                <div class="control-group" id="footerGradientGroup" style="display: none;">
+                    <label for="footerBgGradientStart">Footer Gradient Start Color</label>
+                    <input type="color" id="footerBgGradientStart" value="#ffffff">
+                    <label for="footerBgGradientEnd">Footer Gradient End Color</label>
+                    <input type="color" id="footerBgGradientEnd" value="#f1f1f1">
+                    <label for="footerBgGradientDirection">Gradient Direction</label>
+                    <select id="footerBgGradientDirection">
+                        <option value="to right" selected>To Right</option>
+                        <option value="to bottom">To Bottom</option>
+                        <option value="to left">To Left</option>
+                        <option value="to top">To Top</option>
+                        <option value="45deg">45deg</option>
+                        <option value="135deg">135deg</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
         <!-- Generated CSS -->
         <div class="section">
             <div class="section-title">
@@ -362,6 +413,7 @@
                     <input type="text" class="form-control" placeholder="Type your message...">
                 </div>
             </div>
+            <div class="chat-footer"></div>
         </div>
     </div>
 
@@ -369,7 +421,7 @@
     <div id="successMessage" class="success-message">CSS copied to clipboard!</div>
 </div>
 
-<!-- Link to external JavaScript file -->
+<!-- Include JavaScript -->
 <script src="script.js"></script>
 </body>
 </html>

@@ -12,7 +12,7 @@ function generateCSS() {
         '--messageTextSize', '--messageCornerStyle', '--botMessageTextColor', '--botMessageBg', '--userMessageTextColor', '--userMessageBg',
         '--chatInputBackground', '--chatInputTextFieldBg', '--chatInputTextFieldTextColor', '--chatInputBorderRadius',
         '--iconsDisplay',
-        '--avatarDisplay', '--otherMessagePaddingLeft',
+        '--avatarDisplay', '--avatarSize', '--avatarBorderColor', '--avatarShape', '--avatarImageURL', '--otherMessagePaddingLeft',
         '--footerDisplay', '--footerTextColor', '--footerBackground'
     ];
 
@@ -43,6 +43,12 @@ function generateCSS() {
     /* Chat Input Styling */
     css += `/* Chat Input Styling */\n.chat-input {\n    padding: 20px;\n    background: var(--chatInputBackground);\n    display: flex;\n    align-items: center;\n    width: 100%;\n    box-sizing: border-box;\n    font-family: var(--fontFamily);\n}\n.chat-input .input-group {\n    flex: 1;\n    border-radius: var(--chatInputBorderRadius) !important;\n    background-color: var(--chatInputTextFieldBg) !important;\n    overflow: hidden;\n    position: relative;\n}\n.chat-input input {\n    width: 100%;\n    padding: 15px;\n    border: none;\n    background-color: var(--chatInputTextFieldBg);\n    color: var(--chatInputTextFieldTextColor);\n    font-size: 14px;\n    outline: none;\n    box-sizing: border-box;\n}\n\n`;
 
+    /* Avatar Styling */
+    css += `/* Avatar Styling */\n.avatar {\n    display: var(--avatarDisplay);\n    width: var(--avatarSize);\n    height: var(--avatarSize);\n    border: 2px solid var(--avatarBorderColor);\n    border-radius: var(--avatarShape);\n    background-image: url(var(--avatarImageURL));\n    background-size: cover;\n    background-position: center;\n}\n\n`;
+
+    /* Icons Styling */
+    css += `/* Icons Styling */\n.icons {\n    display: var(--iconsDisplay);\n}\n\n`;
+
     /* Footer Styling */
     css += `/* Footer Styling */\n.chat-footer {\n    display: var(--footerDisplay);\n    padding: 10px;\n    background: var(--footerBackground);\n    text-align: center;\n    font-size: 14px;\n    color: var(--footerTextColor);\n    font-family: var(--fontFamily);\n}\n`;
 
@@ -54,7 +60,133 @@ function generateCSS() {
 function updatePreview() {
     const root = document.documentElement.style;
 
-    // Existing code for header, chat area, messages, avatar, icons, chat input
+    // Header Settings
+    const headerTextSize = document.getElementById('headerTextSize').value + 'px';
+    const headerTextColor = document.getElementById('headerTextColor').value;
+    const headerBackgroundType = document.getElementById('headerBackgroundType').value;
+    const headerHeight = document.getElementById('headerHeight').value + 'px';
+    const headerTextAlign = document.getElementById('headerTextAlign').value;
+    const cornerStyle = document.getElementById('cornerStyle').value;
+
+    root.setProperty('--headerTextSize', headerTextSize);
+    root.setProperty('--headerTextColor', headerTextColor);
+    root.setProperty('--headerHeight', headerHeight);
+    root.setProperty('--headerTextAlign', headerTextAlign);
+    root.setProperty('--cornerStyle', cornerStyle);
+
+    // Header Background
+    let headerBackground = '';
+    if (headerBackgroundType === 'solid') {
+        const headerBgSolid = document.getElementById('headerBgSolid').value;
+        headerBackground = headerBgSolid;
+    } else if (headerBackgroundType === 'gradient') {
+        const headerBgGradientStart = document.getElementById('headerBgGradientStart').value;
+        const headerBgGradientEnd = document.getElementById('headerBgGradientEnd').value;
+        const headerBgGradientDirection = document.getElementById('headerBgGradientDirection').value;
+        headerBackground = `linear-gradient(${headerBgGradientDirection}, ${headerBgGradientStart}, ${headerBgGradientEnd})`;
+    }
+    root.setProperty('--headerBackgroundLayers', headerBackground);
+
+    // Header Logo
+    const headerLogoURL = document.getElementById('headerLogoURL').value;
+    const headerLogoWidth = document.getElementById('headerLogoWidth').value + 'px';
+    const headerLogoAlignment = document.getElementById('headerLogoAlignment').value;
+    const headerLogoOffsetX = document.getElementById('headerLogoOffsetX').value + 'px';
+    const headerLogoOffsetY = document.getElementById('headerLogoOffsetY').value + 'px';
+
+    root.setProperty('--headerLogoURL', headerLogoURL || 'none');
+    root.setProperty('--headerLogoWidth', headerLogoWidth);
+    root.setProperty('--headerLogoAlignment', headerLogoAlignment);
+    root.setProperty('--headerLogoOffsetX', headerLogoOffsetX);
+    root.setProperty('--headerLogoOffsetY', headerLogoOffsetY);
+
+    // Chat Area Settings
+    const chatAreaBackgroundType = document.getElementById('chatAreaBackgroundType').value;
+    if (chatAreaBackgroundType === 'solid') {
+        const chatAreaBgSolid = document.getElementById('chatAreaBgSolid').value;
+        root.setProperty('--chatAreaBackgroundColor', chatAreaBgSolid);
+        root.setProperty('--chatAreaBackgroundImage', 'none');
+        root.setProperty('--chatAreaBackgroundPosition', 'initial');
+        root.setProperty('--chatAreaBackgroundRepeat', 'initial');
+        root.setProperty('--chatAreaBackgroundSize', 'initial');
+    } else if (chatAreaBackgroundType === 'gradient') {
+        const chatAreaBgGradientStart = document.getElementById('chatAreaBgGradientStart').value;
+        const chatAreaBgGradientEnd = document.getElementById('chatAreaBgGradientEnd').value;
+        const chatAreaBgGradientDirection = document.getElementById('chatAreaBgGradientDirection').value;
+        const gradient = `linear-gradient(${chatAreaBgGradientDirection}, ${chatAreaBgGradientStart}, ${chatAreaBgGradientEnd})`;
+        root.setProperty('--chatAreaBackgroundColor', 'transparent');
+        root.setProperty('--chatAreaBackgroundImage', gradient);
+        root.setProperty('--chatAreaBackgroundPosition', 'initial');
+        root.setProperty('--chatAreaBackgroundRepeat', 'initial');
+        root.setProperty('--chatAreaBackgroundSize', 'initial');
+    } else if (chatAreaBackgroundType === 'image') {
+        const chatAreaBgImageURL = document.getElementById('chatAreaBgImageURL').value;
+        const chatAreaBgSize = document.getElementById('chatAreaBgSize').value;
+        const chatAreaBgRepeat = document.getElementById('chatAreaBgRepeat').value;
+        root.setProperty('--chatAreaBackgroundColor', 'transparent');
+        root.setProperty('--chatAreaBackgroundImage', `url(${chatAreaBgImageURL})`);
+        root.setProperty('--chatAreaBackgroundPosition', 'center');
+        root.setProperty('--chatAreaBackgroundRepeat', chatAreaBgRepeat);
+        root.setProperty('--chatAreaBackgroundSize', chatAreaBgSize);
+    }
+
+    // Message Settings
+    const messageTextSize = document.getElementById('messageTextSize').value + 'px';
+    const messageCornerStyle = document.getElementById('messageCornerStyle').value;
+    const botMessageTextColor = document.getElementById('botMessageTextColor').value;
+    const botMessageBg = document.getElementById('botMessageBg').value;
+    const userMessageTextColor = document.getElementById('userMessageTextColor').value;
+    const userMessageBg = document.getElementById('userMessageBg').value;
+
+    root.setProperty('--messageTextSize', messageTextSize);
+    root.setProperty('--messageCornerStyle', messageCornerStyle);
+    root.setProperty('--botMessageTextColor', botMessageTextColor);
+    root.setProperty('--botMessageBg', botMessageBg);
+    root.setProperty('--userMessageTextColor', userMessageTextColor);
+    root.setProperty('--userMessageBg', userMessageBg);
+
+    // Font Settings
+    const fontFamily = document.getElementById('fontFamily').value;
+    root.setProperty('--fontFamily', fontFamily);
+
+    // Avatar Settings
+    const showAvatar = document.getElementById('showAvatar').checked;
+    root.setProperty('--avatarDisplay', showAvatar ? 'block' : 'none');
+
+    const avatarSize = document.getElementById('avatarSize').value + 'px';
+    const avatarBorderColor = document.getElementById('avatarBorderColor').value;
+    const avatarShape = document.getElementById('avatarShape').value;
+    const avatarImageURL = document.getElementById('avatarImageURL').value || 'none';
+
+    root.setProperty('--avatarSize', avatarSize);
+    root.setProperty('--avatarBorderColor', avatarBorderColor);
+    root.setProperty('--avatarShape', avatarShape);
+    root.setProperty('--avatarImageURL', avatarImageURL);
+
+    // Icon Settings
+    const showIcons = document.getElementById('showIcons').checked;
+    root.setProperty('--iconsDisplay', showIcons ? 'flex' : 'none');
+
+    // Chat Input Settings
+    const chatInputBackgroundType = document.getElementById('chatInputBackgroundType').value;
+    if (chatInputBackgroundType === 'solid') {
+        const chatInputBgSolid = document.getElementById('chatInputBgSolid').value;
+        root.setProperty('--chatInputBackground', chatInputBgSolid);
+    } else if (chatInputBackgroundType === 'gradient') {
+        const chatInputBgGradientStart = document.getElementById('chatInputBgGradientStart').value;
+        const chatInputBgGradientEnd = document.getElementById('chatInputBgGradientEnd').value;
+        const chatInputBgGradientDirection = document.getElementById('chatInputBgGradientDirection').value;
+        const gradient = `linear-gradient(${chatInputBgGradientDirection}, ${chatInputBgGradientStart}, ${chatInputBgGradientEnd})`;
+        root.setProperty('--chatInputBackground', gradient);
+    }
+
+    const chatInputTextFieldBg = document.getElementById('chatInputTextFieldBg').value;
+    const chatInputTextFieldTextColor = document.getElementById('chatInputTextFieldTextColor').value;
+    const chatInputCornerStyle = document.getElementById('chatInputCornerStyle').value;
+
+    root.setProperty('--chatInputTextFieldBg', chatInputTextFieldBg);
+    root.setProperty('--chatInputTextFieldTextColor', chatInputTextFieldTextColor);
+    root.setProperty('--chatInputBorderRadius', chatInputCornerStyle);
 
     // Footer Settings
     const showFooter = document.getElementById('showFooter').checked;
@@ -70,7 +202,7 @@ function updatePreview() {
     if (footerBackgroundType === 'solid') {
         const footerBgSolid = document.getElementById('footerBgSolid').value;
         footerBackground = footerBgSolid;
-    } else {
+    } else if (footerBackgroundType === 'gradient') {
         const footerBgGradientStart = document.getElementById('footerBgGradientStart').value;
         const footerBgGradientEnd = document.getElementById('footerBgGradientEnd').value;
         const footerBgGradientDirection = document.getElementById('footerBgGradientDirection').value;
@@ -81,8 +213,10 @@ function updatePreview() {
     // Update footer text in preview
     document.querySelector('.chat-footer').textContent = footerText;
 
+    // Generate CSS
     generateCSS();
-    saveSettings(); // Save settings after updating
+    // Save settings after updating
+    saveSettings();
 }
 
 // Function to save settings to LocalStorage
@@ -144,7 +278,7 @@ function copyCSS() {
     });
 }
 
-// Event Listeners
+// Event Listeners for all inputs, selects, and textareas
 document.querySelectorAll('input, select, textarea').forEach(input => {
     input.addEventListener('input', updatePreview);
     input.addEventListener('change', updatePreview);
@@ -156,7 +290,7 @@ document.getElementById('headerBackgroundType').addEventListener('change', funct
     if (type === 'solid') {
         document.getElementById('headerSolidColorGroup').style.display = 'block';
         document.getElementById('headerGradientGroup').style.display = 'none';
-    } else {
+    } else if (type === 'gradient') {
         document.getElementById('headerSolidColorGroup').style.display = 'none';
         document.getElementById('headerGradientGroup').style.display = 'block';
     }
@@ -188,7 +322,7 @@ document.getElementById('chatInputBackgroundType').addEventListener('change', fu
     if (type === 'solid') {
         document.getElementById('chatInputSolidColorGroup').style.display = 'block';
         document.getElementById('chatInputGradientGroup').style.display = 'none';
-    } else {
+    } else if (type === 'gradient') {
         document.getElementById('chatInputSolidColorGroup').style.display = 'none';
         document.getElementById('chatInputGradientGroup').style.display = 'block';
     }
@@ -201,7 +335,7 @@ document.getElementById('footerBackgroundType').addEventListener('change', funct
     if (type === 'solid') {
         document.getElementById('footerSolidColorGroup').style.display = 'block';
         document.getElementById('footerGradientGroup').style.display = 'none';
-    } else {
+    } else if (type === 'gradient') {
         document.getElementById('footerSolidColorGroup').style.display = 'none';
         document.getElementById('footerGradientGroup').style.display = 'block';
     }

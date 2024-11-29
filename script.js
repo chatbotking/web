@@ -67,7 +67,12 @@ function generateCSS() {
     css += `/* Footer Styling */\n.chat-footer {\n    display: var(--footerDisplay);\n    padding: 10px;\n    background: var(--footerBackground);\n    text-align: center;\n    font-size: 14px;\n    color: var(--footerTextColor);\n    font-family: var(--fontFamily);\n}\n`;
 
     // Update the generated CSS textarea
-    document.getElementById('cssOutput').value = css.trim();
+    const cssOutput = document.getElementById('cssOutput');
+    if (cssOutput) {
+        cssOutput.value = css.trim();
+    } else {
+        console.error('cssOutput textarea not found.');
+    }
 }
 
 // Function to update the preview based on control inputs
@@ -116,14 +121,17 @@ function updatePreview() {
 
     // Update Header Logo Image Element
     const headerLogoImg = document.getElementById('headerLogoImg');
-    if (headerLogoURL) {
-        headerLogoImg.src = headerLogoURL;
-        headerLogoImg.style.display = 'block';
-        headerLogoImg.style.width = headerLogoWidth;
-        headerLogoImg.style.marginLeft = headerLogoAlignment === 'left' ? '0' : 'auto';
-        headerLogoImg.style.marginRight = headerLogoAlignment === 'right' ? '0' : 'auto';
+    if (headerLogoImg) {
+        if (headerLogoURL) {
+            headerLogoImg.src = headerLogoURL;
+            headerLogoImg.style.display = 'block';
+            headerLogoImg.style.width = headerLogoWidth;
+            // Alignment adjustments can be handled via CSS if needed
+        } else {
+            headerLogoImg.style.display = 'none';
+        }
     } else {
-        headerLogoImg.style.display = 'none';
+        console.error('headerLogoImg element not found.');
     }
 
     // Chat Area Settings
@@ -191,13 +199,17 @@ function updatePreview() {
 
     // Update Avatar Image Element
     const avatarImg = document.getElementById('avatarImg');
-    if (showAvatar && avatarImageURL) {
-        avatarImg.src = avatarImageURL;
-        avatarImg.style.display = 'block';
-        avatarImg.style.width = avatarSize;
-        avatarImg.style.height = avatarSize;
+    if (avatarImg) {
+        if (showAvatar && avatarImageURL) {
+            avatarImg.src = avatarImageURL;
+            avatarImg.style.display = 'block';
+            avatarImg.style.width = avatarSize;
+            avatarImg.style.height = avatarSize;
+        } else {
+            avatarImg.style.display = 'none';
+        }
     } else {
-        avatarImg.style.display = 'none';
+        console.error('avatarImg element not found.');
     }
 
     // Icon Settings
@@ -251,6 +263,8 @@ function updatePreview() {
     const chatFooter = document.querySelector('.chat-footer');
     if (chatFooter) {
         chatFooter.textContent = footerText;
+    } else {
+        console.error('.chat-footer element not found.');
     }
 
     // Generate CSS
@@ -310,12 +324,20 @@ function resetSettings() {
 // Function to copy CSS to clipboard
 function copyCSS() {
     const cssOutput = document.getElementById('cssOutput');
+    if (!cssOutput) {
+        console.error('cssOutput textarea not found.');
+        return;
+    }
     const cssText = cssOutput.value;
 
     navigator.clipboard.writeText(cssText).then(function() {
         const successMessage = document.getElementById('successMessage');
-        successMessage.style.display = 'block';
-        setTimeout(() => { successMessage.style.display = 'none'; }, 2000);
+        if (successMessage) {
+            successMessage.style.display = 'block';
+            setTimeout(() => { successMessage.style.display = 'none'; }, 2000);
+        } else {
+            console.warn('successMessage element not found.');
+        }
     }, function(err) {
         console.error('Could not copy text: ', err);
     });
@@ -428,12 +450,8 @@ document.getElementById('showAvatar').addEventListener('change', function() {
 // Toggle Avatar Image URL Group
 document.getElementById('avatarImageURL').addEventListener('input', function() {
     const avatarURL = this.value.trim();
-    const avatarSizeGroup = document.getElementById('headerLogoSizeGroup'); // Adjust if different
-    if (avatarURL) {
-        avatarSizeGroup.style.display = 'block';
-    } else {
-        avatarSizeGroup.style.display = 'none';
-    }
+    // If there are specific groups to toggle based on avatar URL, handle them here
+    // For now, we assume all avatar settings are visible when avatar is shown
     updatePreview();
 });
 

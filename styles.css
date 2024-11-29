@@ -38,7 +38,7 @@
     --avatarImageURL: url("https://via.placeholder.com/50");
     --avatarDisplay: inline-block;
     --avatarShape: 50%;
-    --otherMessagePaddingLeft: calc(50px + 10px);
+    --otherMessagePaddingLeft: calc(var(--avatarSize) + 10px);
 
     /* Chat Input */
     --chatInputBackground: #ffffff;
@@ -63,30 +63,35 @@
 }
 
 /* Base Styles */
-html, body {
-    height: 100%;
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
-* {
+html, body {
+    height: 100%;
+    width: 100%;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 body {
     background-color: var(--secondaryColor);
-    font-family: Arial, sans-serif; /* Use a default font for controls */
+    font-family: var(--fontFamily);
     height: 100vh;
+    overflow: hidden;
 }
 
 .container {
     display: flex;
     height: 100vh;
+    width: 100%;
 }
 
+/* Controls Panel */
 .controls {
     width: 300px;
     background: var(--secondaryColor);
@@ -96,6 +101,7 @@ body {
     height: 100%;
 }
 
+/* Preview Area */
 .preview {
     flex: 1;
     background: var(--secondaryColor);
@@ -135,14 +141,14 @@ body {
 
 .section-content {
     padding: 15px;
-    display: none; /* Start with sections closed */
+    display: none; /* Sections are closed by default */
 }
 
 .section.open .section-content {
     display: block;
 }
 
-/* Controls */
+/* Control Groups */
 .control-group {
     margin-bottom: 12px;
 }
@@ -154,7 +160,9 @@ label {
     color: #4a5568;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
     width: 100%;
     padding: 8px;
     border: 1px solid #e0e0e0;
@@ -166,6 +174,7 @@ input, select, textarea {
 input[type="color"] {
     height: 40px;
     padding: 0;
+    border: none;
 }
 
 input[type="checkbox"] {
@@ -174,16 +183,36 @@ input[type="checkbox"] {
     vertical-align: middle;
 }
 
-.copy-button {
+textarea#cssOutput {
+    width: 100%;
+    height: 200px;
+    resize: vertical;
+    font-family: monospace;
+    font-size: 12px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+/* Buttons */
+.copy-button,
+.reset-button {
     width: 100%;
     padding: 10px;
-    background: var(--primaryColor);
-    color: var(--secondaryColor);
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
     transition: background 0.3s;
+}
+
+.copy-button {
+    background: var(--primaryColor);
+    color: var(--secondaryColor);
+    margin-top: 10px;
 }
 
 .copy-button:hover {
@@ -191,15 +220,8 @@ input[type="checkbox"] {
 }
 
 .reset-button {
-    width: 100%;
-    padding: 10px;
     background: #e74c3c;
     color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.3s;
     margin-top: 20px;
 }
 
@@ -207,7 +229,7 @@ input[type="checkbox"] {
     background: #c0392b;
 }
 
-/* Preview Area */
+/* Chat Preview Container */
 .chat-preview-container {
     flex: 1;
     display: flex;
@@ -219,8 +241,10 @@ input[type="checkbox"] {
     position: relative;
     font-family: var(--fontFamily);
     height: calc(100% - 40px);
+    background: #ffffff;
 }
 
+/* Chat Header */
 .chat-header {
     height: var(--headerHeight);
     padding: 0 20px;
@@ -239,6 +263,7 @@ input[type="checkbox"] {
     position: relative;
 }
 
+/* Chat Area */
 .chat-area {
     flex: 1;
     padding: 20px;
@@ -253,6 +278,7 @@ input[type="checkbox"] {
     position: relative;
 }
 
+/* Bot Message */
 .other-message {
     position: relative;
     margin-bottom: 15px;
@@ -285,7 +311,7 @@ input[type="checkbox"] {
     margin-bottom: 5px;
 }
 
-/* User Message Styling */
+/* User Message */
 .my-message {
     padding-right: 0;
     margin-bottom: 15px;
@@ -319,7 +345,7 @@ input[type="checkbox"] {
     font-family: inherit;
 }
 
-/* Chat Input Styling */
+/* Chat Input */
 .chat-input {
     height: var(--chatInputHeight);
     padding: 20px;
@@ -354,6 +380,38 @@ input[type="checkbox"] {
     flex: 1;
 }
 
+/* Avatar Styling */
+.avatar {
+    display: var(--avatarDisplay);
+    width: var(--avatarSize);
+    height: var(--avatarSize);
+    border: 2px solid var(--avatarBorderColor);
+    border-radius: var(--avatarShape);
+    background-image: var(--avatarImageURL);
+    background-size: cover;
+    background-position: center;
+    margin-right: 10px;
+}
+
+/* Icon Styling */
+.icons {
+    display: var(--iconsDisplay);
+    align-items: center;
+    margin-left: 10px;
+}
+
+.icons .icon {
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: var(--primaryColor);
+    transition: color 0.3s;
+}
+
+.icons .icon:hover {
+    color: var(--botMessageTextColor);
+}
+
 /* Footer Styling */
 .chat-footer {
     display: var(--footerDisplay);
@@ -371,8 +429,8 @@ input[type="checkbox"] {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: #36d6b5;
-    color: #fff;
+    background: var(--primaryColor);
+    color: var(--secondaryColor);
     padding: 10px 20px;
     border-radius: 4px;
     font-size: 14px;
@@ -395,20 +453,13 @@ textarea#cssOutput {
     color: #333;
 }
 
-/* Hide icons in preview */
-.chat-input .uploadBtt {
-    display: none;
+/* Button Hover Effects */
+button.copy-button:hover {
+    background: #2ea590;
 }
 
-/* Added Styles for Consistent Buttons and Text */
-/* Preformatted Text */
-pre {
-    color: var(--botMessageTextColor);
-    line-height: 1.5;
-    padding: 10px;
-    font-weight: var(--buttonFontWeight);
-    font-size: var(--messageTextSize);
-    font-family: var(--fontFamily);
+button.reset-button:hover {
+    background: #c0392b;
 }
 
 /* Ice Breaker Buttons */
@@ -457,7 +508,7 @@ pre {
     transform: scale(1.05);
 }
 
-/* Additional CSS */
+/* Additional Styles */
 .chat-input .form-control {
     border-radius: 0 !important;
     border: none !important;
@@ -471,11 +522,7 @@ pre {
     border-bottom-right-radius: 0;
 }
 
-.chat-input .input-group {
-    flex: 1;
-    border-radius: var(--chatInputBorderRadius) !important;
-    background-color: var(--chatInputTextFieldBg) !important;
-    overflow: hidden;
-    position: relative;
-    display: flex;
+/* Hide Upload Button in Preview */
+.chat-input .uploadBtt {
+    display: none;
 }

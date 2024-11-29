@@ -50,6 +50,12 @@
     /* Icon Settings */
     --iconsDisplay: inline-block;
 
+    /* Footer */
+    --footerDisplay: block;
+    --footerText: "Powered by Chatbot Builder AI";
+    --footerTextColor: #531ccf;
+    --footerBackground: #ffffff;
+
     /* Button Styles */
     --buttonTextSize: var(--messageTextSize);
     --buttonFontWeight: var(--fontWeight);
@@ -130,6 +136,10 @@ body {
 .section-content {
     padding: 15px;
     display: none; /* Start with sections closed */
+}
+
+.section.open .section-content {
+    display: block;
 }
 
 /* Controls */
@@ -240,6 +250,7 @@ input[type="checkbox"] {
     background-position: var(--chatAreaBackgroundPosition);
     background-repeat: var(--chatAreaBackgroundRepeat);
     background-size: var(--chatAreaBackgroundSize);
+    position: relative;
 }
 
 .other-message {
@@ -319,6 +330,7 @@ input[type="checkbox"] {
     box-sizing: border-box;
     border-top: 1px solid #e0e0e0;
     font-family: var(--fontFamily);
+    position: relative;
 }
 
 .chat-input .input-group {
@@ -340,6 +352,17 @@ input[type="checkbox"] {
     outline: none;
     box-sizing: border-box;
     flex: 1;
+}
+
+/* Footer Styling */
+.chat-footer {
+    display: var(--footerDisplay);
+    padding: 10px;
+    background: var(--footerBackground);
+    text-align: center;
+    font-size: 14px;
+    color: var(--footerTextColor);
+    font-family: var(--fontFamily);
 }
 
 /* Success Message */

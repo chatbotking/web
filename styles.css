@@ -1,0 +1,458 @@
+/* Variables */
+:root {
+    /* Colors */
+    --primaryColor: #36d6b5;
+    --secondaryColor: #ffffff;
+
+    /* Font */
+    --fontFamily: Helvetica, Arial, sans-serif;
+    --fontWeight: bold;
+
+    /* Header */
+    --headerTextSize: 18px;
+    --headerTextColor: #ffffff;
+    --headerBackgroundLayers: #36d6b5;
+    --headerHeight: 60px;
+    --headerTextAlign: center;
+    --cornerStyle: 20px;
+    --headerPaddingLeft: 20px;
+
+    /* Chat Area */
+    --chatAreaBackgroundColor: #f8f9fa;
+    --chatAreaBackgroundImage: none;
+    --chatAreaBackgroundPosition: center;
+    --chatAreaBackgroundRepeat: no-repeat;
+    --chatAreaBackgroundSize: cover;
+
+    /* Messages */
+    --messageTextSize: 14px;
+    --messageCornerStyle: 20px;
+    --botMessageTextColor: #212529;
+    --botMessageBg: #eeeeee;
+    --userMessageTextColor: #ffffff;
+    --userMessageBg: #36d6b5;
+
+    /* Avatar */
+    --avatarSize: 50px;
+    --avatarBorderColor: #36d6b5;
+    --avatarImageURL: url("https://via.placeholder.com/50");
+    --avatarDisplay: inline-block;
+    --avatarShape: 50%;
+    --otherMessagePaddingLeft: calc(50px + 10px);
+
+    /* Chat Input */
+    --chatInputBackground: #ffffff;
+    --chatInputTextFieldBg: #f1f1f1;
+    --chatInputTextFieldTextColor: #333333;
+    --chatInputBorderRadius: 18px;
+    --chatInputHeight: 80px;
+
+    /* Icon Settings */
+    --iconsDisplay: inline-block;
+
+    /* Button Styles */
+    --buttonTextSize: var(--messageTextSize);
+    --buttonFontWeight: var(--fontWeight);
+    --buttonPadding: 10px 20px;
+}
+
+/* Base Styles */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--secondaryColor);
+    font-family: Arial, sans-serif; /* Use a default font for controls */
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.controls {
+    width: 300px;
+    background: var(--secondaryColor);
+    padding: 20px;
+    overflow-y: auto;
+    border-right: 1px solid #e0e0e0;
+    height: 100%;
+}
+
+.preview {
+    flex: 1;
+    background: var(--secondaryColor);
+    display: flex;
+    flex-direction: column;
+    font-family: var(--fontFamily);
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Sections */
+.section {
+    margin-bottom: 24px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    background: #e9ecef;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.section-title .toggle-icon {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.section-content {
+    padding: 15px;
+    display: none; /* Start with sections closed */
+}
+
+/* Controls */
+.control-group {
+    margin-bottom: 12px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #4a5568;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+input[type="color"] {
+    height: 40px;
+    padding: 0;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.2);
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.copy-button {
+    width: 100%;
+    padding: 10px;
+    background: var(--primaryColor);
+    color: var(--secondaryColor);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.copy-button:hover {
+    background: #2ea590;
+}
+
+.reset-button {
+    width: 100%;
+    padding: 10px;
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+    margin-top: 20px;
+}
+
+.reset-button:hover {
+    background: #c0392b;
+}
+
+/* Preview Area */
+.chat-preview-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    border-radius: var(--cornerStyle);
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: relative;
+    font-family: var(--fontFamily);
+    height: calc(100% - 40px);
+}
+
+.chat-header {
+    height: var(--headerHeight);
+    padding: 0 20px;
+    font-size: var(--headerTextSize);
+    font-weight: 600;
+    background: var(--headerBackgroundLayers);
+    color: var(--headerTextColor);
+    text-align: var(--headerTextAlign);
+    display: flex;
+    align-items: center;
+    justify-content: var(--headerTextAlign);
+    border-top-left-radius: var(--cornerStyle);
+    border-top-right-radius: var(--cornerStyle);
+    font-family: var(--fontFamily);
+    padding-left: var(--headerPaddingLeft);
+    position: relative;
+}
+
+.chat-area {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    line-height: 1.5;
+    font-family: var(--fontFamily);
+    background-color: var(--chatAreaBackgroundColor);
+    background-image: var(--chatAreaBackgroundImage);
+    background-position: var(--chatAreaBackgroundPosition);
+    background-repeat: var(--chatAreaBackgroundRepeat);
+    background-size: var(--chatAreaBackgroundSize);
+}
+
+.other-message {
+    position: relative;
+    margin-bottom: 15px;
+    padding-left: var(--otherMessagePaddingLeft);
+}
+
+.other-message:before {
+    content: "";
+    display: var(--avatarDisplay);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--avatarSize);
+    height: var(--avatarSize);
+    background-image: var(--avatarImageURL);
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: var(--avatarShape);
+    border: 3px solid var(--avatarBorderColor);
+}
+
+.other-message .message-text {
+    background-color: var(--botMessageBg);
+    color: var(--botMessageTextColor);
+    font-size: var(--messageTextSize);
+    border-radius: var(--messageCornerStyle);
+    padding: 10px 15px;
+    word-wrap: break-word;
+    font-family: var(--fontFamily);
+    margin-bottom: 5px;
+}
+
+/* User Message Styling */
+.my-message {
+    padding-right: 0;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.my-message .message-text {
+    background-color: var(--userMessageBg) !important;
+    color: var(--userMessageTextColor);
+    font-size: var(--messageTextSize);
+    border-radius: var(--messageCornerStyle);
+    padding: 10px 15px;
+    word-wrap: break-word;
+    font-family: var(--fontFamily);
+    margin-bottom: 5px;
+    margin-top: 5vh;
+}
+
+/* Apply user text color to all child elements */
+.my-message .message-text * {
+    color: var(--userMessageTextColor) !important;
+}
+
+/* Apply bot text color to all child elements */
+.other-message .message-text * {
+    color: var(--botMessageTextColor);
+}
+
+/* Message Text Inheritance */
+.message-text * {
+    font-family: inherit;
+}
+
+/* Chat Input Styling */
+.chat-input {
+    height: var(--chatInputHeight);
+    padding: 20px;
+    background: var(--chatInputBackground);
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    border-top: 1px solid #e0e0e0;
+    font-family: var(--fontFamily);
+}
+
+.chat-input .input-group {
+    flex: 1;
+    border-radius: var(--chatInputBorderRadius) !important;
+    background-color: var(--chatInputTextFieldBg) !important;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+}
+
+.chat-input input {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    background-color: var(--chatInputTextFieldBg);
+    color: var(--chatInputTextFieldTextColor);
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    flex: 1;
+}
+
+/* Success Message */
+.success-message {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #36d6b5;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+/* Generated CSS Styles */
+textarea#cssOutput {
+    width: 100%;
+    height: 200px;
+    resize: vertical;
+    font-family: monospace;
+    font-size: 12px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+/* Hide icons in preview */
+.chat-input .uploadBtt {
+    display: none;
+}
+
+/* Added Styles for Consistent Buttons and Text */
+/* Preformatted Text */
+pre {
+    color: var(--botMessageTextColor);
+    line-height: 1.5;
+    padding: 10px;
+    font-weight: var(--buttonFontWeight);
+    font-size: var(--messageTextSize);
+    font-family: var(--fontFamily);
+}
+
+/* Ice Breaker Buttons */
+.chat-ice-breaker {
+    position: fixed;
+    right: 20px;
+    bottom: 80px; /* Moved up by 20px */
+}
+
+.chat-ice-breaker button {
+    background-color: #FFF7FA;
+    color: var(--botMessageTextColor);
+    font-weight: var(--buttonFontWeight);
+    font-size: var(--buttonTextSize);
+    font-family: var(--fontFamily);
+    padding: var(--buttonPadding);
+    border-radius: 20px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    border: none;
+    cursor: pointer;
+    margin: 5px 0;
+}
+
+.chat-ice-breaker button:hover {
+    background-color: #f3e6e6;
+    transform: scale(1.05);
+}
+
+/* Card Buttons */
+.card-button {
+    background: #E3F2FD;
+    color: var(--botMessageTextColor);
+    font-weight: var(--buttonFontWeight);
+    font-size: var(--buttonTextSize);
+    font-family: var(--fontFamily);
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    margin: 5px 0;
+}
+
+.card-button:hover {
+    background-color: #d0e7f8;
+    transform: scale(1.05);
+}
+
+/* Additional CSS */
+.chat-input .form-control {
+    border-radius: 0 !important;
+    border: none !important;
+    background-color: var(--chatInputTextFieldBg) !important;
+    color: var(--chatInputTextFieldTextColor) !important;
+}
+
+.input-group > .custom-select:not(:last-child),
+.input-group > .form-control:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.chat-input .input-group {
+    flex: 1;
+    border-radius: var(--chatInputBorderRadius) !important;
+    background-color: var(--chatInputTextFieldBg) !important;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+}

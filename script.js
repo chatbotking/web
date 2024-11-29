@@ -1,9 +1,22 @@
+// script.js
+
+// Debounce function to limit the rate at which a function can fire.
+function debounce(func, delay) {
+    let debounceTimer;
+    return function() {
+        const context = this;
+        const args = arguments;
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => func.apply(context, args), delay);
+    };
+}
+
 // Function to generate CSS based on current settings
 function generateCSS() {
     const rootStyle = getComputedStyle(document.documentElement);
     let css = `/* Root Variables */\n:root {\n`;
 
-    // Collect only the variables that are used
+    // List of CSS variables to include
     const variableNames = [
         '--primaryColor', '--secondaryColor',
         '--fontFamily',
@@ -16,6 +29,7 @@ function generateCSS() {
         '--footerDisplay', '--footerTextColor', '--footerBackground'
     ];
 
+    // Append each variable and its value
     variableNames.forEach(name => {
         const value = rootStyle.getPropertyValue(name).trim();
         css += `    ${name}: ${value};\n`;
@@ -23,13 +37,13 @@ function generateCSS() {
     css += `}\n\n`;
 
     // Include necessary CSS selectors in the expected format
-    css += `pre {\n    font-size: var(--messageTextSize);\n    font-weight: normal;\n    font-family: var(--fontFamily);\n}\n\n`;
+    css += `/* Message Text Styling */\npre {\n    font-size: var(--messageTextSize);\n    font-weight: normal;\n    font-family: var(--fontFamily);\n}\n\n`;
 
     /* Chat Header Styling */
     css += `/* Chat Header Styling */\n.chat-header {\n    font-size: var(--headerTextSize);\n    color: var(--headerTextColor);\n    background: var(--headerBackgroundLayers);\n    height: var(--headerHeight);\n    text-align: var(--headerTextAlign);\n    display: flex;\n    align-items: center;\n    justify-content: var(--headerTextAlign);\n    font-family: var(--fontFamily);\n    border-top-left-radius: var(--cornerStyle);\n    border-top-right-radius: var(--cornerStyle);\n}\n\n`;
 
     /* Chat Area Styling */
-    css += `/* Chat Area Styling */\n.chat-area {\n    background-color: var(--chatAreaBackgroundColor);\n    background-image: var(--chatAreaBackgroundImage);\n    background-position: var(--chatAreaBackgroundPosition);\n    background-repeat: var(--chatAreaBackgroundRepeat);\n    background-size: var(--chatAreaBackgroundSize);\n    font-family: var(--fontFamily);\n}\n\n`;
+    css += `/* Chat Area Styling */\n.chat-area {\n    background-color: var(--chatAreaBackgroundColor);\n    background-image: var(--chatAreaBackgroundImage);\n    background-position: var(--chatAreaBackgroundPosition);\n    background-repeat: var(--chatAreaBackgroundRepeat);\n    background-size: var(--chatAreaBackgroundSize);\n    font-family: var(--fontFamily);\n    padding: 20px;\n    overflow-y: auto;\n    flex: 1;\n}\n\n`;
 
     /* Bot Message Styling */
     css += `/* Bot Message Styling */\n.other-message {\n    position: relative;\n    margin-bottom: 15px;\n    padding-left: var(--otherMessagePaddingLeft);\n}\n.other-message .message-text {\n    background-color: var(--botMessageBg);\n    color: var(--botMessageTextColor);\n    font-size: var(--messageTextSize);\n    border-radius: var(--messageCornerStyle);\n    padding: 10px 15px;\n    word-wrap: break-word;\n    font-family: var(--fontFamily);\n    margin-bottom: 5px;\n}\n\n`;
@@ -88,17 +102,29 @@ function updatePreview() {
     root.setProperty('--headerBackgroundLayers', headerBackground);
 
     // Header Logo
-    const headerLogoURL = document.getElementById('headerLogoURL').value;
+    const headerLogoURL = document.getElementById('headerLogoURL').value.trim();
     const headerLogoWidth = document.getElementById('headerLogoWidth').value + 'px';
     const headerLogoAlignment = document.getElementById('headerLogoAlignment').value;
     const headerLogoOffsetX = document.getElementById('headerLogoOffsetX').value + 'px';
     const headerLogoOffsetY = document.getElementById('headerLogoOffsetY').value + 'px';
 
-    root.setProperty('--headerLogoURL', headerLogoURL || 'none');
+    root.setProperty('--headerLogoURL', headerLogoURL ? `"${headerLogoURL}"` : 'none');
     root.setProperty('--headerLogoWidth', headerLogoWidth);
     root.setProperty('--headerLogoAlignment', headerLogoAlignment);
     root.setProperty('--headerLogoOffsetX', headerLogoOffsetX);
     root.setProperty('--headerLogoOffsetY', headerLogoOffsetY);
+
+    // Update Header Logo Image Element
+    const headerLogoImg = document.getElementById('headerLogoImg');
+    if (headerLogoURL) {
+        headerLogoImg.src = headerLogoURL;
+        headerLogoImg.style.display = 'block';
+        headerLogoImg.style.width = headerLogoWidth;
+        headerLogoImg.style.marginLeft = headerLogoAlignment === 'left' ? '0' : 'auto';
+        headerLogoImg.style.marginRight = headerLogoAlignment === 'right' ? '0' : 'auto';
+    } else {
+        headerLogoImg.style.display = 'none';
+    }
 
     // Chat Area Settings
     const chatAreaBackgroundType = document.getElementById('chatAreaBackgroundType').value;
@@ -120,11 +146,11 @@ function updatePreview() {
         root.setProperty('--chatAreaBackgroundRepeat', 'initial');
         root.setProperty('--chatAreaBackgroundSize', 'initial');
     } else if (chatAreaBackgroundType === 'image') {
-        const chatAreaBgImageURL = document.getElementById('chatAreaBgImageURL').value;
+        const chatAreaBgImageURL = document.getElementById('chatAreaBgImageURL').value.trim();
         const chatAreaBgSize = document.getElementById('chatAreaBgSize').value;
         const chatAreaBgRepeat = document.getElementById('chatAreaBgRepeat').value;
         root.setProperty('--chatAreaBackgroundColor', 'transparent');
-        root.setProperty('--chatAreaBackgroundImage', `url(${chatAreaBgImageURL})`);
+        root.setProperty('--chatAreaBackgroundImage', chatAreaBgImageURL ? `url("${chatAreaBgImageURL}")` : 'none');
         root.setProperty('--chatAreaBackgroundPosition', 'center');
         root.setProperty('--chatAreaBackgroundRepeat', chatAreaBgRepeat);
         root.setProperty('--chatAreaBackgroundSize', chatAreaBgSize);
@@ -156,12 +182,23 @@ function updatePreview() {
     const avatarSize = document.getElementById('avatarSize').value + 'px';
     const avatarBorderColor = document.getElementById('avatarBorderColor').value;
     const avatarShape = document.getElementById('avatarShape').value;
-    const avatarImageURL = document.getElementById('avatarImageURL').value || 'none';
+    const avatarImageURL = document.getElementById('avatarImageURL').value.trim();
 
     root.setProperty('--avatarSize', avatarSize);
     root.setProperty('--avatarBorderColor', avatarBorderColor);
     root.setProperty('--avatarShape', avatarShape);
-    root.setProperty('--avatarImageURL', avatarImageURL);
+    root.setProperty('--avatarImageURL', avatarImageURL ? avatarImageURL : 'none');
+
+    // Update Avatar Image Element
+    const avatarImg = document.getElementById('avatarImg');
+    if (showAvatar && avatarImageURL) {
+        avatarImg.src = avatarImageURL;
+        avatarImg.style.display = 'block';
+        avatarImg.style.width = avatarSize;
+        avatarImg.style.height = avatarSize;
+    } else {
+        avatarImg.style.display = 'none';
+    }
 
     // Icon Settings
     const showIcons = document.getElementById('showIcons').checked;
@@ -192,7 +229,7 @@ function updatePreview() {
     const showFooter = document.getElementById('showFooter').checked;
     root.setProperty('--footerDisplay', showFooter ? 'block' : 'none');
 
-    const footerText = document.getElementById('footerText').value;
+    const footerText = document.getElementById('footerText').value.trim();
     const footerTextColor = document.getElementById('footerTextColor').value;
     const footerBackgroundType = document.getElementById('footerBackgroundType').value;
 
@@ -211,10 +248,14 @@ function updatePreview() {
     root.setProperty('--footerBackground', footerBackground);
 
     // Update footer text in preview
-    document.querySelector('.chat-footer').textContent = footerText;
+    const chatFooter = document.querySelector('.chat-footer');
+    if (chatFooter) {
+        chatFooter.textContent = footerText;
+    }
 
     // Generate CSS
     generateCSS();
+
     // Save settings after updating
     saveSettings();
 }
@@ -253,6 +294,8 @@ function loadSettings() {
         document.getElementById('chatInputBackgroundType').dispatchEvent(new Event('change'));
         document.getElementById('footerBackgroundType').dispatchEvent(new Event('change'));
         document.getElementById('headerLogoURL').dispatchEvent(new Event('input'));
+        document.getElementById('avatarImageURL').dispatchEvent(new Event('input'));
+        document.getElementById('showAvatar').dispatchEvent(new Event('change'));
     }
 }
 
@@ -278,21 +321,25 @@ function copyCSS() {
     });
 }
 
-// Event Listeners for all inputs, selects, and textareas
+// Event Listeners for all inputs, selects, and textareas with debounce
 document.querySelectorAll('input, select, textarea').forEach(input => {
-    input.addEventListener('input', updatePreview);
-    input.addEventListener('change', updatePreview);
+    const debouncedUpdate = debounce(updatePreview, 300);
+    input.addEventListener('input', debouncedUpdate);
+    input.addEventListener('change', debouncedUpdate);
 });
 
 // Toggle Header Background Options
 document.getElementById('headerBackgroundType').addEventListener('change', function() {
     const type = this.value;
+    const solidGroup = document.getElementById('headerSolidColorGroup');
+    const gradientGroup = document.getElementById('headerGradientGroup');
+
     if (type === 'solid') {
-        document.getElementById('headerSolidColorGroup').style.display = 'block';
-        document.getElementById('headerGradientGroup').style.display = 'none';
+        solidGroup.style.display = 'block';
+        gradientGroup.style.display = 'none';
     } else if (type === 'gradient') {
-        document.getElementById('headerSolidColorGroup').style.display = 'none';
-        document.getElementById('headerGradientGroup').style.display = 'block';
+        solidGroup.style.display = 'none';
+        gradientGroup.style.display = 'block';
     }
     updatePreview();
 });
@@ -300,18 +347,22 @@ document.getElementById('headerBackgroundType').addEventListener('change', funct
 // Toggle Chat Area Background Options
 document.getElementById('chatAreaBackgroundType').addEventListener('change', function() {
     const type = this.value;
+    const solidGroup = document.getElementById('chatAreaSolidColorGroup');
+    const gradientGroup = document.getElementById('chatAreaGradientGroup');
+    const imageGroup = document.getElementById('chatAreaImageGroup');
+
     if (type === 'solid') {
-        document.getElementById('chatAreaSolidColorGroup').style.display = 'block';
-        document.getElementById('chatAreaGradientGroup').style.display = 'none';
-        document.getElementById('chatAreaImageGroup').style.display = 'none';
+        solidGroup.style.display = 'block';
+        gradientGroup.style.display = 'none';
+        imageGroup.style.display = 'none';
     } else if (type === 'gradient') {
-        document.getElementById('chatAreaSolidColorGroup').style.display = 'none';
-        document.getElementById('chatAreaGradientGroup').style.display = 'block';
-        document.getElementById('chatAreaImageGroup').style.display = 'none';
+        solidGroup.style.display = 'none';
+        gradientGroup.style.display = 'block';
+        imageGroup.style.display = 'none';
     } else if (type === 'image') {
-        document.getElementById('chatAreaSolidColorGroup').style.display = 'none';
-        document.getElementById('chatAreaGradientGroup').style.display = 'none';
-        document.getElementById('chatAreaImageGroup').style.display = 'block';
+        solidGroup.style.display = 'none';
+        gradientGroup.style.display = 'none';
+        imageGroup.style.display = 'block';
     }
     updatePreview();
 });
@@ -319,12 +370,15 @@ document.getElementById('chatAreaBackgroundType').addEventListener('change', fun
 // Toggle Chat Input Background Options
 document.getElementById('chatInputBackgroundType').addEventListener('change', function() {
     const type = this.value;
+    const solidGroup = document.getElementById('chatInputSolidColorGroup');
+    const gradientGroup = document.getElementById('chatInputGradientGroup');
+
     if (type === 'solid') {
-        document.getElementById('chatInputSolidColorGroup').style.display = 'block';
-        document.getElementById('chatInputGradientGroup').style.display = 'none';
+        solidGroup.style.display = 'block';
+        gradientGroup.style.display = 'none';
     } else if (type === 'gradient') {
-        document.getElementById('chatInputSolidColorGroup').style.display = 'none';
-        document.getElementById('chatInputGradientGroup').style.display = 'block';
+        solidGroup.style.display = 'none';
+        gradientGroup.style.display = 'block';
     }
     updatePreview();
 });
@@ -332,12 +386,53 @@ document.getElementById('chatInputBackgroundType').addEventListener('change', fu
 // Toggle Footer Background Options
 document.getElementById('footerBackgroundType').addEventListener('change', function() {
     const type = this.value;
+    const solidGroup = document.getElementById('footerSolidColorGroup');
+    const gradientGroup = document.getElementById('footerGradientGroup');
+
     if (type === 'solid') {
-        document.getElementById('footerSolidColorGroup').style.display = 'block';
-        document.getElementById('footerGradientGroup').style.display = 'none';
+        solidGroup.style.display = 'block';
+        gradientGroup.style.display = 'none';
     } else if (type === 'gradient') {
-        document.getElementById('footerSolidColorGroup').style.display = 'none';
-        document.getElementById('footerGradientGroup').style.display = 'block';
+        solidGroup.style.display = 'none';
+        gradientGroup.style.display = 'block';
+    }
+    updatePreview();
+});
+
+// Toggle Logo Size and Position Groups
+document.getElementById('headerLogoURL').addEventListener('input', function() {
+    const logoURL = this.value.trim();
+    const logoSizeGroup = document.getElementById('headerLogoSizeGroup');
+    const logoPositionGroup = document.getElementById('headerLogoPositionGroup');
+
+    if (logoURL) {
+        logoSizeGroup.style.display = 'block';
+        logoPositionGroup.style.display = 'block';
+    } else {
+        logoSizeGroup.style.display = 'none';
+        logoPositionGroup.style.display = 'none';
+    }
+    updatePreview();
+});
+
+// Toggle Avatar Size and Border Color Groups
+document.getElementById('showAvatar').addEventListener('change', function() {
+    const show = this.checked;
+    const avatarSettings = document.querySelectorAll('#avatarSize, #avatarBorderColor, #avatarShape, #avatarImageURL');
+    avatarSettings.forEach(setting => {
+        setting.parentElement.style.display = show ? 'block' : 'none';
+    });
+    updatePreview();
+});
+
+// Toggle Avatar Image URL Group
+document.getElementById('avatarImageURL').addEventListener('input', function() {
+    const avatarURL = this.value.trim();
+    const avatarSizeGroup = document.getElementById('headerLogoSizeGroup'); // Adjust if different
+    if (avatarURL) {
+        avatarSizeGroup.style.display = 'block';
+    } else {
+        avatarSizeGroup.style.display = 'none';
     }
     updatePreview();
 });

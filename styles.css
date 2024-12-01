@@ -1,71 +1,53 @@
-/* Variables */
+/* Root Variables */
 :root {
     /* Colors */
     --primaryColor: #36d6b5;
     --secondaryColor: #ffffff;
 
     /* Font */
-    --fontFamily: Helvetica, Arial, sans-serif;
-    --fontWeight: bold;
+    --fontFamily: "Courier New", Courier, monospace;
 
     /* Header */
-    --headerTextSize: 18px;
+    --headerTextSize: 20px;
     --headerTextColor: #ffffff;
-    --headerBackgroundLayers: #36d6b5;
+    --headerBackgroundLayers: linear-gradient(to right, #36d6b5, #020e00);
     --headerHeight: 60px;
-    --headerTextAlign: center; /* left, center, right */
-    --cornerStyle: 20px; /* Global Corner Radius */
-    --headerPaddingLeft: 20px;
-
-    /* Header Logo */
-    --headerLogoWidth: 40px; /* Default logo width */
-    --headerLogoMarginRight: 10px; /* Margin when aligned left or center */
-    --headerLogoMarginLeft: 0px; /* Margin when aligned right */
-    --headerLogoOffsetX: 0px; /* Logo X offset */
-    --headerLogoOffsetY: 0px; /* Logo Y offset */
+    --headerTextAlign: center;
+    --cornerStyle: 20px;
+    --headerPaddingLeft: calc(60px + 10px);
 
     /* Chat Area */
-    --chatAreaBackgroundColor: #f8f9fa;
-    --chatAreaBackgroundImage: none;
+    --chatAreaBackgroundColor: transparent;
+    --chatAreaBackgroundImage: linear-gradient(to right, #f8f9fa, #1d2100);
     --chatAreaBackgroundPosition: center;
     --chatAreaBackgroundRepeat: no-repeat;
     --chatAreaBackgroundSize: cover;
 
     /* Messages */
-    --messageTextSize: 14px;
-    --messageCornerStyle: 20px;
-    --botMessageTextColor: #212529;
-    --botMessageBg: #eeeeee;
+    --messageTextSize: 16px;
+    --messageCornerStyle: 0px;
+    --botMessageTextColor: #fffaf8;
+    --botMessageBg: #0f0000;
     --userMessageTextColor: #ffffff;
     --userMessageBg: #36d6b5;
 
-    /* Avatar */
-    --avatarSize: 50px;
-    --avatarBorderColor: #36d6b5;
-    --avatarBorderWidth: 2px; /* Default border width */
-    --avatarDisplay: inline-block;
-    --avatarShape: 50%; /* 50% for circle, 0% for square */
-    --otherMessagePaddingLeft: calc(var(--avatarSize) + 10px);
-
     /* Chat Input */
-    --chatInputBackground: #ffffff;
+    --chatInputBackground: linear-gradient(to right, #00c5c5, #0d1a00);
     --chatInputTextFieldBg: #f1f1f1;
     --chatInputTextFieldTextColor: #333333;
-    --chatInputBorderRadius: 18px;
-    --chatInputHeight: 80px;
+    --chatInputBorderRadius: 0px;
 
     /* Icon Settings */
-    --iconsDisplay: inline-flex;
+    --iconsDisplay: inline-block;
+
+    /* Avatar */
+    --avatarDisplay: none;
+    --otherMessagePaddingLeft: 0px;
 
     /* Footer */
     --footerDisplay: block;
     --footerTextColor: #531ccf;
     --footerBackground: #ffffff;
-
-    /* Button Styles */
-    --buttonTextSize: var(--messageTextSize);
-    --buttonFontWeight: var(--fontWeight);
-    --buttonPadding: 10px 20px;
 }
 
 /* Base Styles */
@@ -373,11 +355,11 @@ textarea#cssOutput {
 
 /* User Message */
 .my-message {
+    display: flex;
+    justify-content: flex-end;
     padding-right: 0;
     margin-bottom: 15px;
     position: relative;
-    display: flex;
-    align-items: flex-end;
 }
 
 .my-message .avatar {
@@ -396,18 +378,9 @@ textarea#cssOutput {
     margin-top: 5vh;
 }
 
-/* Apply user text color to all child elements */
-.my-message .message-text * {
-    color: var(--userMessageTextColor) !important;
-}
-
-/* Apply bot text color to all child elements */
-.other-message .message-text * {
-    color: var(--botMessageTextColor);
-}
-
 /* Message Text Inheritance */
 .message-text * {
+    color: inherit;
     font-family: inherit;
 }
 
@@ -425,7 +398,6 @@ textarea#cssOutput {
     position: relative;
 }
 
-/* Icons within Chat Input */
 .chat-input .icons {
     display: var(--iconsDisplay);
     align-items: center;
@@ -444,7 +416,6 @@ textarea#cssOutput {
     color: var(--botMessageTextColor);
 }
 
-/* Input Group Styling */
 .chat-input .input-group {
     flex: 1;
     border-radius: var(--chatInputBorderRadius) !important;
@@ -463,20 +434,19 @@ textarea#cssOutput {
     font-size: 14px;
     outline: none;
     box-sizing: border-box;
-    flex: 1;
 }
 
-/* Avatar Styling */
-.avatar {
-    display: var(--avatarDisplay);
-    width: var(--avatarSize);
-    height: var(--avatarSize);
-    border: var(--avatarBorderWidth) solid var(--avatarBorderColor);
-    border-radius: var(--avatarShape);
-    /* Removed background-image to prevent duplication */
-    background-size: cover;
-    background-position: center;
-    margin-right: 10px;
+.chat-input .form-control {
+    border-radius: 0 !important;
+    border: none !important;
+    background-color: var(--chatInputTextFieldBg) !important;
+    color: var(--chatInputTextFieldTextColor) !important;
+}
+
+.input-group > .custom-select:not(:last-child),
+.input-group > .form-control:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 /* Footer Styling */
@@ -489,6 +459,7 @@ textarea#cssOutput {
     color: var(--footerTextColor);
     font-family: var(--fontFamily);
 }
+
 
 /* Success Message */
 .success-message {

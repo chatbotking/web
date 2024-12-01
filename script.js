@@ -39,7 +39,7 @@ function generateCSS() {
     css += `/* Message Text Styling */\npre {\n    font-size: var(--messageTextSize);\n    font-weight: normal;\n    font-family: var(--fontFamily);\n}\n\n`;
 
     /* Chat Header Styling */
-    css += `/* Chat Header Styling */\n.chat-header {\n    font-size: var(--headerTextSize);\n    color: var(--headerTextColor);\n    background: var(--headerBackgroundLayers);\n    height: var(--headerHeight);\n    text-align: var(--headerTextAlign);\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    font-family: var(--fontFamily);\n    border-top-left-radius: var(--cornerStyle);\n    border-top-right-radius: var(--cornerStyle);\n}\n\n`;
+    css += `/* Chat Header Styling */\n.chat-header {\n    font-size: var(--headerTextSize);\n    color: var(--headerTextColor);\n    background: var(--headerBackgroundLayers);\n    height: var(--headerHeight);\n    text-align: center;\n    display: flex;\n    align-items: center;\n    justify-content: var(--headerTextAlign);\n    font-family: var(--fontFamily);\n    border-top-left-radius: var(--cornerStyle);\n    border-top-right-radius: var(--cornerStyle);\n}\n\n`;
 
     /* Header Logo Styling */
     css += `/* Header Logo Styling */\n.chat-header img#headerLogoImg {\n    width: var(--headerLogoWidth);\n    height: auto;\n    margin-right: var(--headerLogoMarginRight);\n    margin-left: var(--headerLogoMarginLeft);\n    max-height: calc(var(--headerHeight) - 20px);\n    position: relative;\n    transform: translate(var(--headerLogoOffsetX), var(--headerLogoOffsetY));\n}\n\n`;
@@ -86,14 +86,22 @@ function updatePreview() {
     const headerTextColor = document.getElementById('headerTextColor').value;
     const headerBackgroundType = document.getElementById('headerBackgroundType').value;
     const headerHeight = document.getElementById('headerHeight').value + 'px';
-    const headerTextAlign = document.getElementById('headerTextAlign').value;
+    const headerTextAlignRaw = document.getElementById('headerTextAlign').value; // 'left', 'center', 'right'
     const cornerStyle = document.getElementById('cornerStyle').value;
 
     root.setProperty('--headerTextSize', headerTextSize);
     root.setProperty('--headerTextColor', headerTextColor);
     root.setProperty('--headerHeight', headerHeight);
-    root.setProperty('--headerTextAlign', headerTextAlign);
     root.setProperty('--cornerStyle', cornerStyle);
+
+    // Map 'left', 'center', 'right' to 'flex-start', 'center', 'flex-end'
+    const alignmentMapping = {
+        'left': 'flex-start',
+        'center': 'center',
+        'right': 'flex-end'
+    };
+    const headerTextAlign = alignmentMapping[headerTextAlignRaw] || 'center';
+    root.setProperty('--headerTextAlign', headerTextAlign);
 
     // Header Background
     let headerBackground = '';
@@ -119,27 +127,8 @@ function updatePreview() {
     root.setProperty('--headerLogoOffsetX', headerLogoOffsetX);
     root.setProperty('--headerLogoOffsetY', headerLogoOffsetY);
 
-    // Move Header Logo to the appropriate container based on alignment
-    const headerLogoImg = document.getElementById('headerLogoImg');
-    const headerLeft = document.querySelector('.header-left');
-    const headerCenter = document.querySelector('.header-center');
-    const headerRight = document.querySelector('.header-right');
-
-    if (headerLogoAlignment === 'left') {
-        headerLeft.appendChild(headerLogoImg);
-        root.setProperty('--headerLogoMarginRight', '10px');
-        root.setProperty('--headerLogoMarginLeft', '0px');
-    } else if (headerLogoAlignment === 'center') {
-        headerCenter.insertBefore(headerLogoImg, headerCenter.firstChild);
-        root.setProperty('--headerLogoMarginRight', '10px');
-        root.setProperty('--headerLogoMarginLeft', '10px');
-    } else if (headerLogoAlignment === 'right') {
-        headerRight.appendChild(headerLogoImg);
-        root.setProperty('--headerLogoMarginRight', '0px');
-        root.setProperty('--headerLogoMarginLeft', '10px');
-    }
-
     // Update Header Logo Image Element
+    const headerLogoImg = document.getElementById('headerLogoImg');
     if (headerLogoImg) {
         if (headerLogoURL) {
             headerLogoImg.src = headerLogoURL;
@@ -243,7 +232,7 @@ function updatePreview() {
 
     // Icon Settings
     const showIcons = document.getElementById('showIcons').checked;
-    root.setProperty('--iconsDisplay', showIcons ? 'flex' : 'none');
+    root.setProperty('--iconsDisplay', showIcons ? 'inline-flex' : 'none');
 
     // Chat Input Settings
     const chatInputBackgroundType = document.getElementById('chatInputBackgroundType').value;

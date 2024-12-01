@@ -242,7 +242,7 @@ input[type="color"] { height: 40px; padding: 0; }
     position: relative;
 }
 .chat-area {
-    flex: 1;
+    flex: 1; /* Allow chat area to take up available space */
     padding: 10px;
     overflow-y: auto;
     line-height: 1.5;
@@ -324,6 +324,7 @@ input[type="color"] { height: 40px; padding: 0; }
     border-top: 1px solid #e0e0e0;
     font-family: var(--fontFamily);
     position: relative; /* Added for footer positioning */
+    margin-top: auto; /* This pushes it to the bottom in flexbox */
 }
 .chat-input .input-group {
     flex: 1;

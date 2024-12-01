@@ -301,7 +301,6 @@ textarea#cssOutput {
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     position: relative;
     font-family: var(--fontFamily);
-    height: calc(100% - 40px);
     background: #ffffff;
 }
 
@@ -329,6 +328,7 @@ textarea#cssOutput {
     max-height: calc(var(--headerHeight) - 20px);
     position: relative;
     transform: translate(var(--headerLogoOffsetX), var(--headerLogoOffsetY));
+    display: none; /* Initially hidden, shown via JS when URL is provided */
 }
 
 .chat-interface-title {
@@ -376,6 +376,12 @@ textarea#cssOutput {
     padding-right: 0;
     margin-bottom: 15px;
     position: relative;
+    display: flex;
+    align-items: flex-end;
+}
+
+.my-message .avatar {
+    margin-right: 10px;
 }
 
 .my-message .message-text {
@@ -468,7 +474,6 @@ textarea#cssOutput {
     border: var(--avatarBorderWidth) solid var(--avatarBorderColor);
     border-radius: var(--avatarShape);
     /* Removed background-image to prevent duplication */
-    /* background-image: var(--avatarImageURL); */
     background-size: cover;
     background-position: center;
     margin-right: 10px;

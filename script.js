@@ -1,50 +1,50 @@
 // Function to generate CSS based on current settings
 function generateCSS() {
     const rootStyle = getComputedStyle(document.documentElement);
-    let css = `:root{
-        --primaryColor:${rootStyle.getPropertyValue('--primaryColor').trim()};
-        --secondaryColor:${rootStyle.getPropertyValue('--secondaryColor').trim()};
-        --fontFamily:${rootStyle.getPropertyValue('--fontFamily').trim()};
-        --fontWeight:${rootStyle.getPropertyValue('--fontWeight').trim()};
-        --headerTextSize:${rootStyle.getPropertyValue('--headerTextSize').trim()};
-        --headerTextColor:${rootStyle.getPropertyValue('--headerTextColor').trim()};
-        --headerBackgroundLayers:${rootStyle.getPropertyValue('--headerBackgroundLayers').trim()};
-        --headerHeight:${rootStyle.getPropertyValue('--headerHeight').trim()};
-        --headerTextAlign:${rootStyle.getPropertyValue('--headerTextAlign').trim()};
-        --cornerStyle:${rootStyle.getPropertyValue('--cornerStyle').trim()};
-        --headerPaddingLeft:${rootStyle.getPropertyValue('--headerPaddingLeft').trim()};
-        --chatAreaBackgroundColor:${rootStyle.getPropertyValue('--chatAreaBackgroundColor').trim()};
-        --chatAreaBackgroundImage:${rootStyle.getPropertyValue('--chatAreaBackgroundImage').trim()};
-        --chatAreaBackgroundPosition:${rootStyle.getPropertyValue('--chatAreaBackgroundPosition').trim()};
-        --chatAreaBackgroundRepeat:${rootStyle.getPropertyValue('--chatAreaBackgroundRepeat').trim()};
-        --chatAreaBackgroundSize:${rootStyle.getPropertyValue('--chatAreaBackgroundSize').trim()};
-        --messageTextSize:${rootStyle.getPropertyValue('--messageTextSize').trim()};
-        --messageCornerStyle:${rootStyle.getPropertyValue('--messageCornerStyle').trim()};
-        --botMessageTextColor:${rootStyle.getPropertyValue('--botMessageTextColor').trim()};
-        --botMessageBg:${rootStyle.getPropertyValue('--botMessageBg').trim()};
-        --userMessageTextColor:${rootStyle.getPropertyValue('--userMessageTextColor').trim()};
-        --userMessageBg:${rootStyle.getPropertyValue('--userMessageBg').trim()};
-        --chatInputBackground:${rootStyle.getPropertyValue('--chatInputBackground').trim()};
-        --chatInputTextFieldBg:${rootStyle.getPropertyValue('--chatInputTextFieldBg').trim()};
-        --chatInputTextFieldTextColor:${rootStyle.getPropertyValue('--chatInputTextFieldTextColor').trim()};
-        --chatInputBorderRadius:${rootStyle.getPropertyValue('--chatInputBorderRadius').trim()};
-        --iconsDisplay:${rootStyle.getPropertyValue('--iconsDisplay').trim()};
-        --buttonTextSize:${rootStyle.getPropertyValue('--buttonTextSize').trim()};
-        --buttonFontWeight:${rootStyle.getPropertyValue('--buttonFontWeight').trim()};
-        --buttonPadding:${rootStyle.getPropertyValue('--buttonPadding').trim()};
-        --chatInputHeight:${rootStyle.getPropertyValue('--chatInputHeight').trim()};
-        --avatarSize:${rootStyle.getPropertyValue('--avatarSize').trim()};
-        --avatarBorderColor:${rootStyle.getPropertyValue('--avatarBorderColor').trim()};
-        --avatarImageURL:${rootStyle.getPropertyValue('--avatarImageURL').trim()};
-        --avatarDisplay:${rootStyle.getPropertyValue('--avatarDisplay').trim()};
-        --avatarShape:${rootStyle.getPropertyValue('--avatarShape').trim()};
-        --otherMessagePaddingLeft:${rootStyle.getPropertyValue('--otherMessagePaddingLeft').trim()};
-        --footerShow:${document.getElementById('footer-show').checked};
-        --footerText:"${document.getElementById('footer-text').value}";
-        --footerTextColor:${document.getElementById('footer-text-color').value};
-        --footerFontSize:${document.getElementById('footer-font-size').value}px;
-        --footerFontFamily:${document.getElementById('footer-font-family').value};
-        --footerFontWeight:${document.getElementById('footer-font-weight').value};
+    let css = `:root {
+        --primaryColor: ${rootStyle.getPropertyValue('--primaryColor').trim()};
+        --secondaryColor: ${rootStyle.getPropertyValue('--secondaryColor').trim()};
+        --fontFamily: ${rootStyle.getPropertyValue('--fontFamily').trim()};
+        --fontWeight: ${rootStyle.getPropertyValue('--fontWeight').trim()};
+        --headerTextSize: ${rootStyle.getPropertyValue('--headerTextSize').trim()};
+        --headerTextColor: ${rootStyle.getPropertyValue('--headerTextColor').trim()};
+        --headerBackgroundLayers: ${rootStyle.getPropertyValue('--headerBackgroundLayers').trim()};
+        --headerHeight: ${rootStyle.getPropertyValue('--headerHeight').trim()};
+        --headerTextAlign: ${rootStyle.getPropertyValue('--headerTextAlign').trim()};
+        --cornerStyle: ${rootStyle.getPropertyValue('--cornerStyle').trim()};
+        --headerPaddingLeft: ${rootStyle.getPropertyValue('--headerPaddingLeft').trim()};
+        --chatAreaBackgroundColor: ${rootStyle.getPropertyValue('--chatAreaBackgroundColor').trim()};
+        --chatAreaBackgroundImage: ${rootStyle.getPropertyValue('--chatAreaBackgroundImage').trim()};
+        --chatAreaBackgroundPosition: ${rootStyle.getPropertyValue('--chatAreaBackgroundPosition').trim()};
+        --chatAreaBackgroundRepeat: ${rootStyle.getPropertyValue('--chatAreaBackgroundRepeat').trim()};
+        --chatAreaBackgroundSize: ${rootStyle.getPropertyValue('--chatAreaBackgroundSize').trim()};
+        --messageTextSize: ${rootStyle.getPropertyValue('--messageTextSize').trim()};
+        --messageCornerStyle: ${rootStyle.getPropertyValue('--messageCornerStyle').trim()};
+        --botMessageTextColor: ${rootStyle.getPropertyValue('--botMessageTextColor').trim()};
+        --botMessageBg: ${rootStyle.getPropertyValue('--botMessageBg').trim()};
+        --userMessageTextColor: ${rootStyle.getPropertyValue('--userMessageTextColor').trim()};
+        --userMessageBg: ${rootStyle.getPropertyValue('--userMessageBg').trim()};
+        --chatInputBackground: ${rootStyle.getPropertyValue('--chatInputBackground').trim()};
+        --chatInputTextFieldBg: ${rootStyle.getPropertyValue('--chatInputTextFieldBg').trim()};
+        --chatInputTextFieldTextColor: ${rootStyle.getPropertyValue('--chatInputTextFieldTextColor').trim()};
+        --chatInputBorderRadius: ${rootStyle.getPropertyValue('--chatInputBorderRadius').trim()};
+        --iconsDisplay: ${rootStyle.getPropertyValue('--iconsDisplay').trim()};
+        --buttonTextSize: ${rootStyle.getPropertyValue('--buttonTextSize').trim()};
+        --buttonFontWeight: ${rootStyle.getPropertyValue('--buttonFontWeight').trim()};
+        --buttonPadding: ${rootStyle.getPropertyValue('--buttonPadding').trim()};
+        --chatInputHeight: ${rootStyle.getPropertyValue('--chatInputHeight').trim()};
+        --avatarSize: ${rootStyle.getPropertyValue('--avatarSize').trim()};
+        --avatarBorderColor: ${rootStyle.getPropertyValue('--avatarBorderColor').trim()};
+        --avatarImageURL: ${rootStyle.getPropertyValue('--avatarImageURL').trim()};
+        --avatarDisplay: ${rootStyle.getPropertyValue('--avatarDisplay').trim()};
+        --avatarShape: ${rootStyle.getPropertyValue('--avatarShape').trim()};
+        --otherMessagePaddingLeft: ${rootStyle.getPropertyValue('--otherMessagePaddingLeft').trim()};
+        --footerShow: ${document.getElementById('footer-show').checked ? 'block' : 'none'};
+        --footerText: "${document.getElementById('footer-text').value}";
+        --footerTextColor: ${document.getElementById('footer-text-color').value};
+        --footerFontSize: ${document.getElementById('footer-font-size').value}px;
+        --footerFontFamily: ${document.getElementById('footer-font-family').value};
+        --footerFontWeight: ${document.getElementById('footer-font-weight').value};
     }`;
 
     // Include Icon Styles if Icons are Hidden
@@ -64,134 +64,37 @@ function generateCSS() {
         border: none !important;
         background-color: ${chatInputTextFieldBg} !important;
     }
-    `;
-
-    // Additional Styles (rest of your CSS remains the same)
-    css += `
-    pre {
-        color: var(--botMessageTextColor);
-        line-height: 1.5;
-        padding: 10px;
-        font-weight: var(--buttonFontWeight);
-        font-size: var(--messageTextSize);
-        font-family: var(--fontFamily);
-    }
-    .chat-header {
-        font-size: var(--headerTextSize);
-        color: var(--headerTextColor);
-        background: var(--headerBackgroundLayers);
-        height: var(--headerHeight);
-        text-align: var(--headerTextAlign);
+    .chat-preview-container {
         display: flex;
-        align-items: center;
-        justify-content: var(--headerTextAlign);
-        font-family: var(--fontFamily);
-        border-top-left-radius: var(--cornerStyle);
-        border-top-right-radius: var(--cornerStyle);
-        padding-left: var(--headerPaddingLeft);
+        flex-direction: column;
     }
     .chat-area {
-        height: calc(90% - var(--headerHeight));
-        position: absolute;
-        top: var(--headerHeight);
         flex: 1;
-        padding: 0px;
-        overflow-y: auto;
-        line-height: 1.5;
-        font-family: var(--fontFamily);
-        background-color: var(--chatAreaBackgroundColor);
-        background-image: var(--chatAreaBackgroundImage);
-        background-position: var(--chatAreaBackgroundPosition);
-        background-repeat: var(--chatAreaBackgroundRepeat);
-        background-size: var(--chatAreaBackgroundSize);
     }
-    .other-message {
-        position: relative;
-        margin-bottom: 10px;
-        padding-left: var(--otherMessagePaddingLeft);
-    }
-    .other-message:before {
-        content: "";
-        display: var(--avatarDisplay);
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: var(--avatarSize);
-        height: var(--avatarSize);
-        background-image: var(--avatarImageURL);
-        background-size: cover;
-        background-repeat: no-repeat;
-        border-radius: var(--avatarShape);
-        border: 3px solid var(--avatarBorderColor);
-    }
-    .other-message .message-text {
-        background-color: var(--botMessageBg);
-        color: var(--botMessageTextColor);
-        font-size: var(--messageTextSize);
-        border-radius: var(--messageCornerStyle);
-        padding: 10px 15px;
-        word-wrap: break-word;
-        font-family: var(--fontFamily);
-        margin-bottom: 5px;
-    }
-    .other-message .message-text * {
-        color: var(--botMessageTextColor);
-    }
-    .my-message {
-        padding-right: 0;
-        margin-bottom: 10px;
-        position: relative;
-    }
-    .my-message .message-text {
-        background-color: var(--userMessageBg) !important;
-        color: var(--userMessageTextColor);
-        font-size: var(--messageTextSize);
-        border-radius: var(--messageCornerStyle);
-        padding: 10px 15px;
-        word-wrap: break-word;
-        font-family: var(--fontFamily);
-        margin-bottom: 5px;
-        margin-top: 5vh;
-    }
-    .my-message .message-text * {
-        color: var(--userMessageTextColor) !important;
-    }
-    .message-text * {
-        font-family: inherit;
+    .chat-input-container {
+        display: flex;
+        flex-direction: column;
     }
     .chat-input {
-        height: var(--chatInputHeight);
-        padding: 20px;
-        background: var(--chatInputBackground);
-        display: flex;
-        align-items: center;
-        width: 100%;
-        box-sizing: border-box;
-        border-top: 1px solid #e0e0e0;
-        font-family: var(--fontFamily);
-        position: relative; /* Added for footer positioning */
-    }
-    .chat-input .input-group {
-        flex: 1;
-        border-radius: var(--chatInputBorderRadius) !important;
-        background-color: var(--chatInputTextFieldBg) !important;
-        overflow: hidden;
-        position: relative;
-        display: flex;
-    }
-    .chat-input input {
-        width: 100%;
-        padding: 10px;
-        border: none;
-        background-color: var(--chatInputTextFieldBg);
-        color: var(--chatInputTextFieldTextColor);
-        font-size: 14px;
-        outline: none;
-        box-sizing: border-box;
-        flex: 1;
+        margin-top: auto; /* Push to bottom */
+        margin-bottom: 10px; /* Add margin for better spacing*/
     }
 
-    `;
+    .chat-input:before {
+        content: var(--footerText);
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--footerTextColor);
+        font-size: var(--footerFontSize);
+        font-family: var(--footerFontFamily);
+        font-weight: var(--footerFontWeight);
+        display: var(--footerShow);
+        padding: 1px 5px;
+    }`;
+
+
 
     document.getElementById('cssOutput').value = css.trim();
 }
@@ -207,7 +110,7 @@ function updatePreview() {
     const headerHeight = headerHeightValue + 'px';
     const headerTextAlign = document.getElementById('headerTextAlign').value;
     const cornerStyle = document.getElementById('cornerStyle').value;
-    let fontFamily = document.getElementById('fontFamily').value;
+    const fontFamily = document.getElementById('fontFamily').value;
     const headerBackgroundType = document.getElementById('headerBackgroundType').value;
 
     root.setProperty('--headerTextSize', headerTextSize);
@@ -359,14 +262,14 @@ function updatePreview() {
         root.setProperty('--chatInputBackground', `linear-gradient(${chatInputBgGradientDirection}, ${chatInputBgGradientStart}, ${chatInputBgGradientEnd})`);
     }
 
-    //Update Footer Styles
-    root.setProperty('--footerShow', document.getElementById('footer-show').checked ? 'block' : 'none');
+    // Footer Settings
+    const footerShow = document.getElementById('footer-show').checked;
+    root.setProperty('--footerShow', footerShow ? 'block' : 'none');
     root.setProperty('--footerText', `"${document.getElementById('footer-text').value}"`);
     root.setProperty('--footerTextColor', document.getElementById('footer-text-color').value);
     root.setProperty('--footerFontSize', document.getElementById('footer-font-size').value + 'px');
     root.setProperty('--footerFontFamily', document.getElementById('footer-font-family').value);
     root.setProperty('--footerFontWeight', document.getElementById('footer-font-weight').value);
-
 
     // Directly update the background color of the input field in the preview
     document.querySelector('.chat-input .form-control').style.backgroundColor = chatInputTextFieldBg;
@@ -374,7 +277,6 @@ function updatePreview() {
     generateCSS();
     saveSettings(); // Save settings after updating
 }
-
 
 // Function to save settings to LocalStorage
 function saveSettings() {
@@ -409,7 +311,7 @@ function loadSettings() {
         document.getElementById('chatAreaBackgroundType').dispatchEvent(new Event('change'));
         document.getElementById('chatInputBackgroundType').dispatchEvent(new Event('change'));
         document.getElementById('headerLogoURL').dispatchEvent(new Event('input'));
-        document.getElementById('footer-show').dispatchEvent(new Event('change')); //Added for footer
+        document.getElementById('footer-show').dispatchEvent(new Event('change'));
         updatePreview();
     }
 }
@@ -431,7 +333,9 @@ function copyCSS() {
 
     const successMessage = document.getElementById('successMessage');
     successMessage.style.display = 'block';
-    setTimeout(() => { successMessage.style.display = 'none'; }, 2000);
+    setTimeout(() => {
+        successMessage.style.display = 'none';
+    }, 2000);
 }
 
 // Event Listeners for All Inputs to Update Preview and Save Settings
@@ -441,7 +345,7 @@ document.querySelectorAll('.controls input, .controls select').forEach(input => 
 });
 
 // Toggle Header Background Options
-document.getElementById('headerBackgroundType').addEventListener('change', function() {
+document.getElementById('headerBackgroundType').addEventListener('change', function () {
     const type = this.value;
     if (type === 'solid') {
         document.getElementById('headerSolidColorGroup').style.display = 'block';
@@ -454,7 +358,7 @@ document.getElementById('headerBackgroundType').addEventListener('change', funct
 });
 
 // Toggle Chat Area Background Options
-document.getElementById('chatAreaBackgroundType').addEventListener('change', function() {
+document.getElementById('chatAreaBackgroundType').addEventListener('change', function () {
     const type = this.value;
     if (type === 'solid') {
         document.getElementById('chatAreaSolidColorGroup').style.display = 'block';
@@ -473,7 +377,7 @@ document.getElementById('chatAreaBackgroundType').addEventListener('change', fun
 });
 
 // Toggle Chat Input Background Options
-document.getElementById('chatInputBackgroundType').addEventListener('change', function() {
+document.getElementById('chatInputBackgroundType').addEventListener('change', function () {
     const type = this.value;
     if (type === 'solid') {
         document.getElementById('chatInputSolidColorGroup').style.display = 'block';
@@ -485,9 +389,10 @@ document.getElementById('chatInputBackgroundType').addEventListener('change', fu
     updatePreview();
 });
 
+
 // Toggle Section Content Visibility and ensure only one is open at a time
 document.querySelectorAll('.section-title').forEach(title => {
-    title.addEventListener('click', function() {
+    title.addEventListener('click', function () {
         const currentlyOpen = document.querySelector('.section-content:not([style*="display: none"])');
         const sectionContent = this.nextElementSibling;
         const toggleIcon = this.querySelector('.toggle-icon');
@@ -509,7 +414,7 @@ document.querySelectorAll('.section-title').forEach(title => {
 });
 
 //Avatar Border Transparency
-document.getElementById('avatarBorderTransparent').addEventListener('change', function(){
+document.getElementById('avatarBorderTransparent').addEventListener('change', function () {
     const avatarBorderColor = document.getElementById('avatarBorderColor');
     if (this.checked) {
         document.documentElement.style.setProperty('--avatarBorderColor', 'transparent');
@@ -522,7 +427,7 @@ document.getElementById('avatarBorderTransparent').addEventListener('change', fu
     saveSettings();
 });
 
-window.onload = function() {
+window.onload = function () {
     loadSettings();
     updatePreview();
 };

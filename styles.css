@@ -13,7 +13,7 @@
     --headerTextColor: #ffffff;
     --headerBackgroundLayers: #36d6b5;
     --headerHeight: 60px;
-    --headerTextAlign: center;
+    --headerTextAlign: center; /* flex-start, center, flex-end */
     --cornerStyle: 20px;
     --headerPaddingLeft: 20px;
 
@@ -45,7 +45,7 @@
     --avatarBorderWidth: 2px; /* Default border width */
     --avatarImageURL: url("https://via.placeholder.com/50");
     --avatarDisplay: inline-block;
-    --avatarShape: 50%;
+    --avatarShape: 50%; /* 50% for circle, 0% for square */
     --otherMessagePaddingLeft: calc(var(--avatarSize) + 10px);
 
     /* Chat Input */
@@ -60,7 +60,6 @@
 
     /* Footer */
     --footerDisplay: block;
-    --footerText: "Powered by Chatbot Builder AI";
     --footerTextColor: #531ccf;
     --footerBackground: #ffffff;
 
@@ -313,14 +312,13 @@ textarea#cssOutput {
 .chat-header {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Space between left, center, and right */
+    justify-content: var(--headerTextAlign); /* flex-start, center, flex-end */
     height: var(--headerHeight);
     padding: 0 20px;
     font-size: var(--headerTextSize);
     font-weight: 600;
     background: var(--headerBackgroundLayers);
     color: var(--headerTextColor);
-    text-align: var(--headerTextAlign);
     border-top-left-radius: var(--cornerStyle);
     border-top-right-radius: var(--cornerStyle);
     font-family: var(--fontFamily);
@@ -338,22 +336,12 @@ textarea#cssOutput {
     transform: translate(var(--headerLogoOffsetX), var(--headerLogoOffsetY));
 }
 
-/* Header Containers */
-.header-left,
-.header-center,
-.header-right {
-    display: flex;
-    align-items: center;
-}
-
-.header-center {
+/* Header Text Styling */
+.chat-interface-title {
     flex: 1;
-    justify-content: center;
-}
-
-.header-left,
-.header-right {
-    flex: 0 0 auto;
+    text-align: center;
+    font-family: var(--fontFamily);
+    color: var(--headerTextColor);
 }
 
 /* Chat Area */

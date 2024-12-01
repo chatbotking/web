@@ -1,5 +1,3 @@
-// script.js
-
 // Debounce function to limit the rate at which a function can fire.
 function debounce(func, delay) {
     let debounceTimer;
@@ -13,25 +11,26 @@ function debounce(func, delay) {
 
 // Function to generate CSS based on current settings
 function generateCSS() {
-    const rootStyle = getComputedStyle(document.documentElement);
+    const root = document.documentElement;
     let css = `/* Root Variables */\n:root {\n`;
 
     // List of CSS variables to include
     const variableNames = [
         '--primaryColor', '--secondaryColor',
-        '--fontFamily',
+        '--fontFamily', '--fontWeight',
         '--headerTextSize', '--headerTextColor', '--headerBackgroundLayers', '--headerHeight', '--headerTextAlign', '--cornerStyle',
+        '--headerLogoWidth', '--headerLogoMarginRight', '--headerLogoMarginLeft', '--headerLogoOffsetX', '--headerLogoOffsetY',
         '--chatAreaBackgroundColor', '--chatAreaBackgroundImage', '--chatAreaBackgroundPosition', '--chatAreaBackgroundRepeat', '--chatAreaBackgroundSize',
         '--messageTextSize', '--messageCornerStyle', '--botMessageTextColor', '--botMessageBg', '--userMessageTextColor', '--userMessageBg',
-        '--chatInputBackground', '--chatInputTextFieldBg', '--chatInputTextFieldTextColor', '--chatInputBorderRadius',
+        '--avatarSize', '--avatarBorderColor', '--avatarBorderWidth', '--avatarShape', '--avatarImageURL', '--avatarDisplay', '--otherMessagePaddingLeft',
+        '--chatInputBackground', '--chatInputTextFieldBg', '--chatInputTextFieldTextColor', '--chatInputBorderRadius', '--chatInputHeight',
         '--iconsDisplay',
-        '--avatarDisplay', '--avatarSize', '--avatarBorderColor', '--avatarShape', '--avatarImageURL', '--otherMessagePaddingLeft',
         '--footerDisplay', '--footerTextColor', '--footerBackground'
     ];
 
     // Append each variable and its value
     variableNames.forEach(name => {
-        const value = rootStyle.getPropertyValue(name).trim();
+        const value = root.style.getPropertyValue(name).trim();
         css += `    ${name}: ${value};\n`;
     });
     css += `}\n\n`;
@@ -40,7 +39,10 @@ function generateCSS() {
     css += `/* Message Text Styling */\npre {\n    font-size: var(--messageTextSize);\n    font-weight: normal;\n    font-family: var(--fontFamily);\n}\n\n`;
 
     /* Chat Header Styling */
-    css += `/* Chat Header Styling */\n.chat-header {\n    font-size: var(--headerTextSize);\n    color: var(--headerTextColor);\n    background: var(--headerBackgroundLayers);\n    height: var(--headerHeight);\n    text-align: var(--headerTextAlign);\n    display: flex;\n    align-items: center;\n    justify-content: var(--headerTextAlign);\n    font-family: var(--fontFamily);\n    border-top-left-radius: var(--cornerStyle);\n    border-top-right-radius: var(--cornerStyle);\n}\n\n`;
+    css += `/* Chat Header Styling */\n.chat-header {\n    font-size: var(--headerTextSize);\n    color: var(--headerTextColor);\n    background: var(--headerBackgroundLayers);\n    height: var(--headerHeight);\n    text-align: var(--headerTextAlign);\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    font-family: var(--fontFamily);\n    border-top-left-radius: var(--cornerStyle);\n    border-top-right-radius: var(--cornerStyle);\n}\n\n`;
+
+    /* Header Logo Styling */
+    css += `/* Header Logo Styling */\n.chat-header img#headerLogoImg {\n    width: var(--headerLogoWidth);\n    height: auto;\n    margin-right: var(--headerLogoMarginRight);\n    margin-left: var(--headerLogoMarginLeft);\n    max-height: calc(var(--headerHeight) - 20px);\n    position: relative;\n    transform: translate(var(--headerLogoOffsetX), var(--headerLogoOffsetY));\n}\n\n`;
 
     /* Chat Area Styling */
     css += `/* Chat Area Styling */\n.chat-area {\n    background-color: var(--chatAreaBackgroundColor);\n    background-image: var(--chatAreaBackgroundImage);\n    background-position: var(--chatAreaBackgroundPosition);\n    background-repeat: var(--chatAreaBackgroundRepeat);\n    background-size: var(--chatAreaBackgroundSize);\n    font-family: var(--fontFamily);\n    padding: 20px;\n    overflow-y: auto;\n    flex: 1;\n}\n\n`;
@@ -49,19 +51,19 @@ function generateCSS() {
     css += `/* Bot Message Styling */\n.other-message {\n    position: relative;\n    margin-bottom: 15px;\n    padding-left: var(--otherMessagePaddingLeft);\n}\n.other-message .message-text {\n    background-color: var(--botMessageBg);\n    color: var(--botMessageTextColor);\n    font-size: var(--messageTextSize);\n    border-radius: var(--messageCornerStyle);\n    padding: 10px 15px;\n    word-wrap: break-word;\n    font-family: var(--fontFamily);\n    margin-bottom: 5px;\n}\n\n`;
 
     /* User Message Styling */
-    css += `/* User Message Styling */\n.my-message {\n    padding-right: 0;\n    margin-bottom: 15px;\n    position: relative;\n}\n\n.my-message .message-text {\n    background-color: var(--userMessageBg);\n    color: var(--userMessageTextColor);\n    font-size: var(--messageTextSize);\n    border-radius: var(--messageCornerStyle);\n    padding: 10px 15px;\n    word-wrap: break-word;\n    font-family: var(--fontFamily);\n    margin-bottom: 5px;\n}\n\n`;
+    css += `/* User Message Styling */\n.my-message {\n    padding-right: 0;\n    margin-bottom: 15px;\n    position: relative;\n}\n\n.my-message .message-text {\n    background-color: var(--userMessageBg) !important;\n    color: var(--userMessageTextColor);\n    font-size: var(--messageTextSize);\n    border-radius: var(--messageCornerStyle);\n    padding: 10px 15px;\n    word-wrap: break-word;\n    font-family: var(--fontFamily);\n    margin-bottom: 5px;\n    margin-top: 5vh;\n}\n\n`;
 
     /* Message Text Inheritance */
     css += `/* Message Text Inheritance */\n.message-text * {\n    color: inherit;\n    font-family: inherit;\n}\n\n`;
 
     /* Chat Input Styling */
-    css += `/* Chat Input Styling */\n.chat-input {\n    padding: 20px;\n    background: var(--chatInputBackground);\n    display: flex;\n    align-items: center;\n    width: 100%;\n    box-sizing: border-box;\n    font-family: var(--fontFamily);\n}\n.chat-input .input-group {\n    flex: 1;\n    border-radius: var(--chatInputBorderRadius) !important;\n    background-color: var(--chatInputTextFieldBg) !important;\n    overflow: hidden;\n    position: relative;\n}\n.chat-input input {\n    width: 100%;\n    padding: 15px;\n    border: none;\n    background-color: var(--chatInputTextFieldBg);\n    color: var(--chatInputTextFieldTextColor);\n    font-size: 14px;\n    outline: none;\n    box-sizing: border-box;\n}\n\n`;
+    css += `/* Chat Input Styling */\n.chat-input {\n    padding: 20px;\n    background: var(--chatInputBackground);\n    display: flex;\n    align-items: center;\n    width: 100%;\n    box-sizing: border-box;\n    border-top: 1px solid #e0e0e0;\n    font-family: var(--fontFamily);\n    position: relative;\n}\n.chat-input .input-group {\n    flex: 1;\n    border-radius: var(--chatInputBorderRadius) !important;\n    background-color: var(--chatInputTextFieldBg) !important;\n    overflow: hidden;\n    position: relative;\n    display: flex;\n}\n.chat-input input {\n    width: 100%;\n    padding: 15px;\n    border: none;\n    background-color: var(--chatInputTextFieldBg);\n    color: var(--chatInputTextFieldTextColor);\n    font-size: 14px;\n    outline: none;\n    box-sizing: border-box;\n    flex: 1;\n}\n\n`;
 
     /* Avatar Styling */
-    css += `/* Avatar Styling */\n.avatar {\n    display: var(--avatarDisplay);\n    width: var(--avatarSize);\n    height: var(--avatarSize);\n    border: 2px solid var(--avatarBorderColor);\n    border-radius: var(--avatarShape);\n    background-image: url(var(--avatarImageURL));\n    background-size: cover;\n    background-position: center;\n}\n\n`;
+    css += `/* Avatar Styling */\n.avatar {\n    display: var(--avatarDisplay);\n    width: var(--avatarSize);\n    height: var(--avatarSize);\n    border: var(--avatarBorderWidth) solid var(--avatarBorderColor);\n    border-radius: var(--avatarShape);\n    background-image: var(--avatarImageURL);\n    background-size: cover;\n    background-position: center;\n    margin-right: 10px;\n}\n\n`;
 
     /* Icons Styling */
-    css += `/* Icons Styling */\n.icons {\n    display: var(--iconsDisplay);\n}\n\n`;
+    css += `/* Icons Styling */\n.icons {\n    display: var(--iconsDisplay);\n    align-items: center;\n    margin-left: 10px;\n}\n\n.icons .icon {\n    margin-left: 10px;\n    cursor: pointer;\n    font-size: 20px;\n    color: var(--primaryColor);\n    transition: color 0.3s;\n}\n\n.icons .icon:hover {\n    color: var(--botMessageTextColor);\n}\n\n`;
 
     /* Footer Styling */
     css += `/* Footer Styling */\n.chat-footer {\n    display: var(--footerDisplay);\n    padding: 10px;\n    background: var(--footerBackground);\n    text-align: center;\n    font-size: 14px;\n    color: var(--footerTextColor);\n    font-family: var(--fontFamily);\n}\n`;
@@ -113,20 +115,37 @@ function updatePreview() {
     const headerLogoOffsetX = document.getElementById('headerLogoOffsetX').value + 'px';
     const headerLogoOffsetY = document.getElementById('headerLogoOffsetY').value + 'px';
 
-    root.setProperty('--headerLogoURL', headerLogoURL ? `"${headerLogoURL}"` : 'none');
     root.setProperty('--headerLogoWidth', headerLogoWidth);
-    root.setProperty('--headerLogoAlignment', headerLogoAlignment);
     root.setProperty('--headerLogoOffsetX', headerLogoOffsetX);
     root.setProperty('--headerLogoOffsetY', headerLogoOffsetY);
 
-    // Update Header Logo Image Element
+    // Move Header Logo to the appropriate container based on alignment
     const headerLogoImg = document.getElementById('headerLogoImg');
+    const headerLeft = document.querySelector('.header-left');
+    const headerCenter = document.querySelector('.header-center');
+    const headerRight = document.querySelector('.header-right');
+
+    if (headerLogoAlignment === 'left') {
+        headerLeft.appendChild(headerLogoImg);
+        root.setProperty('--headerLogoMarginRight', '10px');
+        root.setProperty('--headerLogoMarginLeft', '0px');
+    } else if (headerLogoAlignment === 'center') {
+        headerCenter.insertBefore(headerLogoImg, headerCenter.firstChild);
+        root.setProperty('--headerLogoMarginRight', '10px');
+        root.setProperty('--headerLogoMarginLeft', '10px');
+    } else if (headerLogoAlignment === 'right') {
+        headerRight.appendChild(headerLogoImg);
+        root.setProperty('--headerLogoMarginRight', '0px');
+        root.setProperty('--headerLogoMarginLeft', '10px');
+    }
+
+    // Update Header Logo Image Element
     if (headerLogoImg) {
         if (headerLogoURL) {
             headerLogoImg.src = headerLogoURL;
             headerLogoImg.style.display = 'block';
             headerLogoImg.style.width = headerLogoWidth;
-            // Alignment adjustments can be handled via CSS if needed
+            // Alignment adjustments are handled via CSS variables
         } else {
             headerLogoImg.style.display = 'none';
         }
@@ -185,21 +204,33 @@ function updatePreview() {
 
     // Avatar Settings
     const showAvatar = document.getElementById('showAvatar').checked;
-    root.setProperty('--avatarDisplay', showAvatar ? 'block' : 'none');
+    root.setProperty('--avatarDisplay', showAvatar ? 'inline-block' : 'none');
 
     const avatarSize = document.getElementById('avatarSize').value + 'px';
     const avatarBorderColor = document.getElementById('avatarBorderColor').value;
-    const avatarShape = document.getElementById('avatarShape').value;
+    const avatarBorder = document.getElementById('avatarBorder').value;
     const avatarImageURL = document.getElementById('avatarImageURL').value.trim();
 
     root.setProperty('--avatarSize', avatarSize);
     root.setProperty('--avatarBorderColor', avatarBorderColor);
-    root.setProperty('--avatarShape', avatarShape);
-    root.setProperty('--avatarImageURL', avatarImageURL ? avatarImageURL : 'none');
 
-    // Update Avatar Image Element
-    const avatarImg = document.getElementById('avatarImg');
-    if (avatarImg) {
+    // Handle avatar border options
+    if (avatarBorder === 'circle') {
+        root.setProperty('--avatarShape', '50%');
+        root.setProperty('--avatarBorderWidth', '2px');
+    } else if (avatarBorder === 'square') {
+        root.setProperty('--avatarShape', '0%');
+        root.setProperty('--avatarBorderWidth', '2px');
+    } else if (avatarBorder === 'none') {
+        root.setProperty('--avatarShape', '0%');
+        root.setProperty('--avatarBorderWidth', '0px');
+    }
+
+    root.setProperty('--avatarImageURL', avatarImageURL ? `url("${avatarImageURL}")` : 'none');
+
+    // Update Avatar Image Elements
+    const avatarImages = document.querySelectorAll('.chat-area .avatar');
+    avatarImages.forEach(avatarImg => {
         if (showAvatar && avatarImageURL) {
             avatarImg.src = avatarImageURL;
             avatarImg.style.display = 'block';
@@ -208,9 +239,7 @@ function updatePreview() {
         } else {
             avatarImg.style.display = 'none';
         }
-    } else {
-        console.error('avatarImg element not found.');
-    }
+    });
 
     // Icon Settings
     const showIcons = document.getElementById('showIcons').checked;
@@ -308,8 +337,10 @@ function loadSettings() {
         document.getElementById('chatInputBackgroundType').dispatchEvent(new Event('change'));
         document.getElementById('footerBackgroundType').dispatchEvent(new Event('change'));
         document.getElementById('headerLogoURL').dispatchEvent(new Event('input'));
+        document.getElementById('headerLogoAlignment').dispatchEvent(new Event('change'));
         document.getElementById('avatarImageURL').dispatchEvent(new Event('input'));
         document.getElementById('showAvatar').dispatchEvent(new Event('change'));
+        document.getElementById('avatarBorder').dispatchEvent(new Event('change'));
     }
 }
 
@@ -437,13 +468,18 @@ document.getElementById('headerLogoURL').addEventListener('input', function() {
     updatePreview();
 });
 
-// Toggle Avatar Settings Visibility Based on Toggle Switch
+// Toggle Avatar Size and Border Color Groups
 document.getElementById('showAvatar').addEventListener('change', function() {
     const show = this.checked;
-    const avatarSettings = document.querySelectorAll('#avatarSize, #avatarBorderColor, #avatarShape, #avatarImageURL');
+    const avatarSettings = document.querySelectorAll('#avatarSize, #avatarBorderColor, #avatarBorder, #avatarImageURL');
     avatarSettings.forEach(setting => {
         setting.parentElement.style.display = show ? 'block' : 'none';
     });
+    updatePreview();
+});
+
+// Toggle Avatar Border Options
+document.getElementById('avatarBorder').addEventListener('change', function() {
     updatePreview();
 });
 

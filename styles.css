@@ -338,10 +338,11 @@ textarea#cssOutput {
 
 /* Header Text Styling */
 .chat-interface-title {
-    flex: 1;
-    text-align: center;
+    /* Removed flex: 1 and text-align to allow proper alignment */
     font-family: var(--fontFamily);
     color: var(--headerTextColor);
+    /* Optional: Add margin if needed for spacing */
+    margin-left: 10px;
 }
 
 /* Chat Area */

@@ -437,7 +437,7 @@ document.getElementById('headerLogoURL').addEventListener('input', function() {
     updatePreview();
 });
 
-// Toggle Avatar Size and Border Color Groups
+// Toggle Avatar Settings Visibility Based on Toggle Switch
 document.getElementById('showAvatar').addEventListener('change', function() {
     const show = this.checked;
     const avatarSettings = document.querySelectorAll('#avatarSize, #avatarBorderColor, #avatarShape, #avatarImageURL');

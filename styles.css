@@ -21,6 +21,8 @@
     --headerLogoWidth: 40px; /* Default logo width */
     --headerLogoMarginRight: 10px; /* Margin when aligned left or center */
     --headerLogoMarginLeft: 0px; /* Margin when aligned right */
+    --headerLogoOffsetX: 0px; /* Logo X offset */
+    --headerLogoOffsetY: 0px; /* Logo Y offset */
 
     /* Chat Area */
     --chatAreaBackgroundColor: #f8f9fa;
@@ -40,6 +42,7 @@
     /* Avatar */
     --avatarSize: 50px;
     --avatarBorderColor: #36d6b5;
+    --avatarBorderWidth: 2px; /* Default border width */
     --avatarImageURL: url("https://via.placeholder.com/50");
     --avatarDisplay: inline-block;
     --avatarShape: 50%;
@@ -232,7 +235,7 @@ input[type="checkbox"] {
     transform: translateX(26px);
 }
 
-/* Text Labels for Toggle Switches */
+/* Toggle Switch Group Styles */
 .toggle-switch-group {
     display: flex;
     align-items: center;
@@ -308,6 +311,9 @@ textarea#cssOutput {
 
 /* Chat Header */
 .chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space between left, center, and right */
     height: var(--headerHeight);
     padding: 0 20px;
     font-size: var(--headerTextSize);
@@ -315,13 +321,9 @@ textarea#cssOutput {
     background: var(--headerBackgroundLayers);
     color: var(--headerTextColor);
     text-align: var(--headerTextAlign);
-    display: flex;
-    align-items: center;
-    justify-content: var(--headerTextAlign);
     border-top-left-radius: var(--cornerStyle);
     border-top-right-radius: var(--cornerStyle);
     font-family: var(--fontFamily);
-    padding-left: var(--headerPaddingLeft);
     position: relative;
 }
 
@@ -331,8 +333,27 @@ textarea#cssOutput {
     height: auto;
     margin-right: var(--headerLogoMarginRight);
     margin-left: var(--headerLogoMarginLeft);
-    /* Ensure the logo doesn't exceed the header height */
     max-height: calc(var(--headerHeight) - 20px);
+    position: relative;
+    transform: translate(var(--headerLogoOffsetX), var(--headerLogoOffsetY));
+}
+
+/* Header Containers */
+.header-left,
+.header-center,
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-center {
+    flex: 1;
+    justify-content: center;
+}
+
+.header-left,
+.header-right {
+    flex: 0 0 auto;
 }
 
 /* Chat Area */
@@ -369,7 +390,7 @@ textarea#cssOutput {
     background-size: cover;
     background-repeat: no-repeat;
     border-radius: var(--avatarShape);
-    border: 3px solid var(--avatarBorderColor);
+    border: var(--avatarBorderWidth) solid var(--avatarBorderColor);
 }
 
 .other-message .message-text {
@@ -457,7 +478,7 @@ textarea#cssOutput {
     display: var(--avatarDisplay);
     width: var(--avatarSize);
     height: var(--avatarSize);
-    border: 2px solid var(--avatarBorderColor);
+    border: var(--avatarBorderWidth) solid var(--avatarBorderColor);
     border-radius: var(--avatarShape);
     background-image: var(--avatarImageURL);
     background-size: cover;

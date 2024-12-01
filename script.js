@@ -54,7 +54,7 @@ function generateCSS() {
     css += `/* Bot Message Styling */\n.other-message {\n    position: relative;\n    margin-bottom: 15px;\n    padding-left: var(--otherMessagePaddingLeft);\n}\n.other-message .message-text {\n    background-color: var(--botMessageBg);\n    color: var(--botMessageTextColor);\n    font-size: var(--messageTextSize);\n    border-radius: var(--messageCornerStyle);\n    padding: 10px 15px;\n    word-wrap: break-word;\n    font-family: var(--fontFamily);\n    margin-bottom: 5px;\n}\n\n`;
 
     /* User Message Styling */
-    css += `/* User Message Styling */\n.my-message {\n    padding-right: 0;\n    margin-bottom: 15px;\n    position: relative;\n}\n\n.my-message .message-text {\n    background-color: var(--userMessageBg) !important;\n    color: var(--userMessageTextColor);\n    font-size: var(--messageTextSize);\n    border-radius: var(--messageCornerStyle);\n    padding: 10px 15px;\n    word-wrap: break-word;\n    font-family: var(--fontFamily);\n    margin-bottom: 5px;\n    margin-top: 5vh;\n}\n\n`;
+    css += `/* User Message Styling */\n.my-message {\n    padding-right: 0;\n    margin-bottom: 15px;\n    position: relative;\n    display: flex;\n    align-items: flex-end;\n}\n\n.my-message .avatar {\n    margin-right: 10px;\n}\n\n.my-message .message-text {\n    background-color: var(--userMessageBg) !important;\n    color: var(--userMessageTextColor);\n    font-size: var(--messageTextSize);\n    border-radius: var(--messageCornerStyle);\n    padding: 10px 15px;\n    word-wrap: break-word;\n    font-family: var(--fontFamily);\n    margin-bottom: 5px;\n    margin-top: 5vh;\n}\n\n`;
 
     /* Message Text Inheritance */
     css += `/* Message Text Inheritance */\n.message-text * {\n    color: inherit;\n    font-family: inherit;\n}\n\n`;
@@ -66,10 +66,10 @@ function generateCSS() {
     css += `/* Icons within Chat Input */\n.chat-input .icons {\n    display: var(--iconsDisplay);\n    align-items: center;\n    margin-right: 10px;\n}\n\n.chat-input .icons .icon {\n    margin-right: 15px;\n    cursor: pointer;\n    font-size: 20px;\n    color: var(--primaryColor);\n    transition: color 0.3s;\n}\n\n.chat-input .icons .icon:hover {\n    color: var(--botMessageTextColor);\n}\n\n`;
 
     /* Input Group Styling */
-    css += `/* Input Group Styling */\n.chat-input .input-group {\n    flex: 1;\n    border-radius: var(--chatInputBorderRadius) !important;\n    background-color: var(--chatInputTextFieldBg) !important;\n    overflow: hidden;\n    position: relative;\n    display: flex;\n}\n.chat-input input {\n    width: 100%;\n    padding: 15px;\n    border: none;\n    background-color: var(--chatInputTextFieldBg);\n    color: var(--chatInputTextFieldTextColor);\n    font-size: 14px;\n    outline: none;\n    box-sizing: border-box;\n    flex: 1;\n}\n\n`;
+    css += `/* Input Group Styling */\n.chat-input .input-group {\n    flex: 1;\n    border-radius: var(--chatInputBorderRadius) !important;\n    background-color: var(--chatInputTextFieldBg) !important;\n    overflow: hidden;\n    position: relative;\n    display: flex;\n}\n\n.chat-input input {\n    width: 100%;\n    padding: 15px;\n    border: none;\n    background-color: var(--chatInputTextFieldBg);\n    color: var(--chatInputTextFieldTextColor);\n    font-size: 14px;\n    outline: none;\n    box-sizing: border-box;\n    flex: 1;\n}\n\n`;
 
     /* Avatar Styling */
-    css += `/* Avatar Styling */\n.avatar {\n    display: var(--avatarDisplay);\n    width: var(--avatarSize);\n    height: var(--avatarSize);\n    border: var(--avatarBorderWidth) solid var(--avatarBorderColor);\n    border-radius: var(--avatarShape);\n    /* Removed background-image to prevent duplication */\n    /* background-image: var(--avatarImageURL); */\n    background-size: cover;\n    background-position: center;\n    margin-right: 10px;\n}\n\n`;
+    css += `/* Avatar Styling */\n.avatar {\n    display: var(--avatarDisplay);\n    width: var(--avatarSize);\n    height: var(--avatarSize);\n    border: var(--avatarBorderWidth) solid var(--avatarBorderColor);\n    border-radius: var(--avatarShape);\n    /* Removed background-image to prevent duplication */\n    background-size: cover;\n    background-position: center;\n    margin-right: 10px;\n}\n\n`;
 
     /* Footer Styling */
     css += `/* Footer Styling */\n.chat-footer {\n    display: var(--footerDisplay);\n    padding: 10px;\n    background: var(--footerBackground);\n    text-align: center;\n    font-size: 14px;\n    color: var(--footerTextColor);\n    font-family: var(--fontFamily);\n}\n`;
@@ -521,3 +521,11 @@ window.addEventListener('load', function() {
     loadSettings();
     updatePreview();
 });
+
+/* Additional Event Listener for cornerStyle if needed */
+
+/* Function to copy CSS to clipboard (Duplicate Removed) */
+/* The copyCSS function is already defined above. Removed duplicate to prevent conflicts */
+
+/* Function to reset settings to default (Duplicate Removed) */
+/* The resetSettings function is already defined above. Removed duplicate to prevent conflicts */

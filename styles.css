@@ -168,8 +168,8 @@ input[type="color"] {
 
 /* Custom Checkbox Styling */
 .toggle-switch {
-    display: inline-flex; /* Use inline-flex for better alignment */
-    align-items: center; /* Vertically center the checkbox */
+    display: inline-flex;
+    align-items: center;
     width: 60px;
     height: 30px;
     margin-right: 10px;
@@ -187,8 +187,8 @@ input[type="color"] {
     background-color: #ccc;
     border-radius: 15px;
     transition: background-color 0.3s ease;
-    padding: 0; /* Remove default label padding */
-    text-indent: 26px;  /* move the text over to the right */
+    padding: 0;
+    text-indent: 26px;
 }
 
 .toggle-switch input[type="checkbox"] + label::before {
@@ -210,7 +210,6 @@ input[type="color"] {
 .toggle-switch input[type="checkbox"]:checked + label::before {
     left: 32px;
 }
-
 
 .copy-button {
     width: 100%;
@@ -256,7 +255,7 @@ input[type="color"] {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
     font-family: var(--fontFamily);
-    height: calc(100% - 40px);
+    height: 100%; /* Ensure it fills the available height */
 }
 
 .chat-header {
@@ -327,7 +326,7 @@ input[type="color"] {
     padding-right: 0;
     margin-bottom: 10px;
     position: relative;
-    text-align: right; /* Align user messages to the right */
+    text-align: right;
 }
 
 .my-message .message-text {
@@ -373,8 +372,8 @@ input[type="color"] {
     box-sizing: border-box;
     border-top: 1px solid #e0e0e0;
     font-family: var(--fontFamily);
-    margin-top: auto; /* Push to bottom */
-    margin-bottom: 10px; /* Add margin for better spacing*/
+    margin-top: auto;
+    margin-bottom: 10px;
 }
 
 .chat-input .input-group {
@@ -448,7 +447,7 @@ pre {
 .chat-ice-breaker {
     position: fixed;
     right: 20px;
-    bottom: 80px; /* Moved up by 20px */
+    bottom: 80px;
 }
 
 .chat-ice-breaker button {
@@ -517,13 +516,13 @@ pre {
 .chat-input:before {
     content: var(--footerText);
     position: absolute;
-    bottom: 10px; /* Adjust as needed */
+    bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
     color: var(--footerTextColor);
     font-size: var(--footerFontSize);
     font-family: var(--footerFontFamily);
     font-weight: var(--footerFontWeight);
-    display: var(--footerShow); /* Show/hide based on variable */
+    display: var(--footerShow);
     padding: 1px 5px;
 }

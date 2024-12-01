@@ -17,6 +17,11 @@
     --cornerStyle: 20px;
     --headerPaddingLeft: 20px;
 
+    /* Header Logo */
+    --headerLogoWidth: 40px; /* Default logo width */
+    --headerLogoMarginRight: 10px; /* Margin when aligned left or center */
+    --headerLogoMarginLeft: 0px; /* Margin when aligned right */
+
     /* Chat Area */
     --chatAreaBackgroundColor: #f8f9fa;
     --chatAreaBackgroundImage: none;
@@ -181,12 +186,12 @@ input[type="checkbox"] {
     display: none; /* Hide the default checkbox */
 }
 
+/* Toggle Switch Styles */
 .toggle-switch {
     position: relative;
     display: inline-block;
     width: 50px;
     height: 24px;
-    margin-right: 10px;
 }
 
 .toggle-switch input {
@@ -228,8 +233,13 @@ input[type="checkbox"] {
 }
 
 /* Text Labels for Toggle Switches */
+.toggle-switch-group {
+    display: flex;
+    align-items: center;
+}
+
 .toggle-switch-group span {
-    vertical-align: middle;
+    margin-left: 10px;
     font-size: 14px;
     color: #4a5568;
 }
@@ -313,6 +323,16 @@ textarea#cssOutput {
     font-family: var(--fontFamily);
     padding-left: var(--headerPaddingLeft);
     position: relative;
+}
+
+/* Header Logo Image */
+.chat-header img#headerLogoImg {
+    width: var(--headerLogoWidth);
+    height: auto;
+    margin-right: var(--headerLogoMarginRight);
+    margin-left: var(--headerLogoMarginLeft);
+    /* Ensure the logo doesn't exceed the header height */
+    max-height: calc(var(--headerHeight) - 20px);
 }
 
 /* Chat Area */
@@ -490,21 +510,6 @@ textarea#cssOutput {
     z-index: 1000;
 }
 
-/* Generated CSS Styles */
-textarea#cssOutput {
-    width: 100%;
-    height: 200px;
-    resize: vertical;
-    font-family: monospace;
-    font-size: 12px;
-    padding: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    box-sizing: border-box;
-    background-color: #f1f1f1;
-    color: #333;
-}
-
 /* Button Hover Effects */
 button.copy-button:hover {
     background: #2ea590;
@@ -577,15 +582,4 @@ button.reset-button:hover {
 /* Hide Upload Button in Preview */
 .chat-input .uploadBtt {
     display: none;
-}
-
-/* Toggle Switch Group Styles */
-.toggle-switch-group {
-    display: flex;
-    align-items: center;
-}
-
-/* Ensure labels next to toggle switches are properly aligned */
-.toggle-switch-group span {
-    margin-left: 10px;
 }

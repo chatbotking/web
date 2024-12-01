@@ -13,7 +13,7 @@
     --headerTextColor: #ffffff;
     --headerBackgroundLayers: #36d6b5;
     --headerHeight: 60px;
-    --headerTextAlign: center; /* flex-start, center, flex-end */
+    --headerTextAlign: center; /* left, center, right */
     --cornerStyle: 20px;
     --headerPaddingLeft: 20px;
 
@@ -312,7 +312,6 @@ textarea#cssOutput {
 .chat-header {
     display: flex;
     align-items: center;
-    justify-content: var(--headerTextAlign); /* flex-start, center, flex-end */
     height: var(--headerHeight);
     padding: 0 20px;
     font-size: var(--headerTextSize);
@@ -325,24 +324,21 @@ textarea#cssOutput {
     position: relative;
 }
 
-/* Header Logo Image */
 .chat-header img#headerLogoImg {
     width: var(--headerLogoWidth);
     height: auto;
-    margin-right: var(--headerLogoMarginRight);
-    margin-left: var(--headerLogoMarginLeft);
+    margin-right: 10px;
+    margin-left: 0px;
     max-height: calc(var(--headerHeight) - 20px);
     position: relative;
     transform: translate(var(--headerLogoOffsetX), var(--headerLogoOffsetY));
 }
 
-/* Header Text Styling */
 .chat-interface-title {
-    /* Removed flex: 1 and text-align to allow proper alignment */
+    flex: 1;
+    text-align: var(--headerTextAlign); /* left, center, right */
     font-family: var(--fontFamily);
     color: var(--headerTextColor);
-    /* Optional: Add margin if needed for spacing */
-    margin-left: 10px;
 }
 
 /* Chat Area */

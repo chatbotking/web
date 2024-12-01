@@ -1,18 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Custom Chat Interface</title>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto|Open+Sans|Lato|Ubuntu&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-</head>
 <body>
 <div class="container">
     <div class="controls">
         <!-- Header Settings -->
-        <div class="section" id="headerSettings">
+        <div class="section">
             <div class="section-title">
-                <span class="toggle-icon">+</span>Header Settings
+                <span class="toggle-icon">+</span>
+                Header Settings
             </div>
             <div class="section-content">
                 <div class="control-group">
@@ -92,9 +85,10 @@
         </div>
 
         <!-- Chat Area Settings -->
-        <div class="section" id="chatAreaSettings">
+        <div class="section">
             <div class="section-title">
-                <span class="toggle-icon">+</span>Chat Area Settings
+                <span class="toggle-icon">+</span>
+                Chat Area Settings
             </div>
             <div class="section-content">
                 <div class="control-group">
@@ -145,9 +139,10 @@
         </div>
 
         <!-- Message Settings -->
-        <div class="section" id="messageSettings">
+        <div class="section">
             <div class="section-title">
-                <span class="toggle-icon">+</span>Message Settings
+                <span class="toggle-icon">+</span>
+                Message Settings
             </div>
             <div class="section-content">
                 <div class="control-group">
@@ -181,9 +176,10 @@
         </div>
 
         <!-- Font Settings -->
-        <div class="section" id="fontSettings">
+        <div class="section">
             <div class="section-title">
-                <span class="toggle-icon">+</span>Font Settings
+                <span class="toggle-icon">+</span>
+                Font Settings
             </div>
             <div class="section-content">
                 <div class="control-group">
@@ -205,61 +201,79 @@
         </div>
 
         <!-- Avatar Settings -->
-        <div class="section" id="avatarSettings">
-            <div class="section-title">
-                <span class="toggle-icon">+</span>Avatar Settings
-            </div>
-            <div class="section-content">
-                <div class="control-group">
-                    <label>
-                        <input type="checkbox" id="showAvatar" checked> Show Avatar
-                    </label>
-                </div>
-                <div class="control-group">
-                    <label for="avatarSize">Avatar Size (px)</label>
-                    <input type="number" id="avatarSize" value="50" min="20" max="100">
-                </div>
-                <div class="control-group">
-                    <label for="avatarBorderColor">Avatar Border Color</label>
-                    <input type="color" id="avatarBorderColor" value="#36d6b5">
-                </div>
-                <div class="control-group">
-                    <label>
-                        <input type="checkbox" id="avatarBorderTransparent"> Transparent Border
-                    </label>
-                </div>
-                <div class="control-group">
-                    <label for="avatarImageURL">Avatar Image URL</label>
-                    <input type="url" id="avatarImageURL" placeholder="https://example.com/avatar.jpg" value="https://via.placeholder.com/50">
-                </div>
-                <div class="control-group">
-                    <label for="avatarShape">Avatar Shape</label>
-                    <select id="avatarShape">
-                        <option value="50%">Circle</option>
-                        <option value="0%">Square</option>
-                    </select>
-                </div>
-            </div>
+<div class="section">
+    <div class="section-title">
+        <span class="toggle-icon">+</span>
+        Avatar Settings
+    </div>
+    <div class="section-content">
+        <div class="control-group">
+            <label>
+                <input type="checkbox" id="showAvatar" checked>
+                Show Avatar
+            </label>
         </div>
+        <div class="control-group">
+            <label for="avatarSize">Avatar Size (px)</label>
+            <input type="number" id="avatarSize" value="50" min="20" max="100">
+        </div>
+        <div class="control-group">
+            <label for="avatarBorderColor">Avatar Border Color</label>
+            <input type="color" id="avatarBorderColor" value="#36d6b5">
+        </div>
+        <!-- New Checkbox for Transparent Border -->
+        <div class="control-group">
+            <label>
+                <input type="checkbox" id="avatarBorderTransparent" onchange="
+                    const avatarBorderColor = document.getElementById('avatarBorderColor');
+                    if (this.checked) {
+                        document.documentElement.style.setProperty('--avatarBorderColor', 'transparent');
+                        avatarBorderColor.disabled = true; /* Disable color picker when transparent */
+                    } else {
+                        document.documentElement.style.setProperty('--avatarBorderColor', avatarBorderColor.value);
+                        avatarBorderColor.disabled = false; /* Enable color picker when not transparent */
+                    }
+                    generateCSS(); /* Update the generated CSS */
+                    saveSettings(); /* Save the current settings */
+                ">
+                Transparent Border
+            </label>
+        </div>
+        <div class="control-group">
+            <label for="avatarImageURL">Avatar Image URL</label>
+            <input type="url" id="avatarImageURL" placeholder="https://example.com/avatar.jpg" value="https://via.placeholder.com/50">
+        </div>
+        <div class="control-group">
+            <label for="avatarShape">Avatar Shape</label>
+            <select id="avatarShape">
+                <option value="50%">Circle</option>
+                <option value="0%">Square</option>
+            </select>
+        </div>
+    </div>
+</div>
 
         <!-- Icon Settings -->
-        <div class="section" id="iconSettings">
+        <div class="section">
             <div class="section-title">
-                <span class="toggle-icon">+</span>Icon Settings
+                <span class="toggle-icon">+</span>
+                Icon Settings
             </div>
             <div class="section-content">
                 <div class="control-group">
                     <label>
-                        <input type="checkbox" id="showIcons" checked> Show Mic and Upload Icons
+                        <input type="checkbox" id="showIcons" checked>
+                        Show Mic and Upload Icons
                     </label>
                 </div>
             </div>
         </div>
 
         <!-- Chat Input Settings -->
-        <div class="section" id="chatInputSettings">
+        <div class="section">
             <div class="section-title">
-                <span class="toggle-icon">+</span>Chat Input Settings
+                <span class="toggle-icon">+</span>
+                Chat Input Settings
             </div>
             <div class="section-content">
                 <div class="control-group">
@@ -304,54 +318,61 @@
                     </select>
                 </div>
             </div>
-        </div>
+			
+			</div>
+			
+<!-- Footer Settings -->
+<div class="section">
+    <div class="section-title">
+        <span class="toggle-icon">+</span>
+        Footer Settings
+    </div>
+    <div class="section-content">
+        <label>
+            <input type="checkbox" id="footer-show"> Show Footer
+        </label>
+        <br>
+        <label>
+            Footer Text:
+            <input type="text" id="footer-text" value="Powered by Chatbot Builder AI">
+        </label>
+        <br>
+        <label>
+            Footer Text Color:
+            <input type="color" id="footer-text-color" value="#000">
+        </label>
+        <br>
+        <label>
+            Footer Font Size (px):
+            <input type="number" id="footer-font-size" value="9">
+        </label>
+        <br>
+        <label>
+            Footer Font Family:
+            <select id="footer-font-family">
+                <option value="sans-serif" selected>Sans-serif</option>
+                <option value="serif">Serif</option>
+                <option value="monospace">Monospace</option>
+            </select>
+        </label>
+        <br>
+        <label>
+            Footer Font Weight:
+            <select id="footer-font-weight">
+                <option value="normal" selected>Normal</option>
+                <option value="bold">Bold</option>
+                <option value="lighter">Lighter</option>
+            </select>
+        </label>
+    </div>
+</div>
 
-        <!-- Footer Settings -->
-        <div class="section" id="footerSettings">
-            <div class="section-title">
-                <span class="toggle-icon">+</span>Footer Settings
-            </div>
-            <div class="section-content">
-                <div class="control-group">
-                    <label>
-                        <input type="checkbox" id="footer-show" checked> Show Footer
-                    </label>
-                </div>
-                <div class="control-group">
-                    <label for="footer-text">Footer Text</label>
-                    <input type="text" id="footer-text" value="Powered by Chatbot Builder AI">
-                </div>
-                <div class="control-group">
-                    <label for="footer-text-color">Footer Text Color</label>
-                    <input type="color" id="footer-text-color" value="#000">
-                </div>
-                <div class="control-group">
-                    <label for="footer-font-size">Footer Font Size (px)</label>
-                    <input type="number" id="footer-font-size" value="9" min="1" max="20">
-                </div>
-                <div class="control-group">
-                    <label for="footer-font-family">Footer Font Family</label>
-                    <select id="footer-font-family">
-                        <option value="Arial, sans-serif">Arial</option>
-                        <option value="Times New Roman, serif">Times New Roman</option>
-                        <option value="Courier New, monospace">Courier New</option>
-                    </select>
-                </div>
-                <div class="control-group">
-                    <label for="footer-font-weight">Footer Font Weight</label>
-                    <select id="footer-font-weight">
-                        <option value="normal" selected>Normal</option>
-                        <option value="bold">Bold</option>
-                    </select>
-                </div>
-
-            </div>
-        </div>
 
         <!-- Generated CSS -->
         <div class="section">
             <div class="section-title">
-                <span class="toggle-icon">+</span>Generated CSS
+                <span class="toggle-icon">+</span>
+                Generated CSS
             </div>
             <div class="section-content">
                 <textarea id="cssOutput" readonly></textarea>
@@ -362,16 +383,32 @@
         <!-- Reset Button -->
         <button class="reset-button" onclick="resetSettings()">Reset to Default</button>
     </div>
+
+    <!-- Preview Area -->
     <div class="preview">
         <div class="chat-preview-container">
             <div class="chat-header">Chat Interface</div>
-            <div class="chat-area"></div>
-            <div class="chat-input-container">
+            <div class="chat-area">
+                <!-- Sample Messages -->
+                <div class="other-message">
+                    <div class="message-text">Hello! How can I help you today?</div>
+                </div>
+                <div class="my-message">
+                    <div class="message-text">I have a question about your service.</div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Type your message...">
+                </div>
             </div>
         </div>
     </div>
+	
+
+
+
+
+    <!-- Success Message -->
     <div id="successMessage" class="success-message">CSS copied to clipboard!</div>
 </div>
-<script src="script.js"></script>
-</body>
-</html>

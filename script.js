@@ -90,7 +90,7 @@ function updatePreview() {
     const headerBackgroundType = document.getElementById('headerBackgroundType').value;
     const headerHeight = document.getElementById('headerHeight').value + 'px';
     const headerTextAlignRaw = document.getElementById('headerTextAlign').value; // 'left', 'center', 'right'
-    const cornerStyle = document.getElementById('cornerStyle').value;
+    const cornerStyle = document.getElementById('cornerStyle').value + 'px';
 
     root.setProperty('--headerTextSize', headerTextSize);
     root.setProperty('--headerTextColor', headerTextColor);
@@ -131,13 +131,13 @@ function updatePreview() {
     root.setProperty('--headerLogoOffsetY', headerLogoOffsetY);
 
     // Adjust logo margins based on alignment
-    if (headerTextAlignRaw === 'left') {
+    if (headerLogoAlignment === 'left') {
         root.setProperty('--headerLogoMarginRight', '10px');
         root.setProperty('--headerLogoMarginLeft', '0px');
-    } else if (headerTextAlignRaw === 'center') {
+    } else if (headerLogoAlignment === 'center') {
         root.setProperty('--headerLogoMarginRight', '10px');
         root.setProperty('--headerLogoMarginLeft', '10px');
-    } else if (headerTextAlignRaw === 'right') {
+    } else if (headerLogoAlignment === 'right') {
         root.setProperty('--headerLogoMarginRight', '0px');
         root.setProperty('--headerLogoMarginLeft', '10px');
     }
@@ -205,6 +205,10 @@ function updatePreview() {
     // Font Settings
     const fontFamily = document.getElementById('fontFamily').value;
     root.setProperty('--fontFamily', fontFamily);
+
+    // Global Corner Style
+    const globalCornerStyle = document.getElementById('cornerStyle').value + 'px';
+    root.setProperty('--cornerStyle', globalCornerStyle);
 
     // Avatar Settings
     const showAvatar = document.getElementById('showAvatar').checked;
@@ -336,15 +340,25 @@ function loadSettings() {
         });
 
         // After setting values, trigger change events where necessary
-        document.getElementById('headerBackgroundType').dispatchEvent(new Event('change'));
-        document.getElementById('chatAreaBackgroundType').dispatchEvent(new Event('change'));
-        document.getElementById('chatInputBackgroundType').dispatchEvent(new Event('change'));
-        document.getElementById('footerBackgroundType').dispatchEvent(new Event('change'));
-        document.getElementById('headerLogoURL').dispatchEvent(new Event('input'));
-        document.getElementById('headerLogoAlignment').dispatchEvent(new Event('change'));
-        document.getElementById('avatarImageURL').dispatchEvent(new Event('input'));
-        document.getElementById('showAvatar').dispatchEvent(new Event('change'));
-        document.getElementById('avatarBorder').dispatchEvent(new Event('change'));
+        const eventElements = [
+            'headerBackgroundType',
+            'chatAreaBackgroundType',
+            'chatInputBackgroundType',
+            'footerBackgroundType',
+            'headerLogoURL',
+            'headerLogoAlignment',
+            'avatarImageURL',
+            'showAvatar',
+            'avatarBorder',
+            'cornerStyle' // New cornerStyle event
+        ];
+
+        eventElements.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.dispatchEvent(new Event(id.includes('Type') || id === 'cornerStyle' ? 'change' : 'input'));
+            }
+        });
     }
 }
 
@@ -378,150 +392,160 @@ function copyCSS() {
     });
 }
 
-// Event Listeners for all inputs, selects, and textareas with debounce
-document.querySelectorAll('input, select, textarea').forEach(input => {
+// Initialize event listeners
+function initializeEventListeners() {
     const debouncedUpdate = debounce(updatePreview, 300);
-    input.addEventListener('input', debouncedUpdate);
-    input.addEventListener('change', debouncedUpdate);
-});
-
-// Toggle Header Background Options
-document.getElementById('headerBackgroundType').addEventListener('change', function() {
-    const type = this.value;
-    const solidGroup = document.getElementById('headerSolidColorGroup');
-    const gradientGroup = document.getElementById('headerGradientGroup');
-
-    if (type === 'solid') {
-        solidGroup.style.display = 'block';
-        gradientGroup.style.display = 'none';
-    } else if (type === 'gradient') {
-        solidGroup.style.display = 'none';
-        gradientGroup.style.display = 'block';
-    }
-    updatePreview();
-});
-
-// Toggle Chat Area Background Options
-document.getElementById('chatAreaBackgroundType').addEventListener('change', function() {
-    const type = this.value;
-    const solidGroup = document.getElementById('chatAreaSolidColorGroup');
-    const gradientGroup = document.getElementById('chatAreaGradientGroup');
-    const imageGroup = document.getElementById('chatAreaImageGroup');
-
-    if (type === 'solid') {
-        solidGroup.style.display = 'block';
-        gradientGroup.style.display = 'none';
-        imageGroup.style.display = 'none';
-    } else if (type === 'gradient') {
-        solidGroup.style.display = 'none';
-        gradientGroup.style.display = 'block';
-        imageGroup.style.display = 'none';
-    } else if (type === 'image') {
-        solidGroup.style.display = 'none';
-        gradientGroup.style.display = 'none';
-        imageGroup.style.display = 'block';
-    }
-    updatePreview();
-});
-
-// Toggle Chat Input Background Options
-document.getElementById('chatInputBackgroundType').addEventListener('change', function() {
-    const type = this.value;
-    const solidGroup = document.getElementById('chatInputSolidColorGroup');
-    const gradientGroup = document.getElementById('chatInputGradientGroup');
-
-    if (type === 'solid') {
-        solidGroup.style.display = 'block';
-        gradientGroup.style.display = 'none';
-    } else if (type === 'gradient') {
-        solidGroup.style.display = 'none';
-        gradientGroup.style.display = 'block';
-    }
-    updatePreview();
-});
-
-// Toggle Footer Background Options
-document.getElementById('footerBackgroundType').addEventListener('change', function() {
-    const type = this.value;
-    const solidGroup = document.getElementById('footerSolidColorGroup');
-    const gradientGroup = document.getElementById('footerGradientGroup');
-
-    if (type === 'solid') {
-        solidGroup.style.display = 'block';
-        gradientGroup.style.display = 'none';
-    } else if (type === 'gradient') {
-        solidGroup.style.display = 'none';
-        gradientGroup.style.display = 'block';
-    }
-    updatePreview();
-});
-
-// Toggle Logo Size and Position Groups
-document.getElementById('headerLogoURL').addEventListener('input', function() {
-    const logoURL = this.value.trim();
-    const logoSizeGroup = document.getElementById('headerLogoSizeGroup');
-    const logoPositionGroup = document.getElementById('headerLogoPositionGroup');
-
-    if (logoURL) {
-        logoSizeGroup.style.display = 'block';
-        logoPositionGroup.style.display = 'block';
-    } else {
-        logoSizeGroup.style.display = 'none';
-        logoPositionGroup.style.display = 'none';
-    }
-    updatePreview();
-});
-
-// Toggle Avatar Size and Border Color Groups
-document.getElementById('showAvatar').addEventListener('change', function() {
-    const show = this.checked;
-    const avatarSettings = document.querySelectorAll('#avatarSize, #avatarBorderColor, #avatarBorder, #avatarImageURL');
-    avatarSettings.forEach(setting => {
-        setting.parentElement.style.display = show ? 'block' : 'none';
+    document.querySelectorAll('input, select, textarea').forEach(input => {
+        input.addEventListener('input', debouncedUpdate);
+        input.addEventListener('change', debouncedUpdate);
     });
-    updatePreview();
-});
 
-// Toggle Avatar Border Options
-document.getElementById('avatarBorder').addEventListener('change', function() {
-    updatePreview();
-});
+    // Toggle Header Background Options
+    document.getElementById('headerBackgroundType').addEventListener('change', function() {
+        const type = this.value;
+        const solidGroup = document.getElementById('headerSolidColorGroup');
+        const gradientGroup = document.getElementById('headerGradientGroup');
 
-// Toggle Avatar Image URL Group
-document.getElementById('avatarImageURL').addEventListener('input', function() {
-    const avatarURL = this.value.trim();
-    // If there are specific groups to toggle based on avatar URL, handle them here
-    // For now, we assume all avatar settings are visible when avatar is shown
-    updatePreview();
-});
+        solidGroup.style.display = type === 'solid' ? 'block' : 'none';
+        gradientGroup.style.display = type === 'gradient' ? 'block' : 'none';
+        updatePreview();
+    });
 
-// Toggle Section Content Visibility and ensure only one is open at a time
-document.querySelectorAll('.section-title').forEach(title => {
-    title.addEventListener('click', function() {
-        const currentSection = this.parentElement;
-        const currentlyOpenSection = document.querySelector('.section.open');
-        const toggleIcon = this.querySelector('.toggle-icon');
+    // Toggle Chat Area Background Options
+    document.getElementById('chatAreaBackgroundType').addEventListener('change', function() {
+        const type = this.value;
+        const solidGroup = document.getElementById('chatAreaSolidColorGroup');
+        const gradientGroup = document.getElementById('chatAreaGradientGroup');
+        const imageGroup = document.getElementById('chatAreaImageGroup');
 
-        if (currentlyOpenSection && currentlyOpenSection !== currentSection) {
-            currentlyOpenSection.classList.remove('open');
-            currentlyOpenSection.querySelector('.toggle-icon').textContent = '+';
-            currentlyOpenSection.querySelector('.section-content').style.display = 'none';
-        }
+        solidGroup.style.display = type === 'solid' ? 'block' : 'none';
+        gradientGroup.style.display = type === 'gradient' ? 'block' : 'none';
+        imageGroup.style.display = type === 'image' ? 'block' : 'none';
+        updatePreview();
+    });
 
-        if (currentSection.classList.contains('open')) {
-            currentSection.classList.remove('open');
-            toggleIcon.textContent = '+';
-            currentSection.querySelector('.section-content').style.display = 'none';
+    // Toggle Chat Input Background Options
+    document.getElementById('chatInputBackgroundType').addEventListener('change', function() {
+        const type = this.value;
+        const solidGroup = document.getElementById('chatInputSolidColorGroup');
+        const gradientGroup = document.getElementById('chatInputGradientGroup');
+
+        solidGroup.style.display = type === 'solid' ? 'block' : 'none';
+        gradientGroup.style.display = type === 'gradient' ? 'block' : 'none';
+        updatePreview();
+    });
+
+    // Toggle Footer Background Options
+    document.getElementById('footerBackgroundType').addEventListener('change', function() {
+        const type = this.value;
+        const solidGroup = document.getElementById('footerSolidColorGroup');
+        const gradientGroup = document.getElementById('footerGradientGroup');
+
+        solidGroup.style.display = type === 'solid' ? 'block' : 'none';
+        gradientGroup.style.display = type === 'gradient' ? 'block' : 'none';
+        updatePreview();
+    });
+
+    // Toggle Logo Size and Position Groups
+    document.getElementById('headerLogoURL').addEventListener('input', function() {
+        const logoURL = this.value.trim();
+        const logoSizeGroup = document.getElementById('headerLogoSizeGroup');
+        const logoPositionGroup = document.getElementById('headerLogoPositionGroup');
+
+        if (logoURL) {
+            logoSizeGroup.style.display = 'block';
+            logoPositionGroup.style.display = 'block';
         } else {
-            currentSection.classList.add('open');
-            toggleIcon.textContent = '-';
-            currentSection.querySelector('.section-content').style.display = 'block';
+            logoSizeGroup.style.display = 'none';
+            logoPositionGroup.style.display = 'none';
         }
+        updatePreview();
     });
-});
+
+    // Toggle Avatar Size and Border Color Groups
+    document.getElementById('showAvatar').addEventListener('change', function() {
+        const show = this.checked;
+        const avatarSettings = document.querySelectorAll('#avatarSize, #avatarBorderColor, #avatarBorder, #avatarImageURL');
+        avatarSettings.forEach(setting => {
+            setting.parentElement.style.display = show ? 'block' : 'none';
+        });
+        updatePreview();
+    });
+
+    // Toggle Avatar Border Options
+    document.getElementById('avatarBorder').addEventListener('change', function() {
+        updatePreview();
+    });
+
+    // Toggle Avatar Image URL Group
+    document.getElementById('avatarImageURL').addEventListener('input', function() {
+        const avatarURL = this.value.trim();
+        // If there are specific groups to toggle based on avatar URL, handle them here
+        // For now, we assume all avatar settings are visible when avatar is shown
+        updatePreview();
+    });
+
+    // Toggle Section Content Visibility and ensure only one is open at a time
+    document.querySelectorAll('.section-title').forEach(title => {
+        title.addEventListener('click', function() {
+            const currentSection = this.parentElement;
+            const currentlyOpenSection = document.querySelector('.section.open');
+            const toggleIcon = this.querySelector('.toggle-icon');
+
+            if (currentlyOpenSection && currentlyOpenSection !== currentSection) {
+                currentlyOpenSection.classList.remove('open');
+                currentlyOpenSection.querySelector('.toggle-icon').textContent = '+';
+                currentlyOpenSection.querySelector('.section-content').style.display = 'none';
+            }
+
+            if (currentSection.classList.contains('open')) {
+                currentSection.classList.remove('open');
+                toggleIcon.textContent = '+';
+                currentSection.querySelector('.section-content').style.display = 'none';
+            } else {
+                currentSection.classList.add('open');
+                toggleIcon.textContent = '-';
+                currentSection.querySelector('.section-content').style.display = 'block';
+            }
+        });
+    });
+}
 
 // Initialize the preview on page load
 window.addEventListener('load', function() {
+    initializeEventListeners();
     loadSettings();
     updatePreview();
 });
+
+/* Additional Event Listener for cornerStyle if needed */
+
+// Function to copy CSS to clipboard
+function copyCSS() {
+    const cssOutput = document.getElementById('cssOutput');
+    if (!cssOutput) {
+        console.error('cssOutput textarea not found.');
+        return;
+    }
+    const cssText = cssOutput.value;
+
+    navigator.clipboard.writeText(cssText).then(function() {
+        const successMessage = document.getElementById('successMessage');
+        if (successMessage) {
+            successMessage.style.display = 'block';
+            setTimeout(() => { successMessage.style.display = 'none'; }, 2000);
+        } else {
+            console.warn('successMessage element not found.');
+        }
+    }, function(err) {
+        console.error('Could not copy text: ', err);
+    });
+}
+
+// Function to reset settings to default
+function resetSettings() {
+    if (confirm('Are you sure you want to reset to default settings?')) {
+        localStorage.removeItem('chatCustomizationSettings');
+        window.location.reload();
+    }
+}

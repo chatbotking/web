@@ -72,14 +72,6 @@
                             <option value="right">Right</option>
                         </select>
                     </div>
-                    <!-- Control Group: Header Corner Style -->
-                    <div class="control-group">
-                        <label for="cornerStyle">Header Corner Style</label>
-                        <select id="cornerStyle">
-                            <option value="0px">Sharp</option>
-                            <option value="20px" selected>Rounded</option>
-                        </select>
-                    </div>
                     <!-- Control Group: Header Logo URL -->
                     <div class="control-group">
                         <label for="headerLogoURL">Header Logo URL</label>
@@ -90,7 +82,7 @@
                         <label for="headerLogoWidth">Header Logo Width (px)</label>
                         <input type="number" id="headerLogoWidth" value="40" min="10" max="200">
                     </div>
-                    <!-- Control Group: Header Logo Position -->
+                    <!-- Control Group: Header Logo Alignment -->
                     <div class="control-group" id="headerLogoPositionGroup" style="display: none;">
                         <label for="headerLogoAlignment">Logo Alignment</label>
                         <select id="headerLogoAlignment">
@@ -258,18 +250,19 @@
                         <label for="avatarBorderColor">Avatar Border Color</label>
                         <input type="color" id="avatarBorderColor" value="#36d6b5">
                     </div>
+                    <!-- Control Group: Avatar Border -->
+                    <div class="control-group">
+                        <label for="avatarBorder">Avatar Border</label>
+                        <select id="avatarBorder">
+                            <option value="circle" selected>Circle</option>
+                            <option value="square">Square</option>
+                            <option value="none">None</option>
+                        </select>
+                    </div>
                     <!-- Control Group: Avatar Image URL -->
                     <div class="control-group">
                         <label for="avatarImageURL">Avatar Image URL</label>
                         <input type="url" id="avatarImageURL" placeholder="https://example.com/avatar.jpg" value="https://via.placeholder.com/50">
-                    </div>
-                    <!-- Control Group: Avatar Shape -->
-                    <div class="control-group">
-                        <label for="avatarShape">Avatar Shape</label>
-                        <select id="avatarShape">
-                            <option value="50%" selected>Circle</option>
-                            <option value="0%">Square</option>
-                        </select>
                     </div>
                 </div>
             </div>
@@ -426,19 +419,26 @@
         <div class="preview">
             <div class="chat-preview-container">
                 <div class="chat-header">
-                    <!-- Header Logo Image -->
-                    <img id="headerLogoImg" src="" alt="Logo" style="display: none; height: 100%; margin-right: 10px;">
-                    <span class="chat-interface-title">Chat Interface</span>
+                    <div class="header-left">
+                        <!-- Header Logo Image -->
+                        <img id="headerLogoImg" src="" alt="Logo" style="display: none;">
+                    </div>
+                    <div class="header-center">
+                        <span class="chat-interface-title">Chat Interface</span>
+                    </div>
+                    <div class="header-right">
+                        <!-- Placeholder for future elements -->
+                    </div>
                 </div>
                 <div class="chat-area">
                     <!-- Sample Bot Message with Avatar -->
                     <div class="other-message">
-                        <img src="" alt="Bot Avatar" class="message-avatar" style="display: none;">
+                        <img src="" alt="Bot Avatar" class="avatar" style="display: none;">
                         <div class="message-text">Hello! How can I help you today?</div>
                     </div>
                     <!-- Sample User Message with Avatar -->
                     <div class="my-message">
-                        <img src="" alt="User Avatar" class="message-avatar" style="display: none;">
+                        <img src="" alt="User Avatar" class="avatar" style="display: none;">
                         <div class="message-text">I have a question about your service.</div>
                     </div>
                 </div>

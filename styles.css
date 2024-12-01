@@ -1,3 +1,4 @@
+<style>
 :root {
     /* Colors */
     --primaryColor: #36d6b5;
@@ -53,16 +54,7 @@
     --buttonTextSize: var(--messageTextSize);
     --buttonFontWeight: var(--fontWeight);
     --buttonPadding: 10px 20px;
-
-    /* Footer Styles */
-    --footerShow: block; /* Initially show the footer */
-    --footerText: "Powered by Chatbot Builder AI";
-    --footerTextColor: #000;
-    --footerFontSize: 9px;
-    --footerFontFamily: sans-serif;
-    --footerFontWeight: normal;
 }
-
 /* Ensure full height */
 html, body {
     height: 100%;
@@ -72,23 +64,16 @@ html, body {
 }
 
 /* Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+* { margin: 0; padding: 0; box-sizing: border-box; }
 body {
     background-color: var(--secondaryColor);
-    font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif; /* Use a default font for controls */
     height: 100vh;
 }
-
 .container {
     display: flex;
     height: 100vh;
 }
-
 .controls {
     width: 300px;
     background: var(--secondaryColor);
@@ -97,7 +82,6 @@ body {
     border-right: 1px solid #e0e0e0;
     height: 100%;
 }
-
 .preview {
     flex: 1;
     background: var(--secondaryColor);
@@ -115,7 +99,6 @@ body {
     border-radius: 8px;
     border: 1px solid #e0e0e0;
 }
-
 .section-title {
     display: flex;
     align-items: center;
@@ -129,29 +112,23 @@ body {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
-
 .section-title .toggle-icon {
     margin-right: 10px;
     font-weight: bold;
 }
-
 .section-content {
     padding: 15px;
     display: none; /* Start with sections closed */
 }
 
 /* Controls */
-.control-group {
-    margin-bottom: 12px;
-}
-
+.control-group { margin-bottom: 12px; }
 label {
     display: block;
     margin-bottom: 6px;
     font-size: 14px;
     color: #4a5568;
 }
-
 input, select, textarea {
     width: 100%;
     padding: 8px;
@@ -160,57 +137,12 @@ input, select, textarea {
     margin-bottom: 8px;
     font-size: 14px;
 }
-
-input[type="color"] {
-    height: 40px;
-    padding: 0;
-}
-
-/* Custom Checkbox Styling */
-.toggle-switch {
-    display: inline-flex;
-    align-items: center;
-    width: 60px;
-    height: 30px;
+input[type="color"] { height: 40px; padding: 0; }
+input[type="checkbox"] {
+    transform: scale(1.2);
     margin-right: 10px;
+    vertical-align: middle;
 }
-
-.toggle-switch input[type="checkbox"] {
-    display: none;
-}
-
-.toggle-switch input[type="checkbox"] + label {
-    display: block;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    background-color: #ccc;
-    border-radius: 15px;
-    transition: background-color 0.3s ease;
-    padding: 0;
-    text-indent: 26px;
-}
-
-.toggle-switch input[type="checkbox"] + label::before {
-    content: "";
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 26px;
-    height: 26px;
-    background-color: white;
-    border-radius: 50%;
-    transition: left 0.3s ease;
-}
-
-.toggle-switch input[type="checkbox"]:checked + label {
-    background-color: var(--primaryColor);
-}
-
-.toggle-switch input[type="checkbox"]:checked + label::before {
-    left: 32px;
-}
-
 .copy-button {
     width: 100%;
     padding: 10px;
@@ -222,10 +154,7 @@ input[type="color"] {
     font-size: 14px;
     transition: background 0.3s;
 }
-
-.copy-button:hover {
-    background: #2ea590;
-}
+.copy-button:hover { background: #2ea590; }
 
 .reset-button {
     width: 100%;
@@ -239,10 +168,7 @@ input[type="color"] {
     transition: background 0.3s;
     margin-top: 20px;
 }
-
-.reset-button:hover {
-    background: #c0392b;
-}
+.reset-button:hover { background: #c0392b; }
 
 /* Preview Area */
 .chat-preview-container {
@@ -252,12 +178,11 @@ input[type="color"] {
     margin: 20px;
     border-radius: var(--cornerStyle);
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     position: relative;
     font-family: var(--fontFamily);
-    height: 100%; /* Ensure it fills the available height */
+    height: calc(100% - 40px);
 }
-
 .chat-header {
     height: var(--headerHeight);
     padding: 0 20px;
@@ -275,7 +200,6 @@ input[type="color"] {
     padding-left: var(--headerPaddingLeft);
     position: relative;
 }
-
 .chat-area {
     flex: 1;
     padding: 10px;
@@ -288,13 +212,11 @@ input[type="color"] {
     background-repeat: var(--chatAreaBackgroundRepeat);
     background-size: var(--chatAreaBackgroundSize);
 }
-
 .other-message {
     position: relative;
     margin-bottom: 10px;
     padding-left: var(--otherMessagePaddingLeft);
 }
-
 .other-message:before {
     content: "";
     display: var(--avatarDisplay);
@@ -309,7 +231,6 @@ input[type="color"] {
     border-radius: var(--avatarShape);
     border: 3px solid var(--avatarBorderColor);
 }
-
 .other-message .message-text {
     background-color: var(--botMessageBg);
     color: var(--botMessageTextColor);
@@ -326,9 +247,7 @@ input[type="color"] {
     padding-right: 0;
     margin-bottom: 10px;
     position: relative;
-    text-align: right;
 }
-
 .my-message .message-text {
     background-color: var(--userMessageBg) !important;
     color: var(--userMessageTextColor);
@@ -340,28 +259,19 @@ input[type="color"] {
     margin-bottom: 5px;
     margin-top: 5vh;
 }
-
 /* Apply user text color to all child elements */
 .my-message .message-text * {
     color: var(--userMessageTextColor) !important;
 }
-
 /* Apply bot text color to all child elements */
 .other-message .message-text * {
     color: var(--botMessageTextColor);
 }
-
 /* Message Text Inheritance */
 .message-text * {
     font-family: inherit;
 }
-
 /* Chat Input Styling */
-.chat-input-container {
-    display: flex;
-    flex-direction: column;
-}
-
 .chat-input {
     height: var(--chatInputHeight);
     padding: 15px;
@@ -372,10 +282,7 @@ input[type="color"] {
     box-sizing: border-box;
     border-top: 1px solid #e0e0e0;
     font-family: var(--fontFamily);
-    margin-top: auto;
-    margin-bottom: 10px;
 }
-
 .chat-input .input-group {
     flex: 1;
     border-radius: var(--chatInputBorderRadius) !important;
@@ -384,7 +291,6 @@ input[type="color"] {
     position: relative;
     display: flex;
 }
-
 .chat-input input {
     width: 100%;
     padding: 10px;
@@ -396,7 +302,6 @@ input[type="color"] {
     box-sizing: border-box;
     flex: 1;
 }
-
 /* Success Message */
 .success-message {
     display: none;
@@ -408,10 +313,9 @@ input[type="color"] {
     padding: 10px 20px;
     border-radius: 4px;
     font-size: 14px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     z-index: 1000;
 }
-
 /* Generated CSS Styles */
 textarea#cssOutput {
     width: 100%;
@@ -426,12 +330,10 @@ textarea#cssOutput {
     background-color: #f1f1f1;
     color: #333;
 }
-
 /* Hide icons in preview */
 .chat-input .uploadBtt {
     display: none;
 }
-
 /* Added Styles for Consistent Buttons and Text */
 /* Preformatted Text */
 pre {
@@ -442,14 +344,12 @@ pre {
     font-size: var(--messageTextSize);
     font-family: var(--fontFamily);
 }
-
 /* Ice Breaker Buttons */
 .chat-ice-breaker {
     position: fixed;
     right: 20px;
-    bottom: 80px;
+    bottom: 80px; /* Moved up by 20px */
 }
-
 .chat-ice-breaker button {
     background-color: #FFF7FA;
     color: var(--botMessageTextColor);
@@ -463,12 +363,10 @@ pre {
     cursor: pointer;
     margin: 5px 0;
 }
-
 .chat-ice-breaker button:hover {
     background-color: #f3e6e6;
     transform: scale(1.05);
 }
-
 /* Card Buttons */
 .card-button {
     background: #E3F2FD;
@@ -483,12 +381,10 @@ pre {
     transition: transform 0.2s ease, background-color 0.2s ease;
     margin: 5px 0;
 }
-
 .card-button:hover {
     background-color: #d0e7f8;
     transform: scale(1.05);
 }
-
 /* Additional CSS */
 .chat-input .form-control {
     border-radius: 0 !important;
@@ -496,13 +392,11 @@ pre {
     background-color: var(--chatInputTextFieldBg) !important;
     color: var(--chatInputTextFieldTextColor) !important;
 }
-
 .input-group > .custom-select:not(:last-child),
 .input-group > .form-control:not(:last-child) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
-
 .chat-input .input-group {
     flex: 1;
     border-radius: var(--chatInputBorderRadius) !important;
@@ -511,18 +405,4 @@ pre {
     position: relative;
     display: flex;
 }
-
-/*Footer Styles*/
-.chat-input:before {
-    content: var(--footerText);
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--footerTextColor);
-    font-size: var(--footerFontSize);
-    font-family: var(--footerFontFamily);
-    font-weight: var(--footerFontWeight);
-    display: var(--footerShow);
-    padding: 1px 5px;
-}
+</style>

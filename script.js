@@ -1,635 +1,528 @@
-// Utility Functions
-const debounce = (func, delay = 300) => {
-    let timeoutId;
-    return (...args) => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => func.apply(null, args), delay);
-    };
-};
+// Function to generate CSS based on current settings
+function generateCSS() {
+    const rootStyle = getComputedStyle(document.documentElement);
+    let css = `:root{
+        --primaryColor:${rootStyle.getPropertyValue('--primaryColor').trim()};
+        --secondaryColor:${rootStyle.getPropertyValue('--secondaryColor').trim()};
+        --fontFamily:${rootStyle.getPropertyValue('--fontFamily').trim()};
+        --fontWeight:${rootStyle.getPropertyValue('--fontWeight').trim()};
+        --headerTextSize:${rootStyle.getPropertyValue('--headerTextSize').trim()};
+        --headerTextColor:${rootStyle.getPropertyValue('--headerTextColor').trim()};
+        --headerBackgroundLayers:${rootStyle.getPropertyValue('--headerBackgroundLayers').trim()};
+        --headerHeight:${rootStyle.getPropertyValue('--headerHeight').trim()};
+        --headerTextAlign:${rootStyle.getPropertyValue('--headerTextAlign').trim()};
+        --cornerStyle:${rootStyle.getPropertyValue('--cornerStyle').trim()};
+        --headerPaddingLeft:${rootStyle.getPropertyValue('--headerPaddingLeft').trim()};
+        --chatAreaBackgroundColor:${rootStyle.getPropertyValue('--chatAreaBackgroundColor').trim()};
+        --chatAreaBackgroundImage:${rootStyle.getPropertyValue('--chatAreaBackgroundImage').trim()};
+        --chatAreaBackgroundPosition:${rootStyle.getPropertyValue('--chatAreaBackgroundPosition').trim()};
+        --chatAreaBackgroundRepeat:${rootStyle.getPropertyValue('--chatAreaBackgroundRepeat').trim()};
+        --chatAreaBackgroundSize:${rootStyle.getPropertyValue('--chatAreaBackgroundSize').trim()};
+        --messageTextSize:${rootStyle.getPropertyValue('--messageTextSize').trim()};
+        --messageCornerStyle:${rootStyle.getPropertyValue('--messageCornerStyle').trim()};
+        --botMessageTextColor:${rootStyle.getPropertyValue('--botMessageTextColor').trim()};
+        --botMessageBg:${rootStyle.getPropertyValue('--botMessageBg').trim()};
+        --userMessageTextColor:${rootStyle.getPropertyValue('--userMessageTextColor').trim()};
+        --userMessageBg:${rootStyle.getPropertyValue('--userMessageBg').trim()};
+        --chatInputBackground:${rootStyle.getPropertyValue('--chatInputBackground').trim()};
+        --chatInputTextFieldBg:${rootStyle.getPropertyValue('--chatInputTextFieldBg').trim()};
+        --chatInputTextFieldTextColor:${rootStyle.getPropertyValue('--chatInputTextFieldTextColor').trim()};
+        --chatInputBorderRadius:${rootStyle.getPropertyValue('--chatInputBorderRadius').trim()};
+        --iconsDisplay:${rootStyle.getPropertyValue('--iconsDisplay').trim()};
+        --buttonTextSize:${rootStyle.getPropertyValue('--buttonTextSize').trim()};
+        --buttonFontWeight:${rootStyle.getPropertyValue('--buttonFontWeight').trim()};
+        --buttonPadding:${rootStyle.getPropertyValue('--buttonPadding').trim()};
+        --chatInputHeight:${rootStyle.getPropertyValue('--chatInputHeight').trim()};
+        --avatarSize:${rootStyle.getPropertyValue('--avatarSize').trim()};
+        --avatarBorderColor:${rootStyle.getPropertyValue('--avatarBorderColor').trim()};
+        --avatarImageURL:${rootStyle.getPropertyValue('--avatarImageURL').trim()};
+        --avatarDisplay:${rootStyle.getPropertyValue('--avatarDisplay').trim()};
+        --avatarShape:${rootStyle.getPropertyValue('--avatarShape').trim()};
+        --otherMessagePaddingLeft:${rootStyle.getPropertyValue('--otherMessagePaddingLeft').trim()};
+        --footerShow:${document.getElementById('footer-show').checked};
+        --footerText:"${document.getElementById('footer-text').value}";
+        --footerTextColor:${document.getElementById('footer-text-color').value};
+        --footerFontSize:${document.getElementById('footer-font-size').value}px;
+        --footerFontFamily:${document.getElementById('footer-font-family').value};
+        --footerFontWeight:${document.getElementById('footer-font-weight').value};
+    }`;
 
-// Settings Manager Class
-class SettingsManager {
-    static defaultSettings = {
-        // Header Settings
-        headerTextSize: '18',
-        headerTextColor: '#ffffff',
-        headerBackgroundType: 'solid',
-        headerBgSolid: '#36d6b5',
-        headerBgGradientStart: '#36d6b5',
-        headerBgGradientEnd: '#1abc9c',
-        headerBgGradientDirection: 'to right',
-        headerHeight: '60',
-        headerTextAlign: 'center',
-        headerLogoURL: '',
-        headerLogoWidth: '40',
-        headerLogoAlignment: 'left',
-        headerLogoOffsetX: '0',
-        headerLogoOffsetY: '0',
-
-        // Chat Area Settings
-        chatAreaBackgroundType: 'solid',
-        chatAreaBgSolid: '#f8f9fa',
-        chatAreaBgGradientStart: '#f8f9fa',
-        chatAreaBgGradientEnd: '#e0e0e0',
-        chatAreaBgGradientDirection: 'to right',
-        chatAreaBgImageURL: '',
-        chatAreaBgRepeat: 'repeat',
-
-        // Message Settings
-        messageTextSize: '14',
-        messageCornerStyle: '20px',
-        botMessageTextColor: '#212529',
-        botMessageBg: '#eeeeee',
-        userMessageTextColor: '#ffffff',
-        userMessageBg: '#36d6b5',
-
-        // Font Settings
-        fontFamily: 'Helvetica, Arial, sans-serif',
-        cornerStyle: '20',
-
-        // Avatar Settings
-        showAvatar: true,
-        avatarSize: '50',
-        avatarBorderColor: '#36d6b5',
-        avatarBorder: 'circle',
-        avatarImageURL: 'https://via.placeholder.com/50',
-
-        // Icon Settings
-        showIcons: true,
-
-        // Chat Input Settings
-        chatInputBackgroundType: 'solid',
-        chatInputBgSolid: '#ffffff',
-        chatInputBgGradientStart: '#ffffff',
-        chatInputBgGradientEnd: '#f1f1f1',
-        chatInputTextFieldBg: '#f1f1f1',
-        chatInputTextFieldTextColor: '#333333',
-        chatInputCornerStyle: '18px',
-
-        // Footer Settings
-        showFooter: true,
-        footerText: 'Powered by Chatbot Builder AI',
-        footerTextColor: '#531ccf',
-        footerBackgroundType: 'solid',
-        footerBgSolid: '#ffffff',
-        footerBgGradientStart: '#ffffff',
-        footerBgGradientEnd: '#f1f1f1',
-        footerBgGradientDirection: 'to right'
-    };
-
-    static saveSettings() {
-        try {
-            const settings = {};
-            document.querySelectorAll('.controls input, .controls select, .controls textarea').forEach(input => {
-                if (input.type === 'checkbox') {
-                    settings[input.id] = input.checked;
-                } else {
-                    settings[input.id] = input.value;
-                }
-            });
-            localStorage.setItem('chatCustomizationSettings', JSON.stringify(settings));
-            return true;
-        } catch (error) {
-            console.error('Failed to save settings:', error);
-            return false;
-        }
+    // Include Icon Styles if Icons are Hidden
+    const showIconsCheckbox = document.getElementById('showIcons');
+    if (showIconsCheckbox && !showIconsCheckbox.checked) {
+        css += `
+        .chat-input .uploadBtt {
+            display: none;
+        }`;
     }
 
-    static loadSettings() {
-        try {
-            const savedSettings = localStorage.getItem('chatCustomizationSettings');
-            if (savedSettings) {
-                const settings = JSON.parse(savedSettings);
-                document.querySelectorAll('.controls input, .controls select, .controls textarea').forEach(input => {
-                    if (input.id in settings) {
-                        if (input.type === 'checkbox') {
-                            input.checked = settings[input.id];
-                        } else {
-                            input.value = settings[input.id];
-                        }
-                        input.dispatchEvent(new Event('input'));
-                    }
-                });
-                return true;
-            }
-        } catch (error) {
-            console.error('Failed to load settings:', error);
-            this.resetSettings();
-            return false;
-        }
+    // Add chat input background color style
+    const chatInputTextFieldBg = rootStyle.getPropertyValue('--chatInputTextFieldBg').trim();
+    css += `
+    .chat-input .form-control {
+        border-radius: 0 !important;
+        border: none !important;
+        background-color: ${chatInputTextFieldBg} !important;
+    }
+    `;
+
+    // Additional Styles (rest of your CSS remains the same)
+    css += `
+    pre {
+        color: var(--botMessageTextColor);
+        line-height: 1.5;
+        padding: 10px;
+        font-weight: var(--buttonFontWeight);
+        font-size: var(--messageTextSize);
+        font-family: var(--fontFamily);
+    }
+    .chat-header {
+        font-size: var(--headerTextSize);
+        color: var(--headerTextColor);
+        background: var(--headerBackgroundLayers);
+        height: var(--headerHeight);
+        text-align: var(--headerTextAlign);
+        display: flex;
+        align-items: center;
+        justify-content: var(--headerTextAlign);
+        font-family: var(--fontFamily);
+        border-top-left-radius: var(--cornerStyle);
+        border-top-right-radius: var(--cornerStyle);
+        padding-left: var(--headerPaddingLeft);
+    }
+    .chat-area {
+        height: calc(90% - var(--headerHeight));
+        position: absolute;
+        top: var(--headerHeight);
+        flex: 1;
+        padding: 0px;
+        overflow-y: auto;
+        line-height: 1.5;
+        font-family: var(--fontFamily);
+        background-color: var(--chatAreaBackgroundColor);
+        background-image: var(--chatAreaBackgroundImage);
+        background-position: var(--chatAreaBackgroundPosition);
+        background-repeat: var(--chatAreaBackgroundRepeat);
+        background-size: var(--chatAreaBackgroundSize);
+    }
+    .other-message {
+        position: relative;
+        margin-bottom: 10px;
+        padding-left: var(--otherMessagePaddingLeft);
+    }
+    .other-message:before {
+        content: "";
+        display: var(--avatarDisplay);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: var(--avatarSize);
+        height: var(--avatarSize);
+        background-image: var(--avatarImageURL);
+        background-size: cover;
+        background-repeat: no-repeat;
+        border-radius: var(--avatarShape);
+        border: 3px solid var(--avatarBorderColor);
+    }
+    .other-message .message-text {
+        background-color: var(--botMessageBg);
+        color: var(--botMessageTextColor);
+        font-size: var(--messageTextSize);
+        border-radius: var(--messageCornerStyle);
+        padding: 10px 15px;
+        word-wrap: break-word;
+        font-family: var(--fontFamily);
+        margin-bottom: 5px;
+    }
+    .other-message .message-text * {
+        color: var(--botMessageTextColor);
+    }
+    .my-message {
+        padding-right: 0;
+        margin-bottom: 10px;
+        position: relative;
+    }
+    .my-message .message-text {
+        background-color: var(--userMessageBg) !important;
+        color: var(--userMessageTextColor);
+        font-size: var(--messageTextSize);
+        border-radius: var(--messageCornerStyle);
+        padding: 10px 15px;
+        word-wrap: break-word;
+        font-family: var(--fontFamily);
+        margin-bottom: 5px;
+        margin-top: 5vh;
+    }
+    .my-message .message-text * {
+        color: var(--userMessageTextColor) !important;
+    }
+    .message-text * {
+        font-family: inherit;
+    }
+    .chat-input {
+        height: var(--chatInputHeight);
+        padding: 20px;
+        background: var(--chatInputBackground);
+        display: flex;
+        align-items: center;
+        width: 100%;
+        box-sizing: border-box;
+        border-top: 1px solid #e0e0e0;
+        font-family: var(--fontFamily);
+        position: relative; /* Added for footer positioning */
+    }
+    .chat-input .input-group {
+        flex: 1;
+        border-radius: var(--chatInputBorderRadius) !important;
+        background-color: var(--chatInputTextFieldBg) !important;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+    }
+    .chat-input input {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        background-color: var(--chatInputTextFieldBg);
+        color: var(--chatInputTextFieldTextColor);
+        font-size: 14px;
+        outline: none;
+        box-sizing: border-box;
+        flex: 1;
     }
 
-    static resetSettings() {
-        if (confirm('Are you sure you want to reset to default settings?')) {
-            try {
-                localStorage.removeItem('chatCustomizationSettings');
-                Object.entries(this.defaultSettings).forEach(([id, value]) => {
-                    const element = document.getElementById(id);
-                    if (element) {
-                        if (element.type === 'checkbox') {
-                            element.checked = value === 'true' || value === true;
-                        } else {
-                            element.value = value;
-                        }
-                        element.dispatchEvent(new Event('input'));
-                    }
-                });
-                return true;
-            } catch (error) {
-                console.error('Failed to reset settings:', error);
-                window.location.reload();
-                return false;
-            }
-        }
-        return false;
-    }
+    `;
+
+    document.getElementById('cssOutput').value = css.trim();
 }
 
-// Style Update Manager Class
-class StyleUpdateManager {
-    static updateHeaderStyles(root) {
-        const headerTextSize = document.getElementById('headerTextSize').value + 'px';
-        const headerTextColor = document.getElementById('headerTextColor').value;
-        const headerHeight = document.getElementById('headerHeight').value + 'px';
-        const headerTextAlign = document.getElementById('headerTextAlign').value;
-        const headerBackgroundType = document.getElementById('headerBackgroundType').value;
+// Function to update the preview based on control inputs
+function updatePreview() {
+    const root = document.documentElement.style;
 
-        root.setProperty('--headerTextSize', headerTextSize);
-        root.setProperty('--headerTextColor', headerTextColor);
-        root.setProperty('--headerHeight', headerHeight);
-        root.setProperty('--headerTextAlign', headerTextAlign);
+    // Header Settings
+    const headerTextSize = document.getElementById('headerTextSize').value + 'px';
+    const headerTextColor = document.getElementById('headerTextColor').value;
+    const headerHeightValue = document.getElementById('headerHeight').value;
+    const headerHeight = headerHeightValue + 'px';
+    const headerTextAlign = document.getElementById('headerTextAlign').value;
+    const cornerStyle = document.getElementById('cornerStyle').value;
+    let fontFamily = document.getElementById('fontFamily').value;
+    const headerBackgroundType = document.getElementById('headerBackgroundType').value;
 
-        // Handle background
-        if (headerBackgroundType === 'solid') {
-            const headerBgSolid = document.getElementById('headerBgSolid').value;
-            root.setProperty('--headerBackgroundLayers', headerBgSolid);
-        } else if (headerBackgroundType === 'gradient') {
-            const start = document.getElementById('headerBgGradientStart').value;
-            const end = document.getElementById('headerBgGradientEnd').value;
-            const direction = document.getElementById('headerBgGradientDirection').value;
-            root.setProperty('--headerBackgroundLayers', 
-                `linear-gradient(${direction}, ${start}, ${end})`);
-        }
+    root.setProperty('--headerTextSize', headerTextSize);
+    root.setProperty('--headerTextColor', headerTextColor);
+    root.setProperty('--headerHeight', headerHeight);
+    root.setProperty('--headerTextAlign', headerTextAlign);
+    root.setProperty('--cornerStyle', cornerStyle);
+    root.setProperty('--fontFamily', fontFamily);
 
-        // Handle logo
-        const headerLogoURL = document.getElementById('headerLogoURL').value.trim();
-        const headerLogoImg = document.getElementById('headerLogoImg');
-        
-        if (headerLogoURL && headerLogoImg) {
-            headerLogoImg.src = headerLogoURL;
-            headerLogoImg.style.display = 'block';
-            
-            const logoWidth = document.getElementById('headerLogoWidth').value + 'px';
-            const logoAlignment = document.getElementById('headerLogoAlignment').value;
-            const offsetX = document.getElementById('headerLogoOffsetX').value + 'px';
-            const offsetY = document.getElementById('headerLogoOffsetY').value + 'px';
+    // Update font family and weight in preview elements
+    document.querySelectorAll('.preview, .chat-preview-container, .chat-header, .chat-area, .chat-input, .message-text, pre, .card-button').forEach(el => {
+        el.style.fontFamily = root.getPropertyValue('--fontFamily').trim();
+        el.style.fontWeight = 'bold';
+    });
 
-            root.setProperty('--headerLogoWidth', logoWidth);
-            root.setProperty('--headerLogoOffsetX', offsetX);
-            root.setProperty('--headerLogoOffsetY', offsetY);
-
-            // Set margins based on alignment
-            if (logoAlignment === 'left') {
-                root.setProperty('--headerLogoMarginRight', '10px');
-                root.setProperty('--headerLogoMarginLeft', '0px');
-            } else if (logoAlignment === 'center') {
-                root.setProperty('--headerLogoMarginRight', '10px');
-                root.setProperty('--headerLogoMarginLeft', '10px');
-            } else {
-                root.setProperty('--headerLogoMarginRight', '0px');
-                root.setProperty('--headerLogoMarginLeft', '10px');
-            }
-        } else if (headerLogoImg) {
-            headerLogoImg.style.display = 'none';
-        }
+    let headerBackgroundLayer = '';
+    if (headerBackgroundType === 'solid') {
+        const headerBgSolid = document.getElementById('headerBgSolid').value;
+        headerBackgroundLayer = headerBgSolid;
+    } else {
+        const headerBgGradientStart = document.getElementById('headerBgGradientStart').value;
+        const headerBgGradientEnd = document.getElementById('headerBgGradientEnd').value;
+        const headerBgGradientDirection = document.getElementById('headerBgGradientDirection').value;
+        headerBackgroundLayer = `linear-gradient(${headerBgGradientDirection}, ${headerBgGradientStart}, ${headerBgGradientEnd})`;
     }
 
-    static updateChatAreaStyles(root) {
-        const chatAreaBackgroundType = document.getElementById('chatAreaBackgroundType').value;
-        
-        if (chatAreaBackgroundType === 'solid') {
-            const bgColor = document.getElementById('chatAreaBgSolid').value;
-            root.setProperty('--chatAreaBackgroundColor', bgColor);
-            root.setProperty('--chatAreaBackgroundImage', 'none');
-            root.setProperty('--chatAreaBackgroundPosition', 'initial');
-            root.setProperty('--chatAreaBackgroundRepeat', 'initial');
-            root.setProperty('--chatAreaBackgroundSize', 'initial');
-        } 
-        else if (chatAreaBackgroundType === 'gradient') {
-            const start = document.getElementById('chatAreaBgGradientStart').value;
-            const end = document.getElementById('chatAreaBgGradientEnd').value;
-            const direction = document.getElementById('chatAreaBgGradientDirection').value;
-            const gradient = `linear-gradient(${direction}, ${start}, ${end})`;
-            
-            root.setProperty('--chatAreaBackgroundColor', 'transparent');
-            root.setProperty('--chatAreaBackgroundImage', gradient);
-            root.setProperty('--chatAreaBackgroundPosition', 'initial');
-            root.setProperty('--chatAreaBackgroundRepeat', 'initial');
-            root.setProperty('--chatAreaBackgroundSize', 'initial');
+    // Header Logo Settings
+    const headerLogoURL = document.getElementById('headerLogoURL').value;
+    const headerLogoWidth = document.getElementById('headerLogoWidth').value || '40';
+    const headerLogoAlignment = document.getElementById('headerLogoAlignment').value || 'left';
+    const headerLogoOffsetX = document.getElementById('headerLogoOffsetX').value || '0';
+    const headerLogoOffsetY = document.getElementById('headerLogoOffsetY').value || '0';
+    let headerBackgroundLayers = '';
+
+    if (headerLogoURL) {
+        document.getElementById('headerLogoSizeGroup').style.display = 'block';
+        document.getElementById('headerLogoPositionGroup').style.display = 'block';
+
+        let positionX = '';
+        if (headerLogoAlignment === 'left') {
+            positionX = `calc(${headerLogoOffsetX}px)`;
+        } else if (headerLogoAlignment === 'center') {
+            positionX = `calc(50% + ${headerLogoOffsetX}px - ${headerLogoWidth / 2}px)`;
+        } else if (headerLogoAlignment === 'right') {
+            positionX = `calc(100% - ${headerLogoWidth}px - ${headerLogoOffsetX}px)`;
         }
-        else if (chatAreaBackgroundType === 'image') {
-            const imageURL = document.getElementById('chatAreaBgImageURL').value.trim();
-            const repeat = document.getElementById('chatAreaBgRepeat').value;
-            
+
+        const positionY = `${headerLogoOffsetY}px`;
+        const headerLogoWidthPx = headerLogoWidth + 'px';
+
+        headerBackgroundLayers = `url('${headerLogoURL}') ${positionX} ${positionY} / ${headerLogoWidthPx} no-repeat, ${headerBackgroundLayer}`;
+    } else {
+        document.getElementById('headerLogoSizeGroup').style.display = 'none';
+        document.getElementById('headerLogoPositionGroup').style.display = 'none';
+        root.setProperty('--headerPaddingLeft', '20px');
+        headerBackgroundLayers = headerBackgroundLayer;
+    }
+    root.setProperty('--headerBackgroundLayers', headerBackgroundLayers);
+
+    // Chat Area Settings
+    const chatAreaBackgroundType = document.getElementById('chatAreaBackgroundType').value;
+
+    if (chatAreaBackgroundType === 'solid') {
+        const chatAreaBgSolid = document.getElementById('chatAreaBgSolid').value;
+        root.setProperty('--chatAreaBackgroundColor', chatAreaBgSolid);
+        root.setProperty('--chatAreaBackgroundImage', 'none');
+    } else if (chatAreaBackgroundType === 'gradient') {
+        const chatAreaBgGradientStart = document.getElementById('chatAreaBgGradientStart').value;
+        const chatAreaBgGradientEnd = document.getElementById('chatAreaBgGradientEnd').value;
+        const chatAreaBgGradientDirection = document.getElementById('chatAreaBgGradientDirection').value;
+        root.setProperty('--chatAreaBackgroundColor', 'transparent');
+        root.setProperty('--chatAreaBackgroundImage', `linear-gradient(${chatAreaBgGradientDirection}, ${chatAreaBgGradientStart}, ${chatAreaBgGradientEnd})`);
+        root.setProperty('--chatAreaBackgroundPosition', 'center');
+        root.setProperty('--chatAreaBackgroundRepeat', 'no-repeat');
+        root.setProperty('--chatAreaBackgroundSize', 'cover');
+    } else if (chatAreaBackgroundType === 'image') {
+        const chatAreaBgImageURL = document.getElementById('chatAreaBgImageURL').value;
+        const chatAreaBgSize = document.getElementById('chatAreaBgSize').value;
+        const chatAreaBgRepeat = document.getElementById('chatAreaBgRepeat').value;
+        if (chatAreaBgImageURL) {
             root.setProperty('--chatAreaBackgroundColor', 'transparent');
-            root.setProperty('--chatAreaBackgroundImage', 
-                imageURL ? `url("${imageURL}")` : 'none');
+            root.setProperty('--chatAreaBackgroundImage', `url('${chatAreaBgImageURL}')`);
+            root.setProperty('--chatAreaBackgroundSize', chatAreaBgSize);
+            root.setProperty('--chatAreaBackgroundRepeat', chatAreaBgRepeat);
             root.setProperty('--chatAreaBackgroundPosition', 'center');
-            root.setProperty('--chatAreaBackgroundRepeat', repeat);
-            root.setProperty('--chatAreaBackgroundSize', 'cover');
         }
     }
 
-    static updateMessageStyles(root) {
-        const messageTextSize = document.getElementById('messageTextSize').value + 'px';
-        const messageCornerStyle = document.getElementById('messageCornerStyle').value;
-        const botMessageTextColor = document.getElementById('botMessageTextColor').value;
-        const botMessageBg = document.getElementById('botMessageBg').value;
-        const userMessageTextColor = document.getElementById('userMessageTextColor').value;
-        const userMessageBg = document.getElementById('userMessageBg').value;
+    // Message Settings
+    const messageTextSizeValue = document.getElementById('messageTextSize').value;
+    const messageTextSize = messageTextSizeValue + 'px';
+    const messageCornerStyle = document.getElementById('messageCornerStyle').value;
+    const botMessageTextColor = document.getElementById('botMessageTextColor').value;
+    const botMessageBg = document.getElementById('botMessageBg').value;
+    const userMessageTextColor = document.getElementById('userMessageTextColor').value;
+    const userMessageBg = document.getElementById('userMessageBg').value;
 
-        root.setProperty('--messageTextSize', messageTextSize);
-        root.setProperty('--messageCornerStyle', messageCornerStyle);
-        root.setProperty('--botMessageTextColor', botMessageTextColor);
-        root.setProperty('--botMessageBg', botMessageBg);
-        root.setProperty('--userMessageTextColor', userMessageTextColor);
-        root.setProperty('--userMessageBg', userMessageBg);
+    root.setProperty('--messageTextSize', messageTextSize);
+    root.setProperty('--buttonTextSize', messageTextSize); // Update button text size
+    root.setProperty('--messageCornerStyle', messageCornerStyle);
+    root.setProperty('--botMessageTextColor', botMessageTextColor);
+    root.setProperty('--botMessageBg', botMessageBg);
+    root.setProperty('--userMessageTextColor', userMessageTextColor);
+    root.setProperty('--userMessageBg', userMessageBg);
+
+    // Font Weight
+    root.setProperty('--fontWeight', 'bold'); // Assuming bold as per your instruction
+
+    // Avatar Settings
+    const showAvatar = document.getElementById('showAvatar').checked;
+    root.setProperty('--avatarDisplay', showAvatar ? 'inline-block' : 'none');
+    root.setProperty('--avatarSize', document.getElementById('avatarSize').value + 'px');
+    const avatarBorderColor = document.getElementById('avatarBorderColor').value;
+    const avatarBorderTransparent = document.getElementById('avatarBorderTransparent').checked;
+    root.setProperty('--avatarBorderColor', avatarBorderTransparent ? 'transparent' : avatarBorderColor);
+    const avatarURL = document.getElementById('avatarImageURL').value;
+    root.setProperty('--avatarImageURL', avatarURL ? `url("${avatarURL}")` : 'none');
+    root.setProperty('--avatarShape', document.getElementById('avatarShape').value);
+
+    // Adjust other-message padding based on avatar visibility
+    if (showAvatar) {
+        const avatarSizeValue = document.getElementById('avatarSize').value;
+        root.setProperty('--otherMessagePaddingLeft', `calc(${avatarSizeValue}px + 10px)`);
+    } else {
+        root.setProperty('--otherMessagePaddingLeft', '0px');
     }
 
-    static updateAvatarStyles(root) {
-        const showAvatar = document.getElementById('showAvatar').checked;
-        const avatarSize = document.getElementById('avatarSize').value + 'px';
-        const avatarBorderColor = document.getElementById('avatarBorderColor').value;
-        const avatarBorder = document.getElementById('avatarBorder').value;
-        const avatarImageURL = document.getElementById('avatarImageURL').value.trim();
+    // Icon Settings
+    const showIcons = document.getElementById('showIcons').checked;
+    root.setProperty('--iconsDisplay', showIcons ? 'inline-block' : 'none');
 
-        root.setProperty('--avatarDisplay', showAvatar ? 'inline-block' : 'none');
-        root.setProperty('--avatarSize', avatarSize);
-        root.setProperty('--avatarBorderColor', avatarBorderColor);
-        root.setProperty('--otherMessagePaddingLeft', 
-            showAvatar ? `calc(${avatarSize} + 10px)` : '0');
+    // Chat Input Settings
+    const chatInputBackgroundType = document.getElementById('chatInputBackgroundType').value;
+    const chatInputTextFieldBg = document.getElementById('chatInputTextFieldBg').value;
+    const chatInputTextFieldTextColor = document.getElementById('chatInputTextFieldTextColor').value;
+    const chatInputCornerStyle = document.getElementById('chatInputCornerStyle').value;
 
-        if (avatarBorder === 'circle') {
-            root.setProperty('--avatarShape', '50%');
-            root.setProperty('--avatarBorderWidth', '2px');
-        } else if (avatarBorder === 'square') {
-            root.setProperty('--avatarShape', '0');
-            root.setProperty('--avatarBorderWidth', '2px');
+    root.setProperty('--chatInputTextFieldBg', chatInputTextFieldBg);
+    root.setProperty('--chatInputTextFieldTextColor', chatInputTextFieldTextColor);
+    root.setProperty('--chatInputBorderRadius', chatInputCornerStyle);
+
+    if (chatInputBackgroundType === 'solid') {
+        const chatInputBgSolid = document.getElementById('chatInputBgSolid').value;
+        root.setProperty('--chatInputBackground', chatInputBgSolid);
+    } else {
+        const chatInputBgGradientStart = document.getElementById('chatInputBgGradientStart').value;
+        const chatInputBgGradientEnd = document.getElementById('chatInputBgGradientEnd').value;
+        const chatInputBgGradientDirection = document.getElementById('chatInputBgGradientDirection').value;
+        root.setProperty('--chatInputBackground', `linear-gradient(${chatInputBgGradientDirection}, ${chatInputBgGradientStart}, ${chatInputBgGradientEnd})`);
+    }
+
+    //Update Footer Styles
+    root.setProperty('--footerShow', document.getElementById('footer-show').checked ? 'block' : 'none');
+    root.setProperty('--footerText', `"${document.getElementById('footer-text').value}"`);
+    root.setProperty('--footerTextColor', document.getElementById('footer-text-color').value);
+    root.setProperty('--footerFontSize', document.getElementById('footer-font-size').value + 'px');
+    root.setProperty('--footerFontFamily', document.getElementById('footer-font-family').value);
+    root.setProperty('--footerFontWeight', document.getElementById('footer-font-weight').value);
+
+
+    // Directly update the background color of the input field in the preview
+    document.querySelector('.chat-input .form-control').style.backgroundColor = chatInputTextFieldBg;
+
+    generateCSS();
+    saveSettings(); // Save settings after updating
+}
+
+
+// Function to save settings to LocalStorage
+function saveSettings() {
+    const settings = {};
+    document.querySelectorAll('.controls input, .controls select').forEach(input => {
+        if (input.type === 'checkbox') {
+            settings[input.id] = input.checked;
         } else {
-            root.setProperty('--avatarShape', '0');
-            root.setProperty('--avatarBorderWidth', '0');
+            settings[input.id] = input.value;
         }
-
-        root.setProperty('--avatarImageURL', 
-            avatarImageURL ? `url("${avatarImageURL}")` : 'none');
-
-        // Update avatar images in preview
-        document.querySelectorAll('.avatar').forEach(avatar => {
-            if (showAvatar && avatarImageURL) {
-                avatar.src = avatarImageURL;
-                avatar.style.display = 'block';
-            } else {
-                avatar.style.display = 'none';
-            }
-        });
-    }
-
-    static updateInputStyles(root) {
-        const chatInputBackgroundType = document.getElementById('chatInputBackgroundType').value;
-        
-        if (chatInputBackgroundType === 'solid') {
-            const bgColor = document.getElementById('chatInputBgSolid').value;
-            root.setProperty('--chatInputBackground', bgColor);
-        } else if (chatInputBackgroundType === 'gradient') {
-            const start = document.getElementById('chatInputBgGradientStart').value;
-            const end = document.getElementById('chatInputBgGradientEnd').value;
-            const direction = document.getElementById('chatInputBgGradientDirection').value;
-            root.setProperty('--chatInputBackground', 
-                `linear-gradient(${direction}, ${start}, ${end})`);
-        }
-
-        const textFieldBg = document.getElementById('chatInputTextFieldBg').value;
-        const textFieldColor = document.getElementById('chatInputTextFieldTextColor').value;
-        const cornerStyle = document.getElementById('chatInputCornerStyle').value;
-
-        root.setProperty('--chatInputTextFieldBg', textFieldBg);
-        root.setProperty('--chatInputTextFieldTextColor', textFieldColor);
-        root.setProperty('--chatInputBorderRadius', cornerStyle);
-
-        // Update icon display
-        const showIcons = document.getElementById('showIcons').checked;
-        root.setProperty('--iconsDisplay', showIcons ? 'flex' : 'none');
-    }
-
-    static updateFooterStyles(root) {
-        const showFooter = document.getElementById('showFooter').checked;
-        const footerText = document.getElementById('footerText').value.trim();
-        const footerTextColor = document.getElementById('footerTextColor').value;
-        const footerBackgroundType = document.getElementById('footerBackgroundType').value;
-
-        root.setProperty('--footerDisplay', showFooter ? 'block' : 'none');
-        root.setProperty('--footerTextColor', footerTextColor);
-
-        if (footerBackgroundType === 'solid') {
-            const bgColor = document.getElementById('footerBgSolid').value;
-            root.setProperty('--footerBackground', bgColor);
-        } else if (footerBackgroundType === 'gradient') {
-            const start = document.getElementById('footerBgGradientStart').value;
-            const end = document.getElementById('footerBgGradientEnd').value;
-            const direction = document.getElementById('footerBgGradientDirection').value;
-            rootroot.setProperty('--footerBackground', 
-                `linear-gradient(${direction}, ${start}, ${end})`);
-        }
-
-        // Update footer text in preview
-        const footerElement = document.querySelector('.chat-footer');
-        if (footerElement) {
-            footerElement.textContent = footerText;
-        }
-    }
-
-    static updateFontStyles(root) {
-        const fontFamily = document.getElementById('fontFamily').value;
-        const cornerStyle = document.getElementById('cornerStyle').value + 'px';
-        
-        root.setProperty('--fontFamily', fontFamily);
-        root.setProperty('--cornerStyle', cornerStyle);
-    }
+    });
+    localStorage.setItem('chatCustomizationSettings', JSON.stringify(settings));
 }
 
-// CSS Generator Class
-class CSSGenerator {
-    static generateCSS() {
-        const root = document.documentElement;
-        let css = '/* Root Variables */\n:root {\n';
-
-        // CSS Variables Definition
-        const variables = [
-            '--primaryColor', '--secondaryColor',
-            '--fontFamily', '--fontWeight',
-            '--headerTextSize', '--headerTextColor', '--headerBackgroundLayers',
-            '--headerHeight', '--headerTextAlign', '--cornerStyle',
-            '--headerLogoWidth', '--headerLogoMarginRight', '--headerLogoMarginLeft',
-            '--headerLogoOffsetX', '--headerLogoOffsetY',
-            '--chatAreaBackgroundColor', '--chatAreaBackgroundImage',
-            '--chatAreaBackgroundPosition', '--chatAreaBackgroundRepeat',
-            '--chatAreaBackgroundSize', '--messageTextSize', '--messageCornerStyle',
-            '--botMessageTextColor', '--botMessageBg', '--userMessageTextColor',
-            '--userMessageBg', '--avatarSize', '--avatarBorderColor',
-            '--avatarBorderWidth', '--avatarShape', '--avatarImageURL',
-            '--avatarDisplay', '--otherMessagePaddingLeft', '--chatInputBackground',
-            '--chatInputTextFieldBg', '--chatInputTextFieldTextColor',
-            '--chatInputBorderRadius', '--chatInputHeight', '--iconsDisplay',
-            '--footerDisplay', '--footerTextColor', '--footerBackground'
-        ];
-
-        // Add variables to CSS
-        variables.forEach(name => {
-            const value = root.style.getPropertyValue(name).trim();
-            if (value) {
-                css += `    ${name}: ${value};\n`;
-            }
-        });
-        css += '}\n\n';
-
-        // Add component styles
-        css += this.generateComponentStyles();
-
-        // Update textarea
-        const cssOutput = document.getElementById('cssOutput');
-        if (cssOutput) {
-            cssOutput.value = css.trim();
-        }
-    }
-
-    static generateComponentStyles() {
-        return `
-/* Chat Header */
-.chat-header {
-    font-size: var(--headerTextSize);
-    color: var(--headerTextColor);
-    background: var(--headerBackgroundLayers);
-    height: var(--headerHeight);
-    text-align: var(--headerTextAlign);
-}
-
-/* Chat Area */
-.chat-area {
-    background-color: var(--chatAreaBackgroundColor);
-    background-image: var(--chatAreaBackgroundImage);
-    background-position: var(--chatAreaBackgroundPosition);
-    background-repeat: var(--chatAreaBackgroundRepeat);
-    background-size: var(--chatAreaBackgroundSize);
-}
-
-/* Messages */
-.message-text {
-    font-size: var(--messageTextSize);
-    border-radius: var(--messageCornerStyle);
-    font-family: var(--fontFamily);
-}
-
-.other-message {
-    padding-left: var(--otherMessagePaddingLeft);
-}
-
-.other-message .message-text {
-    background-color: var(--botMessageBg);
-    color: var(--botMessageTextColor);
-}
-
-.my-message .message-text {
-    background-color: var(--userMessageBg);
-    color: var(--userMessageTextColor);
-}
-
-/* Avatar */
-.avatar {
-    display: var(--avatarDisplay);
-    width: var(--avatarSize);
-    height: var(--avatarSize);
-    border: var(--avatarBorderWidth) solid var(--avatarBorderColor);
-    border-radius: var(--avatarShape);
-}
-
-/* Chat Input */
-.chat-input {
-    background: var(--chatInputBackground);
-}
-
-.chat-input .input-group {
-    background-color: var(--chatInputTextFieldBg);
-    border-radius: var(--chatInputBorderRadius);
-}
-
-.chat-input input {
-    color: var(--chatInputTextFieldTextColor);
-}
-
-.chat-input .icons {
-    display: var(--iconsDisplay);
-}
-
-/* Footer */
-.chat-footer {
-    display: var(--footerDisplay);
-    color: var(--footerTextColor);
-    background: var(--footerBackground);
-}`;
-    }
-
-    static copyCSS() {
-        const cssOutput = document.getElementById('cssOutput');
-        if (!cssOutput) return;
-
-        navigator.clipboard.writeText(cssOutput.value)
-            .then(() => {
-                const successMessage = document.getElementById('successMessage');
-                if (successMessage) {
-                    successMessage.style.display = 'block';
-                    setTimeout(() => {
-                        successMessage.style.display = 'none';
-                    }, 2000);
+// Function to load settings from LocalStorage
+function loadSettings() {
+    const settings = localStorage.getItem('chatCustomizationSettings');
+    if (settings) {
+        const parsedSettings = JSON.parse(settings);
+        document.querySelectorAll('.controls input, .controls select').forEach(input => {
+            if (input.id in parsedSettings) {
+                if (input.type === 'checkbox') {
+                    input.checked = parsedSettings[input.id];
+                } else {
+                    input.value = parsedSettings[input.id];
                 }
-            })
-            .catch(err => {
-                console.error('Failed to copy CSS:', err);
-                alert('Failed to copy CSS to clipboard');
-            });
+            }
+        });
+
+        // After setting values, trigger change events where necessary
+        document.getElementById('headerBackgroundType').dispatchEvent(new Event('change'));
+        document.getElementById('chatAreaBackgroundType').dispatchEvent(new Event('change'));
+        document.getElementById('chatInputBackgroundType').dispatchEvent(new Event('change'));
+        document.getElementById('headerLogoURL').dispatchEvent(new Event('input'));
+        document.getElementById('footer-show').dispatchEvent(new Event('change')); //Added for footer
+        updatePreview();
     }
 }
 
-// UI Controller Class
-class UIController {
-    static initializeEventListeners() {
-        // Debounced update function
-        const debouncedUpdate = debounce(() => {
-            this.updatePreview();
-            SettingsManager.saveSettings();
-        });
-
-        // Add event listeners to all inputs
-        document.querySelectorAll('input, select, textarea').forEach(input => {
-            input.addEventListener('input', debouncedUpdate);
-            input.addEventListener('change', debouncedUpdate);
-        });
-
-        // Initialize background type toggles
-        this.initializeBackgroundToggles();
-        
-        // Initialize section toggles
-        this.initializeSectionToggles();
-        
-        // Initialize special controls
-        this.initializeSpecialControls();
-    }
-
-    static initializeBackgroundToggles() {
-        const backgroundTypes = {
-            header: ['Solid', 'Gradient'],
-            chatArea: ['Solid', 'Gradient', 'Image'],
-            chatInput: ['Solid', 'Gradient'],
-            footer: ['Solid', 'Gradient']
-        };
-
-        Object.entries(backgroundTypes).forEach(([area, types]) => {
-            const select = document.getElementById(`${area}BackgroundType`);
-            if (!select) return;
-
-            select.addEventListener('change', () => {
-                types.forEach(type => {
-                    const group = document.getElementById(`${area}${type}Group`);
-                    if (group) {
-                        group.style.display = 
-                            select.value === type.toLowerCase() ? 'block' : 'none';
-                    }
-                });
-                this.updatePreview();
-            });
-        });
-    }
-
-    static initializeSectionToggles() {
-        document.querySelectorAll('.section-title').forEach(title => {
-            title.addEventListener('click', () => {
-                const section = title.parentElement;
-                const content = section.querySelector('.section-content');
-                const toggleIcon = title.querySelector('.toggle-icon');
-                const isOpen = section.classList.contains('open');
-
-                // Close other sections
-                document.querySelectorAll('.section.open').forEach(openSection => {
-                    if (openSection !== section) {
-                        openSection.classList.remove('open');
-                        openSection.querySelector('.toggle-icon').textContent = '+';
-                        openSection.querySelector('.section-content').style.display = 'none';
-                    }
-                });
-
-                // Toggle current section
-                section.classList.toggle('open');
-                toggleIcon.textContent = isOpen ? '+' : '-';
-                content.style.display = isOpen ? 'none' : 'block';
-            });
-        });
-    }
-
-    static initializeSpecialControls() {
-        // Logo URL handling
-        const logoURL = document.getElementById('headerLogoURL');
-        if (logoURL) {
-            logoURL.addEventListener('input', () => {
-                const hasURL = logoURL.value.trim() !== '';
-                ['headerLogoSizeGroup', 'headerLogoPositionGroup'].forEach(id => {
-                    const element = document.getElementById(id);
-                    if (element) {
-                        element.style.display = hasURL ? 'block' : 'none';
-                    }
-                });
-                this.updatePreview();
-            });
-        }
-
-        // Avatar settings handling
-        const showAvatar = document.getElementById('showAvatar');
-        if (showAvatar) {
-            showAvatar.addEventListener('change', () => {
-                const show = showAvatar.checked;
-                ['avatarSize', 'avatarBorderColor', 'avatarBorder', 'avatarImageURL'].forEach(id => {
-                    const element = document.getElementById(id);
-                    if (element) {
-                        element.parentElement.style.display = show ? 'block' : 'none';
-                    }
-                });
-                this.updatePreview();
-            });
-        }
-    }
-
-    static updatePreview() {
-        const root = document.documentElement.style;
-
-        // Update all styles
-        StyleUpdateManager.updateHeaderStyles(root);
-        StyleUpdateManager.updateChatAreaStyles(root);
-        StyleUpdateManager.updateMessageStyles(root);
-        StyleUpdateManager.updateAvatarStyles(root);
-        StyleUpdateManager.updateInputStyles(root);
-        StyleUpdateManager.updateFooterStyles(root);
-        StyleUpdateManager.updateFontStyles(root);
-
-        // Generate updated CSS
-        CSSGenerator.generateCSS();
+// Function to reset settings to default
+function resetSettings() {
+    if (confirm('Are you sure you want to reset to default settings?')) {
+        localStorage.removeItem('chatCustomizationSettings');
+        window.location.reload();
     }
 }
 
-// Initialize application
-window.addEventListener('load', () => {
-    UIController.initializeEventListeners();
-    SettingsManager.loadSettings();
-    UIController.updatePreview();
+// Function to copy CSS to clipboard
+function copyCSS() {
+    const cssOutput = document.getElementById('cssOutput');
+    cssOutput.select();
+    cssOutput.setSelectionRange(0, 99999); // For mobile devices
+    document.execCommand('copy');
+
+    const successMessage = document.getElementById('successMessage');
+    successMessage.style.display = 'block';
+    setTimeout(() => { successMessage.style.display = 'none'; }, 2000);
+}
+
+// Event Listeners for All Inputs to Update Preview and Save Settings
+document.querySelectorAll('.controls input, .controls select').forEach(input => {
+    input.addEventListener('input', updatePreview);
+    input.addEventListener('change', updatePreview);
 });
 
-// Global function bindings
-window.copyCSS = () => CSSGenerator.copyCSS();
-window.resetSettings = () => SettingsManager.resetSettings();
+// Toggle Header Background Options
+document.getElementById('headerBackgroundType').addEventListener('change', function() {
+    const type = this.value;
+    if (type === 'solid') {
+        document.getElementById('headerSolidColorGroup').style.display = 'block';
+        document.getElementById('headerGradientGroup').style.display = 'none';
+    } else {
+        document.getElementById('headerSolidColorGroup').style.display = 'none';
+        document.getElementById('headerGradientGroup').style.display = 'block';
+    }
+    updatePreview();
+});
+
+// Toggle Chat Area Background Options
+document.getElementById('chatAreaBackgroundType').addEventListener('change', function() {
+    const type = this.value;
+    if (type === 'solid') {
+        document.getElementById('chatAreaSolidColorGroup').style.display = 'block';
+        document.getElementById('chatAreaGradientGroup').style.display = 'none';
+        document.getElementById('chatAreaImageGroup').style.display = 'none';
+    } else if (type === 'gradient') {
+        document.getElementById('chatAreaSolidColorGroup').style.display = 'none';
+        document.getElementById('chatAreaGradientGroup').style.display = 'block';
+        document.getElementById('chatAreaImageGroup').style.display = 'none';
+    } else if (type === 'image') {
+        document.getElementById('chatAreaSolidColorGroup').style.display = 'none';
+        document.getElementById('chatAreaGradientGroup').style.display = 'none';
+        document.getElementById('chatAreaImageGroup').style.display = 'block';
+    }
+    updatePreview();
+});
+
+// Toggle Chat Input Background Options
+document.getElementById('chatInputBackgroundType').addEventListener('change', function() {
+    const type = this.value;
+    if (type === 'solid') {
+        document.getElementById('chatInputSolidColorGroup').style.display = 'block';
+        document.getElementById('chatInputGradientGroup').style.display = 'none';
+    } else {
+        document.getElementById('chatInputSolidColorGroup').style.display = 'none';
+        document.getElementById('chatInputGradientGroup').style.display = 'block';
+    }
+    updatePreview();
+});
+
+// Toggle Section Content Visibility and ensure only one is open at a time
+document.querySelectorAll('.section-title').forEach(title => {
+    title.addEventListener('click', function() {
+        const currentlyOpen = document.querySelector('.section-content:not([style*="display: none"])');
+        const sectionContent = this.nextElementSibling;
+        const toggleIcon = this.querySelector('.toggle-icon');
+
+        if (sectionContent.style.display === 'none' || sectionContent.style.display === '') {
+            // Close the currently open section
+            if (currentlyOpen && currentlyOpen !== sectionContent) {
+                currentlyOpen.style.display = 'none';
+                currentlyOpen.previousElementSibling.querySelector('.toggle-icon').textContent = '+';
+            }
+            // Open the clicked section
+            sectionContent.style.display = 'block';
+            toggleIcon.textContent = '-';
+        } else {
+            sectionContent.style.display = 'none';
+            toggleIcon.textContent = '+';
+        }
+    });
+});
+
+//Avatar Border Transparency
+document.getElementById('avatarBorderTransparent').addEventListener('change', function(){
+    const avatarBorderColor = document.getElementById('avatarBorderColor');
+    if (this.checked) {
+        document.documentElement.style.setProperty('--avatarBorderColor', 'transparent');
+        avatarBorderColor.disabled = true; /* Disable color picker when transparent */
+    } else {
+        document.documentElement.style.setProperty('--avatarBorderColor', avatarBorderColor.value);
+        avatarBorderColor.disabled = false; /* Enable color picker when not transparent */
+    }
+    generateCSS();
+    saveSettings();
+});
+
+window.onload = function() {
+    loadSettings();
+    updatePreview();
+};

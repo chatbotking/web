@@ -18,12 +18,11 @@ function generateCSS() {
     const variableNames = [
         '--primaryColor', '--secondaryColor',
         '--fontFamily', '--fontWeight',
-        '--headerTextSize', '--headerTextColor', '--headerBackgroundLayers', '--headerHeight', '--headerTextAlign', '--cornerStyle',
+        '--headerTextSize', '--headerTextColor', '--headerBackgroundLayers', '--headerHeight', '--headerTextAlign', '--headerJustifyContent', '--cornerStyle',
         '--headerLogoWidth', '--headerLogoMarginRight', '--headerLogoMarginLeft', '--headerLogoOffsetX', '--headerLogoOffsetY',
         '--chatAreaBackgroundColor', '--chatAreaBackgroundImage', '--chatAreaBackgroundPosition', '--chatAreaBackgroundRepeat', '--chatAreaBackgroundSize',
         '--messageTextSize', '--messageCornerStyle', '--botMessageTextColor', '--botMessageBg', '--userMessageTextColor', '--userMessageBg',
-        '--avatarSize', '--avatarBorderColor', '--avatarBorderWidth', '--avatarShape', '--avatarDisplay', '--otherMessagePaddingLeft',
-        '--chatInputBackground', '--chatInputTextFieldBg', '--chatInputTextFieldTextColor', '--chatInputBorderRadius', '--chatInputHeight',
+        '--chatInputHeight', '--chatInputBackground', '--chatInputTextFieldBg', '--chatInputTextFieldTextColor', '--chatInputBorderRadius',
         '--iconsDisplay',
         '--footerDisplay', '--footerTextColor', '--footerBackground'
     ];
@@ -39,40 +38,34 @@ function generateCSS() {
     css += `/* Message Text Styling */\npre {\n    font-size: var(--messageTextSize);\n    font-weight: normal;\n    font-family: var(--fontFamily);\n}\n\n`;
 
     /* Chat Header Styling */
-    css += `/* Chat Header Styling */\n.chat-header {\n    font-size: var(--headerTextSize);\n    color: var(--headerTextColor);\n    background: var(--headerBackgroundLayers);\n    height: var(--headerHeight);\n    display: flex;\n    align-items: center;\n    padding: 0 20px;\n    border-top-left-radius: var(--cornerStyle);\n    border-top-right-radius: var(--cornerStyle);\n    font-family: var(--fontFamily);\n}\n\n`;
+    css += `/* Chat Header Styling */\n.chat-header {\n    font-size: var(--headerTextSize);\n    color: var(--headerTextColor);\n    background: var(--headerBackgroundLayers);\n    height: var(--headerHeight);\n    display: flex;\n    align-items: center;\n    justify-content: var(--headerJustifyContent);\n    font-family: var(--fontFamily);\n    border-top-left-radius: var(--cornerStyle);\n    border-top-right-radius: var(--cornerStyle);\n    padding-left: var(--headerPaddingLeft);\n}\n\n`;
 
     /* Header Logo Styling */
-    css += `/* Header Logo Styling */\n.chat-header img#headerLogoImg {\n    width: var(--headerLogoWidth);\n    height: auto;\n    margin-right: var(--headerLogoMarginRight);\n    margin-left: var(--headerLogoMarginLeft);\n    max-height: calc(var(--headerHeight) - 20px);\n    position: relative;\n    transform: translate(var(--headerLogoOffsetX), var(--headerLogoOffsetY));\n}\n\n`;
+    css += `/* Header Logo Styling */\n.chat-header img#headerLogoImg {\n    width: var(--headerLogoWidth);\n    height: auto;\n    margin-right: var(--headerLogoMarginRight);\n    margin-left: var(--headerLogoMarginLeft);\n    max-height: calc(var(--headerHeight) - 20px);\n    position: relative;\n    transform: translate(var(--headerLogoOffsetX), var(--headerLogoOffsetY));\n    display: none; /* Initially hidden, shown via JS when URL is provided */\n}\n\n`;
 
     /* Header Title Styling */
-    css += `/* Header Title Styling */\n.chat-interface-title {\n    flex: 1;\n    text-align: var(--headerTextAlign);\n    font-family: var(--fontFamily);\n    color: var(--headerTextColor);\n}\n\n`;
+    css += `/* Header Title Styling */\n.chat-interface-title {\n    flex: 1;\n    text-align: var(--headerTextAlign); /* left, center, right */\n    font-family: var(--fontFamily);\n    color: var(--headerTextColor);\n}\n\n`;
 
     /* Chat Area Styling */
-    css += `/* Chat Area Styling */\n.chat-area {\n    background-color: var(--chatAreaBackgroundColor);\n    background-image: var(--chatAreaBackgroundImage);\n    background-position: var(--chatAreaBackgroundPosition);\n    background-repeat: var(--chatAreaBackgroundRepeat);\n    background-size: var(--chatAreaBackgroundSize);\n    font-family: var(--fontFamily);\n    padding: 20px;\n    overflow-y: auto;\n    flex: 1;\n}\n\n`;
+    css += `/* Chat Area Styling */\n.chat-area {\n    flex: 1;\n    padding: 20px;\n    overflow-y: auto;\n    line-height: 1.5;\n    font-family: var(--fontFamily);\n    background-color: var(--chatAreaBackgroundColor);\n    background-image: var(--chatAreaBackgroundImage);\n    background-position: var(--chatAreaBackgroundPosition);\n    background-repeat: var(--chatAreaBackgroundRepeat);\n    background-size: var(--chatAreaBackgroundSize);\n    position: relative;\n}\n\n`;
 
     /* Bot Message Styling */
     css += `/* Bot Message Styling */\n.other-message {\n    position: relative;\n    margin-bottom: 15px;\n    padding-left: var(--otherMessagePaddingLeft);\n}\n.other-message .message-text {\n    background-color: var(--botMessageBg);\n    color: var(--botMessageTextColor);\n    font-size: var(--messageTextSize);\n    border-radius: var(--messageCornerStyle);\n    padding: 10px 15px;\n    word-wrap: break-word;\n    font-family: var(--fontFamily);\n    margin-bottom: 5px;\n}\n\n`;
 
     /* User Message Styling */
-    css += `/* User Message Styling */\n.my-message {\n    padding-right: 0;\n    margin-bottom: 15px;\n    position: relative;\n    display: flex;\n    align-items: flex-end;\n}\n\n.my-message .avatar {\n    margin-right: 10px;\n}\n\n.my-message .message-text {\n    background-color: var(--userMessageBg) !important;\n    color: var(--userMessageTextColor);\n    font-size: var(--messageTextSize);\n    border-radius: var(--messageCornerStyle);\n    padding: 10px 15px;\n    word-wrap: break-word;\n    font-family: var(--fontFamily);\n    margin-bottom: 5px;\n    margin-top: 5vh;\n}\n\n`;
+    css += `/* User Message Styling */\n.my-message {\n    display: flex;\n    justify-content: flex-end;\n    padding-right: 0;\n    margin-bottom: 15px;\n    position: relative;\n}\n\n.my-message .avatar {\n    margin-right: 10px;\n}\n\n.my-message .message-text {\n    background-color: var(--userMessageBg) !important;\n    color: var(--userMessageTextColor);\n    font-size: var(--messageTextSize);\n    border-radius: var(--messageCornerStyle);\n    padding: 10px 15px;\n    word-wrap: break-word;\n    font-family: var(--fontFamily);\n    margin-bottom: 5px;\n    margin-top: 5vh;\n}\n\n`;
 
     /* Message Text Inheritance */
     css += `/* Message Text Inheritance */\n.message-text * {\n    color: inherit;\n    font-family: inherit;\n}\n\n`;
 
     /* Chat Input Styling */
-    css += `/* Chat Input Styling */\n.chat-input {\n    height: var(--chatInputHeight);\n    padding: 20px;\n    background: var(--chatInputBackground);\n    display: flex;\n    align-items: center;\n    width: 100%;\n    box-sizing: border-box;\n    border-top: 1px solid #e0e0e0;\n    font-family: var(--fontFamily);\n    position: relative;\n}\n\n`;
+    css += `/* Chat Input Styling */\n.chat-input {\n    height: var(--chatInputHeight);\n    padding: 0 20px; /* Adjusted padding */\n    background: var(--chatInputBackground);\n    display: flex;\n    align-items: center;\n    width: 100%;\n    box-sizing: border-box;\n    border-top: 1px solid #e0e0e0;\n    font-family: var(--fontFamily);\n    position: relative;\n}\n\n`;
 
     /* Icons within Chat Input */
     css += `/* Icons within Chat Input */\n.chat-input .icons {\n    display: var(--iconsDisplay);\n    align-items: center;\n    margin-right: 10px;\n}\n\n.chat-input .icons .icon {\n    margin-right: 15px;\n    cursor: pointer;\n    font-size: 20px;\n    color: var(--primaryColor);\n    transition: color 0.3s;\n}\n\n.chat-input .icons .icon:hover {\n    color: var(--botMessageTextColor);\n}\n\n`;
 
     /* Input Group Styling */
-    css += `/* Input Group Styling */\n.chat-input .input-group {\n    flex: 1;\n    border-radius: var(--chatInputBorderRadius) !important;\n    background-color: var(--chatInputTextFieldBg) !important;\n    overflow: hidden;\n    position: relative;\n    display: flex;\n}\n\n.chat-input input {\n    width: 100%;\n    padding: 15px;\n    border: none;\n    background-color: var(--chatInputTextFieldBg);\n    color: var(--chatInputTextFieldTextColor);\n    font-size: 14px;\n    outline: none;\n    box-sizing: border-box;\n    flex: 1;\n}\n\n`;
-
-    /* Avatar Styling */
-    css += `/* Avatar Styling */\n.avatar {\n    display: var(--avatarDisplay);\n    width: var(--avatarSize);\n    height: var(--avatarSize);\n    border: var(--avatarBorderWidth) solid var(--avatarBorderColor);\n    border-radius: var(--avatarShape);\n    /* Removed background-image to prevent duplication */\n    background-size: cover;\n    background-position: center;\n    margin-right: 10px;\n}\n\n`;
-
-    /* Footer Styling */
-    css += `/* Footer Styling */\n.chat-footer {\n    display: var(--footerDisplay);\n    padding: 10px;\n    background: var(--footerBackground);\n    text-align: center;\n    font-size: 14px;\n    color: var(--footerTextColor);\n    font-family: var(--fontFamily);\n}\n`;
+    css += `/* Input Group Styling */\n.chat-input .input-group {\n    flex: 1;\n    border-radius: var(--chatInputBorderRadius) !important;\n    background-color: var(--chatInputTextFieldBg) !important;\n    overflow: hidden;\n    position: relative;\n    display: flex;\n}\n\n.chat-input input {\n    width: 100%;\n    padding: 15px;\n    border: none;\n    background-color: var(--chatInputTextFieldBg);\n    color: var(--chatInputTextFieldTextColor);\n    font-size: 14px;\n    outline: none;\n    box-sizing: border-box;\n}\n\n.chat-input .form-control {\n    border-radius: 0 !important;\n    border: none !important;\n    background-color: var(--chatInputTextFieldBg) !important;\n    color: var(--chatInputTextFieldTextColor) !important;\n}\n\n.input-group > .custom-select:not(:last-child),\n.input-group > .form-control:not(:last-child) {\n    border-top-right-radius: 0;\n    border-bottom-right-radius: 0;\n}\n\n/* Footer Styling */\n.chat-footer {\n    display: var(--footerDisplay);\n    padding: 10px;\n    background: var(--footerBackground);\n    text-align: center;\n    font-size: 14px;\n    color: var(--footerTextColor);\n    font-family: var(--fontFamily);\n}\n`;
 
     // Update the generated CSS textarea
     const cssOutput = document.getElementById('cssOutput');
@@ -100,14 +93,15 @@ function updatePreview() {
     root.setProperty('--headerHeight', headerHeight);
     root.setProperty('--cornerStyle', cornerStyle);
 
-    // Map 'left', 'center', 'right' to actual text-align values
-    const alignmentMapping = {
-        'left': 'left',
+    // Map 'left', 'center', 'right' to actual flexbox justify-content values
+    const justifyContentMapping = {
+        'left': 'flex-start',
         'center': 'center',
-        'right': 'right'
+        'right': 'flex-end'
     };
-    const headerTextAlign = alignmentMapping[headerTextAlignRaw] || 'center';
-    root.setProperty('--headerTextAlign', headerTextAlign);
+    const headerJustifyContent = justifyContentMapping[headerTextAlignRaw] || 'center';
+    root.setProperty('--headerJustifyContent', headerJustifyContent);
+    root.setProperty('--headerTextAlign', headerTextAlignRaw); // Keep the raw value for text alignment
 
     // Header Background
     let headerBackground = '';
@@ -192,7 +186,7 @@ function updatePreview() {
 
     // Message Settings
     const messageTextSize = document.getElementById('messageTextSize').value + 'px';
-    const messageCornerStyle = document.getElementById('messageCornerStyle').value;
+    const messageCornerStyle = document.getElementById('messageCornerStyle').value + 'px';
     const botMessageTextColor = document.getElementById('botMessageTextColor').value;
     const botMessageBg = document.getElementById('botMessageBg').value;
     const userMessageTextColor = document.getElementById('userMessageTextColor').value;
@@ -209,9 +203,8 @@ function updatePreview() {
     const fontFamily = document.getElementById('fontFamily').value;
     root.setProperty('--fontFamily', fontFamily);
 
-    // Global Corner Style
-    const globalCornerStyle = document.getElementById('cornerStyle').value + 'px';
-    root.setProperty('--cornerStyle', globalCornerStyle);
+    // Global Corner Style (already set above)
+    // No additional action needed here as it's already being handled
 
     // Avatar Settings
     const showAvatar = document.getElementById('showAvatar').checked;
@@ -237,17 +230,17 @@ function updatePreview() {
         root.setProperty('--avatarBorderWidth', '0px');
     }
 
-    // Removed setting CSS variable for avatarImageURL to prevent duplication
-    // root.setProperty('--avatarImageURL', avatarImageURL ? `url("${avatarImageURL}")` : 'none');
-
     // Update Avatar Image Elements
     const avatarImages = document.querySelectorAll('.chat-area .avatar');
     avatarImages.forEach(avatarImg => {
         if (showAvatar && avatarImageURL) {
             avatarImg.src = avatarImageURL;
-            avatarImg.style.display = 'block';
+            avatarImg.style.display = 'inline-block';
             avatarImg.style.width = avatarSize;
             avatarImg.style.height = avatarSize;
+            avatarImg.style.borderColor = avatarBorderColor;
+            avatarImg.style.borderWidth = root.getPropertyValue('--avatarBorderWidth').trim();
+            avatarImg.style.borderRadius = root.getPropertyValue('--avatarShape').trim();
         } else {
             avatarImg.style.display = 'none';
         }
@@ -255,7 +248,7 @@ function updatePreview() {
 
     // Icon Settings
     const showIcons = document.getElementById('showIcons').checked;
-    root.setProperty('--iconsDisplay', showIcons ? 'inline-flex' : 'none');
+    root.setProperty('--iconsDisplay', showIcons ? 'inline-block' : 'none');
 
     // Chat Input Settings
     const chatInputBackgroundType = document.getElementById('chatInputBackgroundType').value;
@@ -272,7 +265,7 @@ function updatePreview() {
 
     const chatInputTextFieldBg = document.getElementById('chatInputTextFieldBg').value;
     const chatInputTextFieldTextColor = document.getElementById('chatInputTextFieldTextColor').value;
-    const chatInputCornerStyle = document.getElementById('chatInputCornerStyle').value;
+    const chatInputCornerStyle = document.getElementById('chatInputCornerStyle').value + 'px';
 
     root.setProperty('--chatInputTextFieldBg', chatInputTextFieldBg);
     root.setProperty('--chatInputTextFieldTextColor', chatInputTextFieldTextColor);
@@ -303,7 +296,7 @@ function updatePreview() {
     // Update footer text in preview
     const chatFooter = document.querySelector('.chat-footer');
     if (chatFooter) {
-        chatFooter.textContent = footerText;
+        chatFooter.textContent = footerText || 'Powered by Chatbot Builder AI';
     } else {
         console.error('.chat-footer element not found.');
     }
@@ -513,6 +506,9 @@ function initializeEventListeners() {
             }
         });
     });
+
+    // Event listeners for specific sections that show/hide additional controls
+    // For example, toggling visibility based on background types
 }
 
 // Initialize the preview on page load
@@ -522,10 +518,5 @@ window.addEventListener('load', function() {
     updatePreview();
 });
 
-/* Additional Event Listener for cornerStyle if needed */
-
-/* Function to copy CSS to clipboard (Duplicate Removed) */
-/* The copyCSS function is already defined above. Removed duplicate to prevent conflicts */
-
-/* Function to reset settings to default (Duplicate Removed) */
-/* The resetSettings function is already defined above. Removed duplicate to prevent conflicts */
+/* Additional Event Listeners if needed */
+/* If you have other dynamic elements, add their event listeners here */

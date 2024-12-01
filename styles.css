@@ -435,6 +435,26 @@ textarea#cssOutput {
     position: relative;
 }
 
+/* Icons within Chat Input */
+.chat-input .icons {
+    display: var(--iconsDisplay);
+    align-items: center;
+    margin-right: 10px;
+}
+
+.chat-input .icons .icon {
+    margin-right: 15px;
+    cursor: pointer;
+    font-size: 20px;
+    color: var(--primaryColor);
+    transition: color 0.3s;
+}
+
+.chat-input .icons .icon:hover {
+    color: var(--botMessageTextColor);
+}
+
+/* Input Group */
 .chat-input .input-group {
     flex: 1;
     border-radius: var(--chatInputBorderRadius) !important;

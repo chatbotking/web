@@ -39,16 +39,19 @@ function generateCSS() {
     css += `/* Message Text Styling */\npre {\n    font-size: var(--messageTextSize);\n    font-weight: normal;\n    font-family: var(--fontFamily);\n}\n\n`;
 
     /* Chat Header Styling */
-    css += `/* Chat Header Styling */\n.chat-header {\n    font-size: var(--headerTextSize);\n    color: var(--headerTextColor);\n    background: var(--headerBackgroundLayers);\n    height: var(--headerHeight);\n    text-align: center;\n    display: flex;\n    align-items: center;\n    justify-content: var(--headerTextAlign);\n    font-family: var(--fontFamily);\n    border-top-left-radius: var(--cornerStyle);\n    border-top-right-radius: var(--cornerStyle);\n}\n\n`;
+    css += `/* Chat Header Styling */\n.chat-header {\n    font-size: var(--headerTextSize);\n    color: var(--headerTextColor);\n    background: var(--headerBackgroundLayers);\n    height: var(--headerHeight);\n    display: flex;\n    align-items: center;\n    padding: 0 20px;\n    border-top-left-radius: var(--cornerStyle);\n    border-top-right-radius: var(--cornerStyle);\n    font-family: var(--fontFamily);\n}\n\n`;
 
     /* Header Logo Styling */
     css += `/* Header Logo Styling */\n.chat-header img#headerLogoImg {\n    width: var(--headerLogoWidth);\n    height: auto;\n    margin-right: var(--headerLogoMarginRight);\n    margin-left: var(--headerLogoMarginLeft);\n    max-height: calc(var(--headerHeight) - 20px);\n    position: relative;\n    transform: translate(var(--headerLogoOffsetX), var(--headerLogoOffsetY));\n}\n\n`;
+
+    /* Header Title Styling */
+    css += `/* Header Title Styling */\n.chat-interface-title {\n    flex: 1;\n    text-align: var(--headerTextAlign);\n    font-family: var(--fontFamily);\n    color: var(--headerTextColor);\n}\n\n`;
 
     /* Chat Area Styling */
     css += `/* Chat Area Styling */\n.chat-area {\n    background-color: var(--chatAreaBackgroundColor);\n    background-image: var(--chatAreaBackgroundImage);\n    background-position: var(--chatAreaBackgroundPosition);\n    background-repeat: var(--chatAreaBackgroundRepeat);\n    background-size: var(--chatAreaBackgroundSize);\n    font-family: var(--fontFamily);\n    padding: 20px;\n    overflow-y: auto;\n    flex: 1;\n}\n\n`;
 
     /* Bot Message Styling */
-    css += `/* Bot Message Styling */\n.other-message {\n    position: relative;\n    margin-bottom: 15px;\n    padding-left: var(--otherMessagePaddingLeft);\n}\n.other-message .message-text {\n    background-color: var(--botMessageBg);\n    color: var(--botMessageTextColor);\n    font-size: var(--messageTextSize);\n    border-radius: var(--messageCornerStyle);\n    padding: 10px 15px;\n    word-wrap: break-word;\n    font-family: var(--fontFamily);\n    margin-bottom: 5px;\n}\n\n`;
+    css += `/* Bot Message Styling */\n.other-message {\n    position: relative;\n    margin-bottom: 15px;\n    padding-left: var(--otherMessagePaddingLeft);\n}\n.other-message:before {\n    content: "";\n    display: var(--avatarDisplay);\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: var(--avatarSize);\n    height: var(--avatarSize);\n    background-image: var(--avatarImageURL);\n    background-size: cover;\n    background-repeat: no-repeat;\n    border-radius: var(--avatarShape);\n    border: var(--avatarBorderWidth) solid var(--avatarBorderColor);\n}\n.other-message .message-text {\n    background-color: var(--botMessageBg);\n    color: var(--botMessageTextColor);\n    font-size: var(--messageTextSize);\n    border-radius: var(--messageCornerStyle);\n    padding: 10px 15px;\n    word-wrap: break-word;\n    font-family: var(--fontFamily);\n    margin-bottom: 5px;\n}\n\n`;
 
     /* User Message Styling */
     css += `/* User Message Styling */\n.my-message {\n    padding-right: 0;\n    margin-bottom: 15px;\n    position: relative;\n}\n\n.my-message .message-text {\n    background-color: var(--userMessageBg) !important;\n    color: var(--userMessageTextColor);\n    font-size: var(--messageTextSize);\n    border-radius: var(--messageCornerStyle);\n    padding: 10px 15px;\n    word-wrap: break-word;\n    font-family: var(--fontFamily);\n    margin-bottom: 5px;\n    margin-top: 5vh;\n}\n\n`;
@@ -57,7 +60,7 @@ function generateCSS() {
     css += `/* Message Text Inheritance */\n.message-text * {\n    color: inherit;\n    font-family: inherit;\n}\n\n`;
 
     /* Chat Input Styling */
-    css += `/* Chat Input Styling */\n.chat-input {\n    padding: 20px;\n    background: var(--chatInputBackground);\n    display: flex;\n    align-items: center;\n    width: 100%;\n    box-sizing: border-box;\n    border-top: 1px solid #e0e0e0;\n    font-family: var(--fontFamily);\n    position: relative;\n}\n.chat-input .input-group {\n    flex: 1;\n    border-radius: var(--chatInputBorderRadius) !important;\n    background-color: var(--chatInputTextFieldBg) !important;\n    overflow: hidden;\n    position: relative;\n    display: flex;\n}\n.chat-input input {\n    width: 100%;\n    padding: 15px;\n    border: none;\n    background-color: var(--chatInputTextFieldBg);\n    color: var(--chatInputTextFieldTextColor);\n    font-size: 14px;\n    outline: none;\n    box-sizing: border-box;\n    flex: 1;\n}\n\n`;
+    css += `/* Chat Input Styling */\n.chat-input {\n    height: var(--chatInputHeight);\n    padding: 20px;\n    background: var(--chatInputBackground);\n    display: flex;\n    align-items: center;\n    width: 100%;\n    box-sizing: border-box;\n    border-top: 1px solid #e0e0e0;\n    font-family: var(--fontFamily);\n    position: relative;\n}\n.chat-input .input-group {\n    flex: 1;\n    border-radius: var(--chatInputBorderRadius) !important;\n    background-color: var(--chatInputTextFieldBg) !important;\n    overflow: hidden;\n    position: relative;\n    display: flex;\n}\n.chat-input input {\n    width: 100%;\n    padding: 15px;\n    border: none;\n    background-color: var(--chatInputTextFieldBg);\n    color: var(--chatInputTextFieldTextColor);\n    font-size: 14px;\n    outline: none;\n    box-sizing: border-box;\n    flex: 1;\n}\n\n`;
 
     /* Avatar Styling */
     css += `/* Avatar Styling */\n.avatar {\n    display: var(--avatarDisplay);\n    width: var(--avatarSize);\n    height: var(--avatarSize);\n    border: var(--avatarBorderWidth) solid var(--avatarBorderColor);\n    border-radius: var(--avatarShape);\n    background-image: var(--avatarImageURL);\n    background-size: cover;\n    background-position: center;\n    margin-right: 10px;\n}\n\n`;
@@ -94,11 +97,11 @@ function updatePreview() {
     root.setProperty('--headerHeight', headerHeight);
     root.setProperty('--cornerStyle', cornerStyle);
 
-    // Map 'left', 'center', 'right' to 'flex-start', 'center', 'flex-end'
+    // Map 'left', 'center', 'right' to actual text-align values
     const alignmentMapping = {
-        'left': 'flex-start',
+        'left': 'left',
         'center': 'center',
-        'right': 'flex-end'
+        'right': 'right'
     };
     const headerTextAlign = alignmentMapping[headerTextAlignRaw] || 'center';
     root.setProperty('--headerTextAlign', headerTextAlign);
@@ -126,6 +129,18 @@ function updatePreview() {
     root.setProperty('--headerLogoWidth', headerLogoWidth);
     root.setProperty('--headerLogoOffsetX', headerLogoOffsetX);
     root.setProperty('--headerLogoOffsetY', headerLogoOffsetY);
+
+    // Adjust logo margins based on alignment
+    if (headerTextAlignRaw === 'left') {
+        root.setProperty('--headerLogoMarginRight', '10px');
+        root.setProperty('--headerLogoMarginLeft', '0px');
+    } else if (headerTextAlignRaw === 'center') {
+        root.setProperty('--headerLogoMarginRight', '10px');
+        root.setProperty('--headerLogoMarginLeft', '10px');
+    } else if (headerTextAlignRaw === 'right') {
+        root.setProperty('--headerLogoMarginRight', '0px');
+        root.setProperty('--headerLogoMarginLeft', '10px');
+    }
 
     // Update Header Logo Image Element
     const headerLogoImg = document.getElementById('headerLogoImg');

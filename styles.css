@@ -14,7 +14,7 @@
     --headerBackgroundLayers: #36d6b5;
     --headerHeight: 60px;
     --headerTextAlign: center; /* left, center, right */
-    --cornerStyle: 20px;
+    --cornerStyle: 20px; /* Global Corner Radius */
     --headerPaddingLeft: 20px;
 
     /* Header Logo */
@@ -70,9 +70,7 @@
 }
 
 /* Base Styles */
-*,
-*::before,
-*::after {
+*, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -327,8 +325,8 @@ textarea#cssOutput {
 .chat-header img#headerLogoImg {
     width: var(--headerLogoWidth);
     height: auto;
-    margin-right: 10px;
-    margin-left: 0px;
+    margin-right: var(--headerLogoMarginRight);
+    margin-left: var(--headerLogoMarginLeft);
     max-height: calc(var(--headerHeight) - 20px);
     position: relative;
     transform: translate(var(--headerLogoOffsetX), var(--headerLogoOffsetY));

@@ -1,281 +1,150 @@
-// Function to generate CSS based on current settings
+// Function to generate base CSS (called only once on load)
 function generateCSS() {
-    const rootStyle = getComputedStyle(document.documentElement);
     let css = `:root {
-        --primaryColor: ${rootStyle.getPropertyValue('--primaryColor').trim()};
-        --secondaryColor: ${rootStyle.getPropertyValue('--secondaryColor').trim()};
-        --fontFamily: ${rootStyle.getPropertyValue('--fontFamily').trim()};
-        --fontWeight: ${rootStyle.getPropertyValue('--fontWeight').trim()};
-        --headerTextSize: ${rootStyle.getPropertyValue('--headerTextSize').trim()};
-        --headerTextColor: ${rootStyle.getPropertyValue('--headerTextColor').trim()};
-        --headerBackgroundLayers: ${rootStyle.getPropertyValue('--headerBackgroundLayers').trim()};
-        --headerHeight: ${rootStyle.getPropertyValue('--headerHeight').trim()};
-        --headerTextAlign: ${rootStyle.getPropertyValue('--headerTextAlign').trim()};
-        --cornerStyle: ${rootStyle.getPropertyValue('--cornerStyle').trim()};
-        --headerPaddingLeft: ${rootStyle.getPropertyValue('--headerPaddingLeft').trim()};
-        --chatAreaBackgroundColor: ${rootStyle.getPropertyValue('--chatAreaBackgroundColor').trim()};
-        --chatAreaBackgroundImage: ${rootStyle.getPropertyValue('--chatAreaBackgroundImage').trim()};
-        --chatAreaBackgroundPosition: ${rootStyle.getPropertyValue('--chatAreaBackgroundPosition').trim()};
-        --chatAreaBackgroundRepeat: ${rootStyle.getPropertyValue('--chatAreaBackgroundRepeat').trim()};
-        --chatAreaBackgroundSize: ${rootStyle.getPropertyValue('--chatAreaBackgroundSize').trim()};
-        --messageTextSize: ${rootStyle.getPropertyValue('--messageTextSize').trim()};
-        --messageCornerStyle: ${rootStyle.getPropertyValue('--messageCornerStyle').trim()};
-        --botMessageTextColor: ${rootStyle.getPropertyValue('--botMessageTextColor').trim()};
-        --botMessageBg: ${rootStyle.getPropertyValue('--botMessageBg').trim()};
-        --userMessageTextColor: ${rootStyle.getPropertyValue('--userMessageTextColor').trim()};
-        --userMessageBg: ${rootStyle.getPropertyValue('--userMessageBg').trim()};
-        --chatInputBackground: ${rootStyle.getPropertyValue('--chatInputBackground').trim()};
-        --chatInputTextFieldBg: ${rootStyle.getPropertyValue('--chatInputTextFieldBg').trim()};
-        --chatInputTextFieldTextColor: ${rootStyle.getPropertyValue('--chatInputTextFieldTextColor').trim()};
-        --chatInputBorderRadius: ${rootStyle.getPropertyValue('--chatInputBorderRadius').trim()};
-        --iconsDisplay: ${rootStyle.getPropertyValue('--iconsDisplay').trim()};
-        --buttonTextSize: ${rootStyle.getPropertyValue('--buttonTextSize').trim()};
-        --buttonFontWeight: ${rootStyle.getPropertyValue('--buttonFontWeight').trim()};
-        --buttonPadding: ${rootStyle.getPropertyValue('--buttonPadding').trim()};
-        --chatInputHeight: ${rootStyle.getPropertyValue('--chatInputHeight').trim()};
-        --avatarSize: ${rootStyle.getPropertyValue('--avatarSize').trim()};
-        --avatarBorderColor: ${rootStyle.getPropertyValue('--avatarBorderColor').trim()};
-        --avatarImageURL: ${rootStyle.getPropertyValue('--avatarImageURL').trim()};
-        --avatarDisplay: ${rootStyle.getPropertyValue('--avatarDisplay').trim()};
-        --avatarShape: ${rootStyle.getPropertyValue('--avatarShape').trim()};
-        --otherMessagePaddingLeft: ${rootStyle.getPropertyValue('--otherMessagePaddingLeft').trim()};
-        --footerShow: ${document.getElementById('footer-show').checked ? 'block' : 'none'};
-        --footerText: "${document.getElementById('footer-text').value}";
-        --footerTextColor: ${document.getElementById('footer-text-color').value};
-        --footerFontSize: ${document.getElementById('footer-font-size').value}px;
-        --footerFontFamily: ${document.getElementById('footer-font-family').value};
-        --footerFontWeight: ${document.getElementById('footer-font-weight').value};
+        --primaryColor: #36d6b5;
+        --secondaryColor: #ffffff;
+        --fontFamily: Helvetica, Arial, sans-serif;
+        --fontWeight: bold;
+        --cornerStyle: 20px;
+        --headerHeight: 60px;
+        --chatInputHeight: 80px;
+        --messageTextSize: 14px;
+        --messageCornerStyle: 20px;
+        --botMessageTextColor: #212529;
+        --botMessageBg: #eeeeee;
+        --userMessageTextColor: #ffffff;
+        --userMessageBg: #36d6b5;
+        --chatInputBackground: #ffffff;
+        --chatInputTextFieldBg: #f1f1f1;
+        --chatInputTextFieldTextColor: #333333;
+        --chatInputBorderRadius: 18px;
+        --avatarSize: 50px;
+        --avatarBorderColor: #36d6b5;
+        --avatarShape: 50%;
+        --otherMessagePaddingLeft: calc(50px + 10px);
+        --footerShow: block;
+        --footerText: "Powered by Chatbot Builder AI";
+        --footerTextColor: #000;
+        --footerFontSize: 9px;
+        --footerFontFamily: sans-serif;
+        --footerFontWeight: normal;
     }`;
 
-    // Include Icon Styles if Icons are Hidden
-    const showIconsCheckbox = document.getElementById('showIcons');
-    if (showIconsCheckbox && !showIconsCheckbox.checked) {
-        css += `
-        .chat-input .uploadBtt {
-            display: none;
-        }`;
-    }
-
-    // Add chat input background color style
-    const chatInputTextFieldBg = rootStyle.getPropertyValue('--chatInputTextFieldBg').trim();
-    css += `
-    .chat-input .form-control {
-        border-radius: 0 !important;
-        border: none !important;
-        background-color: ${chatInputTextFieldBg} !important;
-    }
-    .chat-preview-container {
-        display: flex;
-        flex-direction: column;
-    }
-    .chat-area {
-        flex: 1;
-    }
-    .chat-input-container {
-        display: flex;
-        flex-direction: column;
-    }
-    .chat-input {
-        margin-top: auto; /* Push to bottom */
-        margin-bottom: 10px; /* Add margin for better spacing*/
-    }
-
-    .chat-input:before {
-        content: var(--footerText);
-        position: absolute;
-        bottom: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-        color: var(--footerTextColor);
-        font-size: var(--footerFontSize);
-        font-family: var(--footerFontFamily);
-        font-weight: var(--footerFontWeight);
-        display: var(--footerShow);
-        padding: 1px 5px;
-    }`;
-
-
-
-    document.getElementById('cssOutput').value = css.trim();
+    document.getElementById('cssOutput').value = css;
 }
 
 // Function to update the preview based on control inputs
 function updatePreview() {
     const root = document.documentElement.style;
 
-    // Header Settings
-    const headerTextSize = document.getElementById('headerTextSize').value + 'px';
-    const headerTextColor = document.getElementById('headerTextColor').value;
-    const headerHeightValue = document.getElementById('headerHeight').value;
-    const headerHeight = headerHeightValue + 'px';
-    const headerTextAlign = document.getElementById('headerTextAlign').value;
-    const cornerStyle = document.getElementById('cornerStyle').value;
-    const fontFamily = document.getElementById('fontFamily').value;
-    const headerBackgroundType = document.getElementById('headerBackgroundType').value;
-
-    root.setProperty('--headerTextSize', headerTextSize);
-    root.setProperty('--headerTextColor', headerTextColor);
-    root.setProperty('--headerHeight', headerHeight);
-    root.setProperty('--headerTextAlign', headerTextAlign);
-    root.setProperty('--cornerStyle', cornerStyle);
-    root.setProperty('--fontFamily', fontFamily);
-
-    // Update font family and weight in preview elements
-    document.querySelectorAll('.preview, .chat-preview-container, .chat-header, .chat-area, .chat-input, .message-text, pre, .card-button').forEach(el => {
-        el.style.fontFamily = root.getPropertyValue('--fontFamily').trim();
-        el.style.fontWeight = 'bold';
-    });
-
-    let headerBackgroundLayer = '';
-    if (headerBackgroundType === 'solid') {
-        const headerBgSolid = document.getElementById('headerBgSolid').value;
-        headerBackgroundLayer = headerBgSolid;
-    } else {
-        const headerBgGradientStart = document.getElementById('headerBgGradientStart').value;
-        const headerBgGradientEnd = document.getElementById('headerBgGradientEnd').value;
-        const headerBgGradientDirection = document.getElementById('headerBgGradientDirection').value;
-        headerBackgroundLayer = `linear-gradient(${headerBgGradientDirection}, ${headerBgGradientStart}, ${headerBgGradientEnd})`;
-    }
-
-    // Header Logo Settings
-    const headerLogoURL = document.getElementById('headerLogoURL').value;
-    const headerLogoWidth = document.getElementById('headerLogoWidth').value || '40';
-    const headerLogoAlignment = document.getElementById('headerLogoAlignment').value || 'left';
-    const headerLogoOffsetX = document.getElementById('headerLogoOffsetX').value || '0';
-    const headerLogoOffsetY = document.getElementById('headerLogoOffsetY').value || '0';
-    let headerBackgroundLayers = '';
-
-    if (headerLogoURL) {
-        document.getElementById('headerLogoSizeGroup').style.display = 'block';
-        document.getElementById('headerLogoPositionGroup').style.display = 'block';
-
-        let positionX = '';
-        if (headerLogoAlignment === 'left') {
-            positionX = `calc(${headerLogoOffsetX}px)`;
-        } else if (headerLogoAlignment === 'center') {
-            positionX = `calc(50% + ${headerLogoOffsetX}px - ${headerLogoWidth / 2}px)`;
-        } else if (headerLogoAlignment === 'right') {
-            positionX = `calc(100% - ${headerLogoWidth}px - ${headerLogoOffsetX}px)`;
-        }
-
-        const positionY = `${headerLogoOffsetY}px`;
-        const headerLogoWidthPx = headerLogoWidth + 'px';
-
-        headerBackgroundLayers = `url('${headerLogoURL}') ${positionX} ${positionY} / ${headerLogoWidthPx} no-repeat, ${headerBackgroundLayer}`;
-    } else {
-        document.getElementById('headerLogoSizeGroup').style.display = 'none';
-        document.getElementById('headerLogoPositionGroup').style.display = 'none';
-        root.setProperty('--headerPaddingLeft', '20px');
-        headerBackgroundLayers = headerBackgroundLayer;
-    }
-    root.setProperty('--headerBackgroundLayers', headerBackgroundLayers);
-
-    // Chat Area Settings
-    const chatAreaBackgroundType = document.getElementById('chatAreaBackgroundType').value;
-
-    if (chatAreaBackgroundType === 'solid') {
-        const chatAreaBgSolid = document.getElementById('chatAreaBgSolid').value;
-        root.setProperty('--chatAreaBackgroundColor', chatAreaBgSolid);
-        root.setProperty('--chatAreaBackgroundImage', 'none');
-    } else if (chatAreaBackgroundType === 'gradient') {
-        const chatAreaBgGradientStart = document.getElementById('chatAreaBgGradientStart').value;
-        const chatAreaBgGradientEnd = document.getElementById('chatAreaBgGradientEnd').value;
-        const chatAreaBgGradientDirection = document.getElementById('chatAreaBgGradientDirection').value;
-        root.setProperty('--chatAreaBackgroundColor', 'transparent');
-        root.setProperty('--chatAreaBackgroundImage', `linear-gradient(${chatAreaBgGradientDirection}, ${chatAreaBgGradientStart}, ${chatAreaBgGradientEnd})`);
-        root.setProperty('--chatAreaBackgroundPosition', 'center');
-        root.setProperty('--chatAreaBackgroundRepeat', 'no-repeat');
-        root.setProperty('--chatAreaBackgroundSize', 'cover');
-    } else if (chatAreaBackgroundType === 'image') {
-        const chatAreaBgImageURL = document.getElementById('chatAreaBgImageURL').value;
-        const chatAreaBgSize = document.getElementById('chatAreaBgSize').value;
-        const chatAreaBgRepeat = document.getElementById('chatAreaBgRepeat').value;
-        if (chatAreaBgImageURL) {
-            root.setProperty('--chatAreaBackgroundColor', 'transparent');
-            root.setProperty('--chatAreaBackgroundImage', `url('${chatAreaBgImageURL}')`);
-            root.setProperty('--chatAreaBackgroundSize', chatAreaBgSize);
-            root.setProperty('--chatAreaBackgroundRepeat', chatAreaBgRepeat);
-            root.setProperty('--chatAreaBackgroundPosition', 'center');
-        }
-    }
-
-    // Message Settings
-    const messageTextSizeValue = document.getElementById('messageTextSize').value;
-    const messageTextSize = messageTextSizeValue + 'px';
-    const messageCornerStyle = document.getElementById('messageCornerStyle').value;
-    const botMessageTextColor = document.getElementById('botMessageTextColor').value;
-    const botMessageBg = document.getElementById('botMessageBg').value;
-    const userMessageTextColor = document.getElementById('userMessageTextColor').value;
-    const userMessageBg = document.getElementById('userMessageBg').value;
-
-    root.setProperty('--messageTextSize', messageTextSize);
-    root.setProperty('--buttonTextSize', messageTextSize); // Update button text size
-    root.setProperty('--messageCornerStyle', messageCornerStyle);
-    root.setProperty('--botMessageTextColor', botMessageTextColor);
-    root.setProperty('--botMessageBg', botMessageBg);
-    root.setProperty('--userMessageTextColor', userMessageTextColor);
-    root.setProperty('--userMessageBg', userMessageBg);
-
-    // Font Weight
-    root.setProperty('--fontWeight', 'bold'); // Assuming bold as per your instruction
-
-    // Avatar Settings
-    const showAvatar = document.getElementById('showAvatar').checked;
-    root.setProperty('--avatarDisplay', showAvatar ? 'inline-block' : 'none');
+    // Update styles directly on elements (more reliable than regenerating CSS)
+    root.setProperty('--headerTextSize', document.getElementById('headerTextSize').value + 'px');
+    root.setProperty('--headerTextColor', document.getElementById('headerTextColor').value);
+    root.setProperty('--headerHeight', document.getElementById('headerHeight').value + 'px');
+    root.setProperty('--headerTextAlign', document.getElementById('headerTextAlign').value);
+    root.setProperty('--cornerStyle', document.getElementById('cornerStyle').value);
+    root.setProperty('--fontFamily', document.getElementById('fontFamily').value);
+    root.setProperty('--chatAreaBackgroundColor', document.getElementById('chatAreaBgSolid').value);
+    root.setProperty('--messageTextSize', document.getElementById('messageTextSize').value + 'px');
+    root.setProperty('--messageCornerStyle', document.getElementById('messageCornerStyle').value);
+    root.setProperty('--botMessageTextColor', document.getElementById('botMessageTextColor').value);
+    root.setProperty('--botMessageBg', document.getElementById('botMessageBg').value);
+    root.setProperty('--userMessageTextColor', document.getElementById('userMessageTextColor').value);
+    root.setProperty('--userMessageBg', document.getElementById('userMessageBg').value);
+    root.setProperty('--chatInputBackground', document.getElementById('chatInputBgSolid').value);
+    root.setProperty('--chatInputTextFieldBg', document.getElementById('chatInputTextFieldBg').value);
+    root.setProperty('--chatInputTextFieldTextColor', document.getElementById('chatInputTextFieldTextColor').value);
+    root.setProperty('--chatInputBorderRadius', document.getElementById('chatInputCornerStyle').value);
     root.setProperty('--avatarSize', document.getElementById('avatarSize').value + 'px');
-    const avatarBorderColor = document.getElementById('avatarBorderColor').value;
-    const avatarBorderTransparent = document.getElementById('avatarBorderTransparent').checked;
-    root.setProperty('--avatarBorderColor', avatarBorderTransparent ? 'transparent' : avatarBorderColor);
-    const avatarURL = document.getElementById('avatarImageURL').value;
-    root.setProperty('--avatarImageURL', avatarURL ? `url("${avatarURL}")` : 'none');
+    root.setProperty('--avatarBorderColor', document.getElementById('avatarBorderColor').value);
     root.setProperty('--avatarShape', document.getElementById('avatarShape').value);
-
-    // Adjust other-message padding based on avatar visibility
-    if (showAvatar) {
-        const avatarSizeValue = document.getElementById('avatarSize').value;
-        root.setProperty('--otherMessagePaddingLeft', `calc(${avatarSizeValue}px + 10px)`);
-    } else {
-        root.setProperty('--otherMessagePaddingLeft', '0px');
-    }
-
-    // Icon Settings
-    const showIcons = document.getElementById('showIcons').checked;
-    root.setProperty('--iconsDisplay', showIcons ? 'inline-block' : 'none');
-
-    // Chat Input Settings
-    const chatInputBackgroundType = document.getElementById('chatInputBackgroundType').value;
-    const chatInputTextFieldBg = document.getElementById('chatInputTextFieldBg').value;
-    const chatInputTextFieldTextColor = document.getElementById('chatInputTextFieldTextColor').value;
-    const chatInputCornerStyle = document.getElementById('chatInputCornerStyle').value;
-
-    root.setProperty('--chatInputTextFieldBg', chatInputTextFieldBg);
-    root.setProperty('--chatInputTextFieldTextColor', chatInputTextFieldTextColor);
-    root.setProperty('--chatInputBorderRadius', chatInputCornerStyle);
-
-    if (chatInputBackgroundType === 'solid') {
-        const chatInputBgSolid = document.getElementById('chatInputBgSolid').value;
-        root.setProperty('--chatInputBackground', chatInputBgSolid);
-    } else {
-        const chatInputBgGradientStart = document.getElementById('chatInputBgGradientStart').value;
-        const chatInputBgGradientEnd = document.getElementById('chatInputBgGradientEnd').value;
-        const chatInputBgGradientDirection = document.getElementById('chatInputBgGradientDirection').value;
-        root.setProperty('--chatInputBackground', `linear-gradient(${chatInputBgGradientDirection}, ${chatInputBgGradientStart}, ${chatInputBgGradientEnd})`);
-    }
-
-    // Footer Settings
-    const footerShow = document.getElementById('footer-show').checked;
-    root.setProperty('--footerShow', footerShow ? 'block' : 'none');
+    root.setProperty('--otherMessagePaddingLeft', `calc(${document.getElementById('avatarSize').value}px + 10px)`);
+    root.setProperty('--footerShow', document.getElementById('footer-show').checked ? 'block' : 'none');
     root.setProperty('--footerText', `"${document.getElementById('footer-text').value}"`);
     root.setProperty('--footerTextColor', document.getElementById('footer-text-color').value);
     root.setProperty('--footerFontSize', document.getElementById('footer-font-size').value + 'px');
     root.setProperty('--footerFontFamily', document.getElementById('footer-font-family').value);
     root.setProperty('--footerFontWeight', document.getElementById('footer-font-weight').value);
+    root.setProperty('--chatInputHeight', document.getElementById('chatInputHeight').value + 'px');
 
-    // Directly update the background color of the input field in the preview
-    document.querySelector('.chat-input .form-control').style.backgroundColor = chatInputTextFieldBg;
+    // Update chat area background (handles solid, gradient, and image)
+    const chatArea = document.querySelector('.chat-area');
+    const chatAreaBgType = document.getElementById('chatAreaBackgroundType').value;
+    if (chatAreaBgType === 'solid') {
+        chatArea.style.backgroundImage = 'none';
+        chatArea.style.backgroundColor = document.getElementById('chatAreaBgSolid').value;
+    } else if (chatAreaBgType === 'gradient') {
+        const gradientStart = document.getElementById('chatAreaBgGradientStart').value;
+        const gradientEnd = document.getElementById('chatAreaBgGradientEnd').value;
+        const direction = document.getElementById('chatAreaBgGradientDirection').value;
+        chatArea.style.backgroundImage = `linear-gradient(${direction}, ${gradientStart}, ${gradientEnd})`;
+        chatArea.style.backgroundColor = 'transparent';
+    } else if (chatAreaBgType === 'image') {
+        const imageUrl = document.getElementById('chatAreaBgImageURL').value;
+        const bgSize = document.getElementById('chatAreaBgSize').value;
+        const bgRepeat = document.getElementById('chatAreaBgRepeat').value;
+        chatArea.style.backgroundImage = `url("${imageUrl}")`;
+        chatArea.style.backgroundSize = bgSize;
+        chatArea.style.backgroundRepeat = bgRepeat;
+        chatArea.style.backgroundColor = 'transparent';
+    }
 
-    generateCSS();
-    saveSettings(); // Save settings after updating
+
+    // --- Add/Update Chat Elements to Preview ---
+    const chatAreaMessages = document.querySelector('.chat-area');
+    chatAreaMessages.innerHTML = ''; // Clear existing messages
+
+    // Add sample messages (these are placeholders, replace with your actual message handling logic)
+    const botMessage = document.createElement('div');
+    botMessage.classList.add('other-message');
+    botMessage.innerHTML = `<div class="message-text">Hello! How can I help you today?</div>`;
+    chatAreaMessages.appendChild(botMessage);
+
+    const userMessage = document.createElement('div');
+    userMessage.classList.add('my-message');
+    userMessage.innerHTML = `<div class="message-text">I have a question about your service.</div>`;
+    chatAreaMessages.appendChild(userMessage);
+
+
+    // Add chat input
+    const chatInputContainer = document.querySelector('.chat-input-container');
+    chatInputContainer.innerHTML = `
+        <div class="chat-input">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Type your message...">
+            </div>
+        </div>
+    `;
+
+    // Add/Update Footer (if shown)
+    const footerShow = document.getElementById('footer-show').checked;
+    const footerContainer = document.querySelector('.chat-input-container'); // Correct container
+    const footer = footerContainer.querySelector('div'); // Get existing footer or create one
+    if (footerShow) {
+        if (!footer) {
+            const newFooter = document.createElement('div');
+            newFooter.style.fontFamily = root.getPropertyValue('--footerFontFamily');
+            newFooter.style.fontWeight = root.getPropertyValue('--footerFontWeight');
+            newFooter.style.fontSize = root.getPropertyValue('--footerFontSize');
+            newFooter.style.color = root.getPropertyValue('--footerTextColor');
+            newFooter.textContent = document.getElementById('footer-text').value;
+            footerContainer.appendChild(newFooter);
+        } else {
+            footer.style.fontFamily = root.getPropertyValue('--footerFontFamily');
+            footer.style.fontWeight = root.getPropertyValue('--footerFontWeight');
+            footer.style.fontSize = root.getPropertyValue('--footerFontSize');
+            footer.style.color = root.getPropertyValue('--footerTextColor');
+            footer.textContent = document.getElementById('footer-text').value;
+        }
+
+    } else {
+        // Remove footer if not shown
+        if (footer) {
+            footerContainer.removeChild(footer);
+        }
+    }
+
+    saveSettings();
 }
 
 // Function to save settings to LocalStorage
@@ -345,71 +214,22 @@ document.querySelectorAll('.controls input, .controls select').forEach(input => 
 });
 
 // Toggle Header Background Options
-document.getElementById('headerBackgroundType').addEventListener('change', function () {
-    const type = this.value;
-    if (type === 'solid') {
-        document.getElementById('headerSolidColorGroup').style.display = 'block';
-        document.getElementById('headerGradientGroup').style.display = 'none';
-    } else {
-        document.getElementById('headerSolidColorGroup').style.display = 'none';
-        document.getElementById('headerGradientGroup').style.display = 'block';
-    }
-    updatePreview();
-});
+document.getElementById('headerBackgroundType').addEventListener('change', updatePreview);
 
 // Toggle Chat Area Background Options
-document.getElementById('chatAreaBackgroundType').addEventListener('change', function () {
-    const type = this.value;
-    if (type === 'solid') {
-        document.getElementById('chatAreaSolidColorGroup').style.display = 'block';
-        document.getElementById('chatAreaGradientGroup').style.display = 'none';
-        document.getElementById('chatAreaImageGroup').style.display = 'none';
-    } else if (type === 'gradient') {
-        document.getElementById('chatAreaSolidColorGroup').style.display = 'none';
-        document.getElementById('chatAreaGradientGroup').style.display = 'block';
-        document.getElementById('chatAreaImageGroup').style.display = 'none';
-    } else if (type === 'image') {
-        document.getElementById('chatAreaSolidColorGroup').style.display = 'none';
-        document.getElementById('chatAreaGradientGroup').style.display = 'none';
-        document.getElementById('chatAreaImageGroup').style.display = 'block';
-    }
-    updatePreview();
-});
+document.getElementById('chatAreaBackgroundType').addEventListener('change', updatePreview);
 
 // Toggle Chat Input Background Options
-document.getElementById('chatInputBackgroundType').addEventListener('change', function () {
-    const type = this.value;
-    if (type === 'solid') {
-        document.getElementById('chatInputSolidColorGroup').style.display = 'block';
-        document.getElementById('chatInputGradientGroup').style.display = 'none';
-    } else {
-        document.getElementById('chatInputSolidColorGroup').style.display = 'none';
-        document.getElementById('chatInputGradientGroup').style.display = 'block';
-    }
-    updatePreview();
-});
+document.getElementById('chatInputBackgroundType').addEventListener('change', updatePreview);
 
-
-// Toggle Section Content Visibility and ensure only one is open at a time
+// Toggle Section Content Visibility
 document.querySelectorAll('.section-title').forEach(title => {
     title.addEventListener('click', function () {
-        const currentlyOpen = document.querySelector('.section-content:not([style*="display: none"])');
         const sectionContent = this.nextElementSibling;
         const toggleIcon = this.querySelector('.toggle-icon');
 
-        if (sectionContent.style.display === 'none' || sectionContent.style.display === '') {
-            // Close the currently open section
-            if (currentlyOpen && currentlyOpen !== sectionContent) {
-                currentlyOpen.style.display = 'none';
-                currentlyOpen.previousElementSibling.querySelector('.toggle-icon').textContent = '+';
-            }
-            // Open the clicked section
-            sectionContent.style.display = 'block';
-            toggleIcon.textContent = '-';
-        } else {
-            sectionContent.style.display = 'none';
-            toggleIcon.textContent = '+';
-        }
+        sectionContent.style.display = sectionContent.style.display === 'none' ? 'block' : 'none';
+        toggleIcon.textContent = sectionContent.style.display === 'block' ? '-' : '+';
     });
 });
 
@@ -418,16 +238,17 @@ document.getElementById('avatarBorderTransparent').addEventListener('change', fu
     const avatarBorderColor = document.getElementById('avatarBorderColor');
     if (this.checked) {
         document.documentElement.style.setProperty('--avatarBorderColor', 'transparent');
-        avatarBorderColor.disabled = true; /* Disable color picker when transparent */
+        avatarBorderColor.disabled = true;
     } else {
         document.documentElement.style.setProperty('--avatarBorderColor', avatarBorderColor.value);
-        avatarBorderColor.disabled = false; /* Enable color picker when not transparent */
+        avatarBorderColor.disabled = false;
     }
-    generateCSS();
+    updatePreview();
     saveSettings();
 });
 
 window.onload = function () {
+    generateCSS();
     loadSettings();
     updatePreview();
 };

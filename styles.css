@@ -175,7 +175,7 @@ input[type="color"] {
     cursor: pointer;
     font-size: 14px;
     transition: background 0.3s;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .reset-button:hover {

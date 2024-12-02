@@ -1,4 +1,4 @@
-<style>
+/* Root Variables */
 :root {
     /* Colors */
     --primaryColor: #36d6b5;
@@ -49,31 +49,27 @@
 
     /* Icon Settings */
     --iconsDisplay: inline-block;
+    --iconsColor: #000000;
 
     /* Button Styles */
     --buttonTextSize: var(--messageTextSize);
     --buttonFontWeight: var(--fontWeight);
     --buttonPadding: 10px 20px;
 }
-/* Ensure full height */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
-/* Base Styles */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* Global Styles */
 body {
     background-color: var(--secondaryColor);
-    font-family: Arial, sans-serif; /* Use a default font for controls */
+    font-family: Arial, sans-serif;
     height: 100vh;
+    margin-top: 7px;
 }
+
 .container {
     display: flex;
-    height: 100vh;
+    height: 98vh;
 }
+
 .controls {
     width: 300px;
     background: var(--secondaryColor);
@@ -82,6 +78,7 @@ body {
     border-right: 1px solid #e0e0e0;
     height: 100%;
 }
+
 .preview {
     flex: 1;
     background: var(--secondaryColor);
@@ -99,37 +96,46 @@ body {
     border-radius: 8px;
     border: 1px solid #e0e0e0;
 }
+
 .section-title {
     display: flex;
     align-items: center;
     cursor: pointer;
     font-size: 16px;
     font-weight: 600;
-    color: #2c3e50;
+    color: #ffffff;
     padding: 15px;
     border-bottom: 1px solid #e0e0e0;
-    background: #e9ecef;
+    background: #36d6b5;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
+
 .section-title .toggle-icon {
     margin-right: 10px;
     font-weight: bold;
 }
+
 .section-content {
     padding: 15px;
-    display: none; /* Start with sections closed */
+    display: none;
 }
 
 /* Controls */
-.control-group { margin-bottom: 12px; }
+.control-group {
+    margin-bottom: 12px;
+}
+
 label {
     display: block;
     margin-bottom: 6px;
     font-size: 14px;
-    color: #4a5568;
+    color: #000;
 }
-input, select, textarea {
+
+input,
+select,
+textarea {
     width: 100%;
     padding: 8px;
     border: 1px solid #e0e0e0;
@@ -137,12 +143,12 @@ input, select, textarea {
     margin-bottom: 8px;
     font-size: 14px;
 }
-input[type="color"] { height: 40px; padding: 0; }
-input[type="checkbox"] {
-    transform: scale(1.2);
-    margin-right: 10px;
-    vertical-align: middle;
+
+input[type="color"] {
+    height: 40px;
+    padding: 0;
 }
+
 .copy-button {
     width: 100%;
     padding: 10px;
@@ -154,7 +160,10 @@ input[type="checkbox"] {
     font-size: 14px;
     transition: background 0.3s;
 }
-.copy-button:hover { background: #2ea590; }
+
+.copy-button:hover {
+    background: #2ea590;
+}
 
 .reset-button {
     width: 100%;
@@ -166,9 +175,72 @@ input[type="checkbox"] {
     cursor: pointer;
     font-size: 14px;
     transition: background 0.3s;
-    margin-top: 20px;
+    margin-top: 10px;
 }
-.reset-button:hover { background: #c0392b; }
+
+.reset-button:hover {
+    background: #c0392b;
+}
+
+/* Toggle Switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 20px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--primaryColor);
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px var(--primaryColor);
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+.slider.round {
+    border-radius: 20px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
 
 /* Preview Area */
 .chat-preview-container {
@@ -178,11 +250,12 @@ input[type="checkbox"] {
     margin: 20px;
     border-radius: var(--cornerStyle);
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 0px 6px 3px rgba(0, 0, 0, 0.2);
     position: relative;
     font-family: var(--fontFamily);
     height: calc(100% - 40px);
 }
+
 .chat-header {
     height: var(--headerHeight);
     padding: 0 20px;
@@ -200,9 +273,10 @@ input[type="checkbox"] {
     padding-left: var(--headerPaddingLeft);
     position: relative;
 }
+
 .chat-area {
     flex: 1;
-    padding: 10px;
+    padding: 20px;
     overflow-y: auto;
     line-height: 1.5;
     font-family: var(--fontFamily);
@@ -212,11 +286,13 @@ input[type="checkbox"] {
     background-repeat: var(--chatAreaBackgroundRepeat);
     background-size: var(--chatAreaBackgroundSize);
 }
+
 .other-message {
     position: relative;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     padding-left: var(--otherMessagePaddingLeft);
 }
+
 .other-message:before {
     content: "";
     display: var(--avatarDisplay);
@@ -231,6 +307,7 @@ input[type="checkbox"] {
     border-radius: var(--avatarShape);
     border: 3px solid var(--avatarBorderColor);
 }
+
 .other-message .message-text {
     background-color: var(--botMessageBg);
     color: var(--botMessageTextColor);
@@ -245,9 +322,10 @@ input[type="checkbox"] {
 /* User Message Styling */
 .my-message {
     padding-right: 0;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     position: relative;
 }
+
 .my-message .message-text {
     background-color: var(--userMessageBg) !important;
     color: var(--userMessageTextColor);
@@ -259,30 +337,34 @@ input[type="checkbox"] {
     margin-bottom: 5px;
     margin-top: 5vh;
 }
+
 /* Apply user text color to all child elements */
 .my-message .message-text * {
     color: var(--userMessageTextColor) !important;
 }
+
 /* Apply bot text color to all child elements */
 .other-message .message-text * {
     color: var(--botMessageTextColor);
 }
+
 /* Message Text Inheritance */
 .message-text * {
     font-family: inherit;
 }
+
 /* Chat Input Styling */
 .chat-input {
     height: var(--chatInputHeight);
-    padding: 15px;
+    padding: 20px;
     background: var(--chatInputBackground);
     display: flex;
     align-items: center;
     width: 100%;
     box-sizing: border-box;
-    border-top: 1px solid #e0e0e0;
     font-family: var(--fontFamily);
 }
+
 .chat-input .input-group {
     flex: 1;
     border-radius: var(--chatInputBorderRadius) !important;
@@ -291,9 +373,10 @@ input[type="checkbox"] {
     position: relative;
     display: flex;
 }
+
 .chat-input input {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: none;
     background-color: var(--chatInputTextFieldBg);
     color: var(--chatInputTextFieldTextColor);
@@ -302,20 +385,36 @@ input[type="checkbox"] {
     box-sizing: border-box;
     flex: 1;
 }
+
+.chat-input .form-control {
+    background: var(--chatInputTextFieldBg) !important;
+}
+
+.chat-input .input-group {
+    background-color: var(--chatInputTextFieldBg) !important;
+}
+
+.input-group > .custom-select:not(:last-child),
+.input-group > .form-control:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
 /* Success Message */
 .success-message {
     display: none;
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: #36d6b5;
+    background: #36D6B5;
     color: #fff;
     padding: 10px 20px;
     border-radius: 4px;
     font-size: 14px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 1000;
 }
+
 /* Generated CSS Styles */
 textarea#cssOutput {
     width: 100%;
@@ -330,12 +429,13 @@ textarea#cssOutput {
     background-color: #f1f1f1;
     color: #333;
 }
+
 /* Hide icons in preview */
 .chat-input .uploadBtt {
     display: none;
 }
+
 /* Added Styles for Consistent Buttons and Text */
-/* Preformatted Text */
 pre {
     color: var(--botMessageTextColor);
     line-height: 1.5;
@@ -344,12 +444,14 @@ pre {
     font-size: var(--messageTextSize);
     font-family: var(--fontFamily);
 }
+
 /* Ice Breaker Buttons */
 .chat-ice-breaker {
     position: fixed;
     right: 20px;
-    bottom: 80px; /* Moved up by 20px */
+    bottom: 80px;
 }
+
 .chat-ice-breaker button {
     background-color: #FFF7FA;
     color: var(--botMessageTextColor);
@@ -363,10 +465,12 @@ pre {
     cursor: pointer;
     margin: 5px 0;
 }
+
 .chat-ice-breaker button:hover {
     background-color: #f3e6e6;
     transform: scale(1.05);
 }
+
 /* Card Buttons */
 .card-button {
     background: #E3F2FD;
@@ -381,28 +485,8 @@ pre {
     transition: transform 0.2s ease, background-color 0.2s ease;
     margin: 5px 0;
 }
+
 .card-button:hover {
     background-color: #d0e7f8;
     transform: scale(1.05);
 }
-/* Additional CSS */
-.chat-input .form-control {
-    border-radius: 0 !important;
-    border: none !important;
-    background-color: var(--chatInputTextFieldBg) !important;
-    color: var(--chatInputTextFieldTextColor) !important;
-}
-.input-group > .custom-select:not(:last-child),
-.input-group > .form-control:not(:last-child) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
-.chat-input .input-group {
-    flex: 1;
-    border-radius: var(--chatInputBorderRadius) !important;
-    background-color: var(--chatInputTextFieldBg) !important;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-}
-</style>

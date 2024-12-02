@@ -324,7 +324,7 @@ function updatePreview() {
     root.setProperty('--avatarSize', document.getElementById('avatarSize').value + 'px');
     const avatarBorderColor = document.getElementById('avatarBorderColor').value;
     const avatarBorderTransparent = document.getElementById('avatarBorderTransparent').checked;
-    const avatarBorderColorValue = avatarBorderTransparent ? '0px, transparent' : avatarBorderColor;
+    const avatarBorderColorValue = avatarBorderTransparent ? '0px, transparent' : avatarBorderColor);
     root.setProperty('--avatarBorderColor', avatarBorderColorValue);
     const avatarURL = document.getElementById('avatarImageURL').value;
     root.setProperty('--avatarImageURL', avatarURL ? `url("${avatarURL}")` : 'none');

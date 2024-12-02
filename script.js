@@ -1,4 +1,3 @@
-<script>
 // Function to generate CSS based on current settings
 function generateCSS() {
     const rootStyle = getComputedStyle(document.documentElement);
@@ -30,6 +29,7 @@ function generateCSS() {
         --chatInputTextFieldTextColor:${rootStyle.getPropertyValue('--chatInputTextFieldTextColor').trim()};
         --chatInputBorderRadius:${rootStyle.getPropertyValue('--chatInputBorderRadius').trim()};
         --iconsDisplay:${rootStyle.getPropertyValue('--iconsDisplay').trim()};
+        --iconsColor:${rootStyle.getPropertyValue('--iconsColor').trim()};
         --buttonTextSize:${rootStyle.getPropertyValue('--buttonTextSize').trim()};
         --buttonFontWeight:${rootStyle.getPropertyValue('--buttonFontWeight').trim()};
         --buttonPadding:${rootStyle.getPropertyValue('--buttonPadding').trim()};
@@ -42,32 +42,24 @@ function generateCSS() {
         --otherMessagePaddingLeft:${rootStyle.getPropertyValue('--otherMessagePaddingLeft').trim()};
     }`;
 
-
     // Include Footer Settings if Footer is Enabled
     if (footerSettings && footerSettings.showFooter) {
         css += `
         .chat-input:before {
             content: "${footerSettings.footerText}";
             position: absolute;
-            bottom: -1px;
-            right: calc(48% - 50px);
+            bottom: 1px;
             color: ${footerSettings.footerTextColor};
             font-size: ${footerSettings.footerFontSize}px;
             font-family: ${footerSettings.footerFontFamily};
             font-weight: ${footerSettings.footerFontWeight};
             padding: 1px 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
         }
         .d-flex.align-items-center.w-100 {
             padding-bottom: 2vh;
-        }`;
-    }
-
-    // Include Icon Styles if Icons are Hidden
-    const showIconsCheckbox = document.getElementById('showIcons');
-    if (showIconsCheckbox && !showIconsCheckbox.checked) {
-        css += `
-        .chat-input .uploadBtt {
-            display: none;
         }`;
     }
 
@@ -95,8 +87,11 @@ function generateCSS() {
         border-top-right-radius: var(--cornerStyle);
         padding-left: var(--headerPaddingLeft);
     }
+    path {
+        fill: var(--iconsColor) !important;
+    }
     .chat-area {
-        height: calc(90% - var(--headerHeight));
+        height: calc(92% - var(--headerHeight));
         position: absolute;
         top: var(--headerHeight);
         flex: 1;
@@ -134,10 +129,10 @@ function generateCSS() {
         color: var(--botMessageTextColor);
         font-size: var(--messageTextSize);
         border-radius: var(--messageCornerStyle);
-        padding: 10px 15px;
         word-wrap: break-word;
         font-family: var(--fontFamily);
         margin-bottom: 5px;
+        padding: 0px 2px;
     }
     .other-message .message-text * {
         color: var(--botMessageTextColor);
@@ -152,11 +147,11 @@ function generateCSS() {
         color: var(--userMessageTextColor);
         font-size: var(--messageTextSize);
         border-radius: var(--messageCornerStyle);
-        padding: 10px 15px;
         word-wrap: break-word;
         font-family: var(--fontFamily);
         margin-bottom: 5px;
         margin-top: 5vh;
+        padding: 0px 3px;
     }
     .my-message .message-text * {
         color: var(--userMessageTextColor) !important;
@@ -172,7 +167,7 @@ function generateCSS() {
         align-items: center;
         width: 100%;
         box-sizing: border-box;
-        border-top: 1px solid #e0e0e0;
+        border-top: none;
         font-family: var(--fontFamily);
     }
     .chat-input .input-group {
@@ -194,9 +189,10 @@ function generateCSS() {
         box-sizing: border-box;
         flex: 1;
     }
+    .chat-input .form-control {
+        background: var(--chatInputTextFieldBg) !important;
+    }
     /* Other existing styles ... */
-
-    /* Generated CSS will be placed here */
     `;
 
     document.getElementById('cssOutput').value = css.trim();
@@ -320,7 +316,7 @@ function updatePreview() {
     root.setProperty('--userMessageBg', userMessageBg);
 
     // Font Weight
-    root.setProperty('--fontWeight', 'bold'); // Assuming bold as per your instruction
+    root.setProperty('--fontWeight', 'bold');
 
     // Avatar Settings
     const showAvatar = document.getElementById('showAvatar').checked;
@@ -328,10 +324,14 @@ function updatePreview() {
     root.setProperty('--avatarSize', document.getElementById('avatarSize').value + 'px');
     const avatarBorderColor = document.getElementById('avatarBorderColor').value;
     const avatarBorderTransparent = document.getElementById('avatarBorderTransparent').checked;
-    root.setProperty('--avatarBorderColor', avatarBorderTransparent ? '0px transparent' : avatarBorderColor);
+    const avatarBorderColorValue = avatarBorderTransparent ? 'transparent' : avatarBorderColor;
+    root.setProperty('--avatarBorderColor', avatarBorderColorValue);
     const avatarURL = document.getElementById('avatarImageURL').value;
     root.setProperty('--avatarImageURL', avatarURL ? `url("${avatarURL}")` : 'none');
     root.setProperty('--avatarShape', document.getElementById('avatarShape').value);
+
+    // Disable color picker when border is transparent
+    document.getElementById('avatarBorderColor').disabled = avatarBorderTransparent;
 
     // Adjust other-message padding based on avatar visibility
     if (showAvatar) {
@@ -343,7 +343,10 @@ function updatePreview() {
 
     // Icon Settings
     const showIcons = document.getElementById('showIcons').checked;
+    const iconColor = document.getElementById('icon-color').value;
+
     root.setProperty('--iconsDisplay', showIcons ? 'inline-block' : 'none');
+    root.setProperty('--iconsColor', iconColor);
 
     // Chat Input Settings
     const chatInputBackgroundType = document.getElementById('chatInputBackgroundType').value;
@@ -376,7 +379,6 @@ const footerTextColorInput = document.getElementById('footer-text-color');
 const footerFontSizeInput = document.getElementById('footer-font-size');
 const footerFontFamilyInput = document.getElementById('footer-font-family');
 const footerFontWeightInput = document.getElementById('footer-font-weight');
-const cssOutput = document.getElementById('cssOutput');
 
 // Footer Settings (Initialize with default values)
 const footerSettings = {
@@ -399,26 +401,27 @@ function updateFooterSettings() {
     footerSettings.footerFontWeight = footerFontWeightInput.value;
 
     // Generate Footer CSS
-let footerCSS = '';
-if (footerSettings.showFooter) {
-    footerCSS = `
+    let footerCSS = '';
+    if (footerSettings.showFooter) {
+        footerCSS = `
         .chat-input:before {
             content: "${footerSettings.footerText}";
             position: absolute;
-            bottom: -1px;
+            bottom: 2px;
             left: 50%;
             transform: translateX(-50%);
             color: ${footerSettings.footerTextColor};
             font-size: ${footerSettings.footerFontSize}px;
             font-family: ${footerSettings.footerFontFamily};
             font-weight: ${footerSettings.footerFontWeight};
-            padding: 1px 5px;
+            text-align: center;
+            white-space: nowrap;
         }
         .d-flex.align-items-center.w-100 {
             padding-bottom: 2vh;
         }
-    `;
-}
+        `;
+    }
 
     // Apply the CSS to the preview
     const styleTag = document.getElementById('footerStyles');
@@ -431,8 +434,6 @@ if (footerSettings.showFooter) {
         document.head.appendChild(newStyleTag);
     }
 
-    // Update Footer CSS Output
-    // Optionally, you can append this to the main CSS output or handle it separately
     generateCSS();
 }
 
@@ -473,7 +474,7 @@ function loadSettings() {
         // Update footer settings
         updateFooterSettings();
 
-        // Trigger the avatar border transparency update by calling updatePreview
+        // Trigger the avatar border transparency update
         updatePreview();
     }
 }
@@ -592,6 +593,31 @@ document.getElementById('chatInputBackgroundType').addEventListener('change', fu
     updatePreview();
 });
 
+// Toggle 'avatarBorderTransparent' Event Handler
+document.getElementById('avatarBorderTransparent').addEventListener('change', function() {
+    const avatarBorderColorInput = document.getElementById('avatarBorderColor');
+    if (this.checked) {
+        document.documentElement.style.setProperty('--avatarBorderColor', 'transparent');
+        avatarBorderColorInput.disabled = true; // Disable color picker when transparent
+    } else {
+        const avatarBorderColor = avatarBorderColorInput.value;
+        document.documentElement.style.setProperty('--avatarBorderColor', avatarBorderColor);
+        avatarBorderColorInput.disabled = false; // Enable color picker when not transparent
+    }
+    generateCSS();
+    saveSettings();
+});
+
+// Toggle 'showAvatar' Event Handler
+document.getElementById('showAvatar').addEventListener('change', function() {
+    updatePreview();
+});
+
+// Toggle 'showIcons' Event Handler
+document.getElementById('showIcons').addEventListener('change', function() {
+    updatePreview();
+});
+
 // Toggle Section Content Visibility and ensure only one is open at a time
 document.querySelectorAll('.section-title').forEach(title => {
     title.addEventListener('click', function() {
@@ -619,4 +645,3 @@ window.onload = function() {
     loadSettings();
     updatePreview();
 };
-</script>

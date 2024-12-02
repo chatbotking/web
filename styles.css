@@ -167,7 +167,7 @@ input[type="color"] {
 
 .reset-button {
     width: 100%;
-    padding: 10px;
+    padding: 15px;
     background: #e74c3c;
     color: #fff;
     border: none;
@@ -175,7 +175,7 @@ input[type="color"] {
     cursor: pointer;
     font-size: 14px;
     transition: background 0.3s;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .reset-button:hover {
